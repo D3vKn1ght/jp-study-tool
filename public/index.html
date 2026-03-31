@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Công cụ hỗ trợ gõ tiếng Nhật - Tự động hiển thị Hiragana, Katakana, Kanji và nghĩa tiếng Việt">
   <title>日本語タイピング - Japanese Typing Assistant</title>
+  <script>
+    try {
+      document.documentElement.dataset.theme = localStorage.getItem('jta-theme') || 'dark';
+    } catch (_) {
+      document.documentElement.dataset.theme = 'dark';
+    }
+  </script>
   <link rel="stylesheet" href="styles.css">
   <!-- WanaKana.js - Romaji ↔ Kana conversion -->
   <script src="/libs/wanakana/wanakana.min.js"></script>
@@ -24,18 +31,45 @@
 
     <!-- Header -->
     <header class="header">
+      <div class="header__controls">
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Chuyển giao diện sáng tối">🌙 Tối</button>
+        <div class="help-anchor">
+          <button type="button" class="help-trigger help-trigger--header" data-help-target="help-overview" aria-label="Hướng dẫn tổng quan">?</button>
+          <div class="help-popover" id="help-overview" hidden>
+            <div class="help-popover__title">Cách dùng nhanh</div>
+            <div class="help-popover__text">1. Gõ romaji vào ô nhập. 2. Chờ kanji và nghĩa xuất hiện. 3. Nhấn Enter để lưu. 4. Ôn lại bằng Quiz Zone và bộ câu mẫu.</div>
+          </div>
+        </div>
+      </div>
       <div class="header__icon">🎌</div>
       <h1 class="header__title">Japanese Typing Assistant</h1>
       <p class="header__subtitle">Gõ romaji → Hiển thị Hiragana・Katakana・漢字・Nghĩa tiếng Việt</p>
     </header>
 
+    <nav class="top-nav" aria-label="Điều hướng nhanh">
+      <a class="top-nav__link top-nav__link--active" href="#input-section" data-nav-target="input-section">Nhập liệu</a>
+      <a class="top-nav__link" href="#quiz-section" data-nav-target="quiz-section">Quiz Zone</a>
+      <a class="top-nav__link" href="#study-section" data-nav-target="study-section">Study Hub</a>
+      <a class="top-nav__link" href="#history-section" data-nav-target="history-section">Lịch sử</a>
+      <a class="top-nav__link" href="#shortcuts-bar" data-nav-target="shortcuts-bar">Phím tắt</a>
+    </nav>
+
     <!-- Input Section -->
     <section class="input-section" id="input-section">
       <div class="input-wrapper">
-        <label class="input-label" for="romaji-input">
-          <span class="input-label__dot"></span>
-          Nhập Romaji tại đây
-        </label>
+        <div class="section-label-row">
+          <label class="input-label" for="romaji-input">
+            <span class="input-label__dot"></span>
+            Nhập Romaji tại đây
+          </label>
+          <div class="help-anchor">
+            <button type="button" class="help-trigger" data-help-target="help-input" aria-label="Hướng dẫn ô nhập">?</button>
+            <div class="help-popover" id="help-input" hidden>
+              <div class="help-popover__title">Ô nhập romaji</div>
+              <div class="help-popover__text">Nhập theo cách đọc latin như `ohayou`, `arigatou`, `nihongo`. App sẽ đổi ngay sang hiragana và katakana, rồi tự thử lấy kanji sau 2 giây.</div>
+            </div>
+          </div>
+        </div>
         <input
           type="text"
           id="romaji-input"
@@ -61,6 +95,13 @@
         <span class="copy-all-btn__badge" id="copy-all-badge">Romaji · Hiragana · Katakana · Kanji · Nghĩa VN</span>
       </button>
       <button class="copy-settings-toggle" id="copy-settings-toggle" title="Tùy chỉnh Copy All">⚙️</button>
+      <div class="help-anchor">
+        <button type="button" class="help-trigger" data-help-target="help-copy" aria-label="Hướng dẫn copy">?</button>
+        <div class="help-popover help-popover--right" id="help-copy" hidden>
+          <div class="help-popover__title">Copy All và preset</div>
+          <div class="help-popover__text">Bạn có thể chọn trường nào sẽ được copy, đổi thứ tự kéo thả và lưu format riêng để dùng khi học từ vựng, ghi chú hoặc gửi cho bạn học.</div>
+        </div>
+      </div>
     </div>
 
     <!-- Copy All Settings Panel -->
@@ -198,15 +239,113 @@
       </div>
     </section>
 
+    <!-- Quiz Zone -->
+    <section class="quiz-section" id="quiz-section">
+      <div class="quiz-shell">
+        <div class="quiz-section__head">
+          <div>
+            <div class="section-title-row">
+              <div class="quiz-section__eyebrow">Quiz Zone</div>
+              <div class="help-anchor">
+                <button type="button" class="help-trigger" data-help-target="help-quiz" aria-label="Hướng dẫn quiz">?</button>
+                <div class="help-popover" id="help-quiz" hidden>
+                  <div class="help-popover__title">Quiz Zone</div>
+                  <div class="help-popover__text">Chọn chế độ luyện và nguồn câu hỏi. Quiz sẽ ưu tiên những mục bạn từng làm sai để tăng lặp lại. Dùng phím `1-4` để trả lời nhanh và `N` để lấy câu mới.</div>
+                </div>
+              </div>
+            </div>
+            <h2 class="quiz-section__title">Khu luyện phản xạ tiếng Nhật</h2>
+            <p class="quiz-section__subtitle">
+              Tách riêng khỏi bộ câu mẫu để bạn tập trung vào ôn nghĩa, kana, romaji và lặp lại nhiều hơn ở những mục vừa làm sai.
+            </p>
+          </div>
+          <div class="quiz-metrics quiz-metrics--summary">
+            <div class="quiz-metric">
+              <span class="quiz-metric__value" id="quiz-score">0</span>
+              <span class="quiz-metric__label">Điểm</span>
+            </div>
+            <div class="quiz-metric">
+              <span class="quiz-metric__value" id="quiz-answered">0</span>
+              <span class="quiz-metric__label">Câu đã làm</span>
+            </div>
+            <div class="quiz-metric">
+              <span class="quiz-metric__value" id="quiz-streak">0</span>
+              <span class="quiz-metric__label">Đúng liên tiếp</span>
+            </div>
+            <div class="quiz-metric">
+              <span class="quiz-metric__value" id="quiz-accuracy">0%</span>
+              <span class="quiz-metric__label">Độ chính xác</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="quiz-panel">
+          <div class="quiz-toolbar">
+            <div class="quiz-toolbar__block">
+              <div class="quiz-toolbar__label">Chế độ luyện</div>
+              <div class="quiz-mode-group">
+                <button type="button" class="quiz-mode-btn quiz-mode-btn--active" data-mode="jp-to-vi">JP → VI</button>
+                <button type="button" class="quiz-mode-btn" data-mode="vi-to-jp">VI → JP</button>
+                <button type="button" class="quiz-mode-btn" data-mode="kana-to-romaji">Kana → Romaji</button>
+              </div>
+            </div>
+
+            <div class="quiz-toolbar__block">
+              <div class="quiz-toolbar__label">Nguồn câu hỏi</div>
+              <div class="quiz-source-group">
+                <button type="button" class="quiz-source-btn quiz-source-btn--active" data-source="mixed">Trộn tất cả</button>
+                <button type="button" class="quiz-source-btn" data-source="history">Chỉ lịch sử</button>
+                <button type="button" class="quiz-source-btn" data-source="phrases">Chỉ câu mẫu</button>
+              </div>
+            </div>
+
+            <div class="quiz-toolbar__actions">
+              <button type="button" class="study-action-btn study-action-btn--ghost" id="quiz-speak-btn">Nghe câu hỏi</button>
+              <button type="button" class="study-action-btn study-action-btn--ghost" id="quiz-reset-btn">Reset điểm</button>
+              <button type="button" class="study-action-btn" id="quiz-next-btn">Câu mới</button>
+            </div>
+          </div>
+
+          <div class="quiz-learning-note" id="quiz-learning-note">
+            Quiz sẽ ưu tiên mục bạn từng trả lời sai để giúp nhớ lâu hơn.
+          </div>
+
+          <div class="quiz-empty" id="quiz-empty">
+            Lưu vài từ hoặc chọn một câu mẫu để bắt đầu quiz. Càng luyện nhiều, quiz càng sát nội dung bạn đang học.
+          </div>
+
+          <div class="quiz-question" id="quiz-question" hidden>
+            <div class="quiz-question__top">
+              <div class="quiz-question__label" id="quiz-question-label">JP → VI</div>
+              <div class="quiz-question__source" id="quiz-question-source">Nguồn: Trộn tất cả</div>
+            </div>
+            <div class="quiz-question__prompt" id="quiz-prompt">...</div>
+            <div class="quiz-question__hint" id="quiz-hint"></div>
+            <div class="quiz-options" id="quiz-options"></div>
+            <div class="quiz-result" id="quiz-result"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Study Hub -->
     <section class="study-section" id="study-section">
       <div class="study-shell">
         <div class="study-section__head">
           <div>
-            <div class="study-section__eyebrow">Study Hub</div>
-            <h2 class="study-section__title">Quiz và bộ câu dành cho người Việt học tiếng Nhật</h2>
+            <div class="section-title-row">
+              <div class="study-section__eyebrow">Study Hub</div>
+              <div class="help-anchor">
+                <button type="button" class="help-trigger" data-help-target="help-study" aria-label="Hướng dẫn study hub">?</button>
+                <div class="help-popover" id="help-study" hidden>
+                  <div class="help-popover__title">Study Hub</div>
+                  <div class="help-popover__text">Chọn câu theo chủ đề như lớp học, giao tiếp, công việc, mua sắm. Nút “Luyện câu này” sẽ nạp dữ liệu vào màn hình chính và đưa câu đó vào vòng ôn quiz.</div>
+                </div>
+              </div>
+            </div>
+            <h2 class="study-section__title">Bộ câu mẫu cho người Việt học tiếng Nhật</h2>
             <p class="study-section__subtitle">
-              Luyện theo nghĩa tiếng Việt, romaji, kana và những mẫu câu thường gặp trong lớp học, đi làm, mua sắm.
+              Chọn theo chủ đề, nạp nhanh vào màn hình chính, nghe phát âm và biến câu mẫu thành dữ liệu để ôn trong Quiz Zone.
             </p>
           </div>
           <div class="study-stats">
@@ -229,51 +368,7 @@
           </div>
         </div>
 
-        <div class="study-grid">
-          <article class="study-card">
-            <div class="study-card__eyebrow">Mini Game</div>
-            <div class="study-card__title-row">
-              <h3 class="study-card__title">Quiz phản xạ Nhật - Việt</h3>
-              <button type="button" class="study-action-btn study-action-btn--ghost" id="quiz-next-btn">Câu mới</button>
-            </div>
-            <p class="study-card__description">
-              Quiz sẽ ưu tiên lấy dữ liệu từ lịch sử bạn vừa học, rồi bổ sung thêm từ bộ câu mẫu bên cạnh.
-            </p>
-
-            <div class="quiz-mode-group">
-              <button type="button" class="quiz-mode-btn quiz-mode-btn--active" data-mode="jp-to-vi">JP → VI</button>
-              <button type="button" class="quiz-mode-btn" data-mode="vi-to-jp">VI → JP</button>
-              <button type="button" class="quiz-mode-btn" data-mode="kana-to-romaji">Kana → Romaji</button>
-            </div>
-
-            <div class="quiz-metrics">
-              <div class="quiz-metric">
-                <span class="quiz-metric__value" id="quiz-score">0</span>
-                <span class="quiz-metric__label">Điểm</span>
-              </div>
-              <div class="quiz-metric">
-                <span class="quiz-metric__value" id="quiz-answered">0</span>
-                <span class="quiz-metric__label">Câu đã làm</span>
-              </div>
-              <div class="quiz-metric">
-                <span class="quiz-metric__value" id="quiz-streak">0</span>
-                <span class="quiz-metric__label">Đúng liên tiếp</span>
-              </div>
-            </div>
-
-            <div class="quiz-empty" id="quiz-empty">
-              Lưu vài từ hoặc chọn một câu mẫu để bắt đầu quiz. Càng luyện nhiều, quiz càng sát nội dung bạn đang học.
-            </div>
-
-            <div class="quiz-question" id="quiz-question" hidden>
-              <div class="quiz-question__label" id="quiz-question-label">JP → VI</div>
-              <div class="quiz-question__prompt" id="quiz-prompt">...</div>
-              <div class="quiz-question__hint" id="quiz-hint"></div>
-              <div class="quiz-options" id="quiz-options"></div>
-              <div class="quiz-result" id="quiz-result"></div>
-            </div>
-          </article>
-
+        <div class="study-grid study-grid--single">
           <article class="study-card">
             <div class="study-card__eyebrow">Theo Chủ Đề</div>
             <div class="study-card__title-row">
@@ -294,8 +389,17 @@
     <!-- History Section -->
     <section class="history-section" id="history-section">
       <div class="history-header">
-        <div class="history-title">
-          📚 Lịch sử gõ
+        <div class="section-title-row">
+          <div class="history-title">
+            📚 Lịch sử gõ
+          </div>
+          <div class="help-anchor">
+            <button type="button" class="help-trigger" data-help-target="help-history" aria-label="Hướng dẫn lịch sử">?</button>
+            <div class="help-popover" id="help-history" hidden>
+              <div class="help-popover__title">Lịch sử học</div>
+              <div class="help-popover__text">Mỗi lần nhấn Enter, mục hiện tại sẽ vào lịch sử. Bấm vào một dòng trong lịch sử để copy nhanh toàn bộ romaji, kana, kanji và nghĩa Việt.</div>
+            </div>
+          </div>
         </div>
         <button class="history-clear" id="clear-history-btn">
           🗑️ Xóa tất cả
@@ -310,12 +414,18 @@
     </section>
 
     <!-- Shortcuts Bar -->
-    <div class="shortcuts-bar">
+    <div class="shortcuts-bar" id="shortcuts-bar">
       <div class="shortcut">
         <kbd>Enter</kbd> Lưu & Dịch
       </div>
       <div class="shortcut">
         <kbd>Esc</kbd> Xóa ô nhập
+      </div>
+      <div class="shortcut">
+        <kbd>1-4</kbd> Chọn đáp án quiz
+      </div>
+      <div class="shortcut">
+        <kbd>N</kbd> Câu quiz mới
       </div>
       <div class="shortcut">
         <kbd>Click</kbd> Copy từ panel
@@ -352,16 +462,24 @@
             return {
               score: Number(saved.score) || 0,
               answered: Number(saved.answered) || 0,
+              correct: Number(saved.correct) || 0,
               streak: Number(saved.streak) || 0,
               mode: saved.mode || 'jp-to-vi',
+              source: saved.source || 'mixed',
+              lastQuestionKey: typeof saved.lastQuestionKey === 'string' ? saved.lastQuestionKey : '',
+              weakMap: saved.weakMap && typeof saved.weakMap === 'object' ? saved.weakMap : {},
             };
           }
         } catch (_) {}
         return {
           score: 0,
           answered: 0,
+          correct: 0,
           streak: 0,
           mode: 'jp-to-vi',
+          source: 'mixed',
+          lastQuestionKey: '',
+          weakMap: {},
         };
       })(),
       currentQuiz: null,
@@ -382,6 +500,7 @@
     const $historyList = document.getElementById('history-list');
     const $historyEmpty = document.getElementById('history-empty');
     const $toast = document.getElementById('toast');
+    const $themeToggle = document.getElementById('theme-toggle');
     const $quizEmpty = document.getElementById('quiz-empty');
     const $quizQuestion = document.getElementById('quiz-question');
     const $quizQuestionLabel = document.getElementById('quiz-question-label');
@@ -392,12 +511,17 @@
     const $quizScore = document.getElementById('quiz-score');
     const $quizAnswered = document.getElementById('quiz-answered');
     const $quizStreak = document.getElementById('quiz-streak');
+    const $quizAccuracy = document.getElementById('quiz-accuracy');
+    const $quizQuestionSource = document.getElementById('quiz-question-source');
+    const $quizLearningNote = document.getElementById('quiz-learning-note');
     const $phraseList = document.getElementById('phrase-list');
     const $phraseTopicFilter = document.getElementById('phrase-topic-filter');
     const $studyTotalCount = document.getElementById('study-total-count');
     const $studyHistoryCount = document.getElementById('study-history-count');
     const $studyMeaningCount = document.getElementById('study-meaning-count');
     const $studyReadyCount = document.getElementById('study-ready-count');
+    const helpTriggers = Array.from(document.querySelectorAll('.help-trigger'));
+    const navLinks = Array.from(document.querySelectorAll('.top-nav__link'));
 
     const PRACTICE_PHRASES = [
       {
@@ -1345,6 +1469,42 @@ const COPY_FIELDS_DEFAULT = [
       localStorage.setItem('jta-quiz-state', JSON.stringify(state.quiz));
     }
 
+    function applyTheme(theme) {
+      const nextTheme = theme === 'light' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = nextTheme;
+      localStorage.setItem('jta-theme', nextTheme);
+      $themeToggle.textContent = nextTheme === 'light' ? '☀️ Sáng' : '🌙 Tối';
+      $themeToggle.setAttribute('aria-label', nextTheme === 'light' ? 'Đang ở giao diện sáng, bấm để chuyển tối' : 'Đang ở giao diện tối, bấm để chuyển sáng');
+    }
+
+    function closeHelpPopovers() {
+      helpTriggers.forEach(trigger => {
+        trigger.classList.remove('help-trigger--active');
+        const targetId = trigger.dataset.helpTarget;
+        const popover = targetId ? document.getElementById(targetId) : null;
+        if (popover) popover.hidden = true;
+      });
+    }
+
+    function toggleHelpPopover(trigger) {
+      const targetId = trigger.dataset.helpTarget;
+      const popover = targetId ? document.getElementById(targetId) : null;
+      if (!popover) return;
+
+      const willOpen = popover.hidden;
+      closeHelpPopovers();
+      if (willOpen) {
+        trigger.classList.add('help-trigger--active');
+        popover.hidden = false;
+      }
+    }
+
+    function setActiveNav(targetId) {
+      navLinks.forEach(link => {
+        link.classList.toggle('top-nav__link--active', link.dataset.navTarget === targetId);
+      });
+    }
+
     function normalizeStudyEntry(entry) {
       const hiragana = entry.hiragana || (entry.romaji ? wanakana.toHiragana(entry.romaji) : '');
       const katakana = entry.katakana || (hiragana ? wanakana.toKatakana(hiragana) : '');
@@ -1387,12 +1547,28 @@ const COPY_FIELDS_DEFAULT = [
       });
     }
 
-    function getStudyPool() {
+    function getQuizSourceLabel(source = state.quiz.source) {
+      const map = {
+        mixed: 'Trộn tất cả',
+        history: 'Chỉ lịch sử',
+        phrases: 'Chỉ câu mẫu',
+      };
+      return map[source] || 'Trộn tất cả';
+    }
+
+    function getStudyPool(source = 'mixed') {
       const pool = [];
       const current = getCurrentStudyEntry();
-      if (current) pool.push(current);
-      state.history.forEach(entry => pool.push(normalizeStudyEntry(entry)));
-      PRACTICE_PHRASES.forEach(entry => pool.push(normalizeStudyEntry(entry)));
+
+      if (source === 'history') {
+        state.history.forEach(entry => pool.push(normalizeStudyEntry(entry)));
+      } else if (source === 'phrases') {
+        PRACTICE_PHRASES.forEach(entry => pool.push(normalizeStudyEntry(entry)));
+      } else {
+        if (current) pool.push(current);
+        state.history.forEach(entry => pool.push(normalizeStudyEntry(entry)));
+        PRACTICE_PHRASES.forEach(entry => pool.push(normalizeStudyEntry(entry)));
+      }
 
       const seen = new Set();
       return pool.filter(entry => {
@@ -1403,7 +1579,7 @@ const COPY_FIELDS_DEFAULT = [
       });
     }
 
-    function getQuizEligibleEntries(mode, pool = getStudyPool()) {
+    function getQuizEligibleEntries(mode, pool = getStudyPool(state.quiz.source)) {
       if (mode === 'vi-to-jp') {
         return pool.filter(entry => entry.vietnamese && (entry.kanji || entry.hiragana));
       }
@@ -1411,6 +1587,42 @@ const COPY_FIELDS_DEFAULT = [
         return pool.filter(entry => entry.hiragana && entry.romaji);
       }
       return pool.filter(entry => (entry.kanji || entry.hiragana) && entry.vietnamese);
+    }
+
+    function getQuizEntryProgress(entry) {
+      const key = makeStudyEntryKey(entry);
+      const progress = state.quiz.weakMap[key] || {};
+      return {
+        key,
+        seen: Number(progress.seen) || 0,
+        correct: Number(progress.correct) || 0,
+        wrong: Number(progress.wrong) || 0,
+        lastResult: progress.lastResult || '',
+      };
+    }
+
+    function getQuizEntryWeight(entry) {
+      const progress = getQuizEntryProgress(entry);
+      let weight = 1;
+
+      if (progress.seen === 0) weight += 1.2;
+      weight += progress.wrong * 2.4;
+      weight += Math.max(progress.seen - progress.correct, 0) * 0.6;
+      if (progress.lastResult === 'wrong') weight += 2;
+      if (progress.key && progress.key === state.quiz.lastQuestionKey) weight *= 0.18;
+
+      return weight;
+    }
+
+    function sortEntriesForQuiz(entries) {
+      return [...entries]
+        .map(entry => ({
+          entry,
+          weight: getQuizEntryWeight(entry),
+          randomBias: Math.random(),
+        }))
+        .sort((a, b) => (b.weight + b.randomBias) - (a.weight + a.randomBias))
+        .map(item => item.entry);
     }
 
     function shuffleArray(items) {
@@ -1428,7 +1640,14 @@ const COPY_FIELDS_DEFAULT = [
           prompt: entry.vietnamese,
           hint: entry.topic ? `Chủ đề: ${entry.topic}` : 'Chọn cách viết đúng',
           correctValue: entry.kanji || entry.hiragana,
-          explanation: `${entry.vietnamese} = ${entry.kanji || entry.hiragana}${entry.romaji ? ` (${entry.romaji})` : ''}`,
+          explanation: {
+            primary: `${entry.vietnamese} = ${entry.kanji || entry.hiragana}`,
+            secondary: [
+              entry.hiragana ? `Hiragana: ${entry.hiragana}` : '',
+              entry.romaji ? `Romaji: ${entry.romaji}` : '',
+              entry.topic ? `Chủ đề: ${entry.topic}` : '',
+            ].filter(Boolean).join(' • '),
+          },
           optionValue: item => item.kanji || item.hiragana,
         };
       }
@@ -1438,7 +1657,14 @@ const COPY_FIELDS_DEFAULT = [
           prompt: entry.hiragana || entry.katakana,
           hint: entry.vietnamese ? `Nghĩa: ${entry.vietnamese}` : `Kanji: ${entry.kanji || '—'}`,
           correctValue: entry.romaji,
-          explanation: `${entry.hiragana || entry.katakana} → ${entry.romaji}${entry.vietnamese ? ` = ${entry.vietnamese}` : ''}`,
+          explanation: {
+            primary: `${entry.hiragana || entry.katakana} → ${entry.romaji}`,
+            secondary: [
+              entry.kanji && entry.kanji !== entry.hiragana ? `Kanji: ${entry.kanji}` : '',
+              entry.vietnamese ? `Nghĩa: ${entry.vietnamese}` : '',
+              entry.topic ? `Chủ đề: ${entry.topic}` : '',
+            ].filter(Boolean).join(' • '),
+          },
           optionValue: item => item.romaji,
         };
       }
@@ -1447,13 +1673,20 @@ const COPY_FIELDS_DEFAULT = [
         prompt: entry.kanji || entry.hiragana,
         hint: [entry.hiragana, entry.romaji].filter(Boolean).join(' • '),
         correctValue: entry.vietnamese,
-        explanation: `${entry.kanji || entry.hiragana} = ${entry.vietnamese}`,
+        explanation: {
+          primary: `${entry.kanji || entry.hiragana} = ${entry.vietnamese}`,
+          secondary: [
+            entry.hiragana ? `Hiragana: ${entry.hiragana}` : '',
+            entry.romaji ? `Romaji: ${entry.romaji}` : '',
+            entry.topic ? `Chủ đề: ${entry.topic}` : '',
+          ].filter(Boolean).join(' • '),
+        },
         optionValue: item => item.vietnamese,
       };
     }
 
     function buildQuizQuestion(mode = state.quiz.mode) {
-      const eligible = shuffleArray(getQuizEligibleEntries(mode));
+      const eligible = sortEntriesForQuiz(getQuizEligibleEntries(mode, getStudyPool(state.quiz.source)));
 
       for (const correctEntry of eligible) {
         const definition = getQuizDefinition(mode, correctEntry);
@@ -1471,6 +1704,7 @@ const COPY_FIELDS_DEFAULT = [
         });
 
         if (options.length === 4) {
+          const progress = getQuizEntryProgress(correctEntry);
           return {
             mode,
             promptLabel: QUIZ_MODE_META[mode].promptLabel,
@@ -1480,6 +1714,9 @@ const COPY_FIELDS_DEFAULT = [
             correctValue: definition.correctValue,
             options: shuffleArray(options),
             entry: correctEntry,
+            entryKey: progress.key,
+            sourceLabel: getQuizSourceLabel(state.quiz.source),
+            priorityLabel: progress.wrong > 0 ? 'Được ưu tiên vì bạn từng sai mục này.' : (progress.seen === 0 ? 'Mục mới để mở rộng vốn từ.' : 'Mục đang được lặp lại để ghi nhớ chắc hơn.'),
             answered: false,
           };
         }
@@ -1489,11 +1726,21 @@ const COPY_FIELDS_DEFAULT = [
     }
 
     function renderQuizMetrics() {
+      const accuracy = state.quiz.answered > 0
+        ? `${Math.round((state.quiz.correct / state.quiz.answered) * 100)}%`
+        : '0%';
       $quizScore.textContent = state.quiz.score;
       $quizAnswered.textContent = state.quiz.answered;
       $quizStreak.textContent = state.quiz.streak;
+      $quizAccuracy.textContent = accuracy;
+      $quizLearningNote.textContent = state.currentQuiz
+        ? state.currentQuiz.priorityLabel
+        : 'Quiz sẽ ưu tiên mục bạn từng trả lời sai để giúp nhớ lâu hơn.';
       document.querySelectorAll('.quiz-mode-btn').forEach(button => {
         button.classList.toggle('quiz-mode-btn--active', button.dataset.mode === state.quiz.mode);
+      });
+      document.querySelectorAll('.quiz-source-btn').forEach(button => {
+        button.classList.toggle('quiz-source-btn--active', button.dataset.source === state.quiz.source);
       });
     }
 
@@ -1504,6 +1751,7 @@ const COPY_FIELDS_DEFAULT = [
       $quizQuestion.hidden = true;
       $quizOptions.innerHTML = '';
       $quizResult.innerHTML = '';
+      $quizQuestionSource.textContent = `Nguồn: ${getQuizSourceLabel(state.quiz.source)}`;
       renderQuizMetrics();
     }
 
@@ -1512,16 +1760,20 @@ const COPY_FIELDS_DEFAULT = [
       $quizEmpty.hidden = true;
       $quizQuestion.hidden = false;
       $quizQuestionLabel.textContent = QUIZ_MODE_META[question.mode].label;
+      $quizQuestionSource.textContent = `Nguồn: ${question.sourceLabel}`;
       $quizPrompt.textContent = question.prompt;
       $quizHint.textContent = question.hint || '';
       $quizResult.innerHTML = '';
       $quizOptions.innerHTML = '';
 
-      question.options.forEach(option => {
+      question.options.forEach((option, index) => {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'quiz-option';
-        button.textContent = option.label;
+        button.innerHTML = `
+          <span class="quiz-option__index">${index + 1}</span>
+          <span class="quiz-option__text">${escapeHtml(option.label)}</span>
+        `;
         button.dataset.value = option.label;
         button.dataset.correct = option.correct ? 'true' : 'false';
         button.addEventListener('click', () => answerQuizQuestion(option.label));
@@ -1542,8 +1794,23 @@ const COPY_FIELDS_DEFAULT = [
       if (isCorrect) {
         state.quiz.score += 10;
         state.quiz.streak += 1;
+        state.quiz.correct += 1;
       } else {
         state.quiz.streak = 0;
+      }
+
+      state.quiz.lastQuestionKey = question.entryKey || '';
+      if (question.entryKey) {
+        const progress = state.quiz.weakMap[question.entryKey] || { seen: 0, correct: 0, wrong: 0, lastResult: '' };
+        progress.seen = (Number(progress.seen) || 0) + 1;
+        if (isCorrect) {
+          progress.correct = (Number(progress.correct) || 0) + 1;
+          progress.lastResult = 'correct';
+        } else {
+          progress.wrong = (Number(progress.wrong) || 0) + 1;
+          progress.lastResult = 'wrong';
+        }
+        state.quiz.weakMap[question.entryKey] = progress;
       }
 
       saveQuizState();
@@ -1561,8 +1828,13 @@ const COPY_FIELDS_DEFAULT = [
         <div class="quiz-result__status ${isCorrect ? 'quiz-result__status--correct' : 'quiz-result__status--wrong'}">
           ${isCorrect ? 'Chính xác!' : 'Chưa đúng'}
         </div>
-        <div class="quiz-result__text">${escapeHtml(question.explanation)}</div>
-        <button type="button" class="study-action-btn study-action-btn--small" id="quiz-load-entry-btn">Ôn lại mục này</button>
+        <div class="quiz-result__text">${escapeHtml(question.explanation.primary)}</div>
+        <div class="quiz-result__meta">${escapeHtml(question.explanation.secondary || '')}</div>
+        <div class="quiz-result__actions">
+          <button type="button" class="study-action-btn study-action-btn--small" id="quiz-load-entry-btn">Ôn lại mục này</button>
+          <button type="button" class="study-action-btn study-action-btn--ghost study-action-btn--small" id="quiz-speak-entry-btn">Nghe lại</button>
+          <button type="button" class="study-action-btn study-action-btn--ghost study-action-btn--small" id="quiz-next-inline-btn">Câu tiếp</button>
+        </div>
       `;
 
       document.getElementById('quiz-load-entry-btn').addEventListener('click', () => {
@@ -1571,6 +1843,12 @@ const COPY_FIELDS_DEFAULT = [
           toastMessage: 'Đã nạp mục quiz vào màn hình để bạn ôn tiếp',
         });
       });
+      document.getElementById('quiz-speak-entry-btn').addEventListener('click', () => {
+        speakJapanese(question.entry.kanji || question.entry.hiragana);
+      });
+      document.getElementById('quiz-next-inline-btn').addEventListener('click', () => {
+        generateQuizQuestion();
+      });
 
       renderQuizMetrics();
     }
@@ -1578,11 +1856,23 @@ const COPY_FIELDS_DEFAULT = [
     function generateQuizQuestion(options = {}) {
       const question = buildQuizQuestion(state.quiz.mode);
       if (!question) {
-        renderQuizEmpty('Cần ít nhất 4 mục phù hợp để tạo quiz. Hãy lưu thêm từ hoặc chọn vài câu mẫu để luyện.');
+        renderQuizEmpty(`Cần ít nhất 4 mục phù hợp trong nguồn "${getQuizSourceLabel(state.quiz.source)}" để tạo quiz. Hãy lưu thêm từ hoặc đổi nguồn câu hỏi.`);
         if (!options.silent) showToast('Cần thêm dữ liệu để tạo quiz');
         return;
       }
       renderQuizQuestion(question);
+    }
+
+    function resetQuizProgress() {
+      state.quiz.score = 0;
+      state.quiz.answered = 0;
+      state.quiz.correct = 0;
+      state.quiz.streak = 0;
+      state.quiz.lastQuestionKey = '';
+      state.quiz.weakMap = {};
+      saveQuizState();
+      generateQuizQuestion({ silent: true });
+      showToast('Đã reset tiến độ quiz');
     }
 
     function speakJapanese(text) {
@@ -1694,11 +1984,11 @@ const COPY_FIELDS_DEFAULT = [
     }
 
     function renderStudyStats() {
-      const pool = getStudyPool();
+      const pool = getStudyPool('mixed');
       $studyTotalCount.textContent = pool.length;
       $studyHistoryCount.textContent = state.history.length;
       $studyMeaningCount.textContent = pool.filter(entry => entry.vietnamese).length;
-      $studyReadyCount.textContent = getQuizEligibleEntries(state.quiz.mode, pool).length;
+      $studyReadyCount.textContent = getQuizEligibleEntries(state.quiz.mode, getStudyPool(state.quiz.source)).length;
       renderQuizMetrics();
     }
 
@@ -1711,12 +2001,90 @@ const COPY_FIELDS_DEFAULT = [
       });
     });
 
+    document.querySelectorAll('.quiz-source-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        state.quiz.source = button.dataset.source;
+        state.quiz.lastQuestionKey = '';
+        saveQuizState();
+        renderStudyStats();
+        generateQuizQuestion({ silent: true });
+      });
+    });
+
     document.getElementById('quiz-next-btn').addEventListener('click', () => {
       generateQuizQuestion();
     });
 
+    document.getElementById('quiz-speak-btn').addEventListener('click', () => {
+      if (!state.currentQuiz) {
+        showToast('Chưa có câu hỏi để phát âm');
+        return;
+      }
+      speakJapanese(state.currentQuiz.entry.kanji || state.currentQuiz.entry.hiragana);
+    });
+
+    document.getElementById('quiz-reset-btn').addEventListener('click', () => {
+      resetQuizProgress();
+    });
+
     $phraseTopicFilter.addEventListener('change', () => {
       renderPhraseList();
+    });
+
+    $themeToggle.addEventListener('click', () => {
+      applyTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
+    });
+
+    helpTriggers.forEach(trigger => {
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleHelpPopover(trigger);
+      });
+    });
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const targetId = link.dataset.navTarget;
+        if (targetId) setActiveNav(targetId);
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.help-anchor')) {
+        closeHelpPopovers();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeHelpPopovers();
+      }
+      if (document.activeElement === $input) return;
+      if ((e.key === 'n' || e.key === 'N') && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        generateQuizQuestion();
+        return;
+      }
+      if (!state.currentQuiz || state.currentQuiz.answered) return;
+      if (['1', '2', '3', '4'].includes(e.key)) {
+        const option = $quizOptions.children[Number(e.key) - 1];
+        if (option) option.click();
+      }
+    });
+
+    const navObserver = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActiveNav(visible.target.id);
+    }, {
+      rootMargin: '-20% 0px -55% 0px',
+      threshold: [0.15, 0.35, 0.6],
+    });
+
+    ['input-section', 'quiz-section', 'study-section', 'history-section', 'shortcuts-bar'].forEach(id => {
+      const section = document.getElementById(id);
+      if (section) navObserver.observe(section);
     });
 
     // ================================================================
@@ -1783,6 +2151,7 @@ const COPY_FIELDS_DEFAULT = [
     // ================================================================
     renderHistory();
     updateComposed();
+    applyTheme(document.documentElement.dataset.theme || 'dark');
     populatePhraseTopics();
     renderPhraseList();
     renderStudyStats();
