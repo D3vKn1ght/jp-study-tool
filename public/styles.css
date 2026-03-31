@@ -588,6 +588,127 @@ html[data-theme='light'] .workspace-shell {
   font-size: 0.83rem;
 }
 
+.learning-preferences,
+.learning-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 1.05rem 1.15rem;
+  box-shadow: var(--shadow-md);
+}
+
+.learning-preferences__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.85rem;
+}
+
+.learning-preferences__title,
+.learning-card__title {
+  font-size: 1rem;
+}
+
+.learning-preferences__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.learning-select-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.82rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-soft);
+}
+
+.learning-select-card__label,
+.learning-card__label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+}
+
+.learning-preferences__tip,
+.learning-card__tip {
+  margin-top: 0.85rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--accent-katakana-soft);
+  background: var(--surface-info);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.83rem;
+}
+
+.learning-card__chips {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin: 0.85rem 0 0.75rem;
+}
+
+.learning-chip,
+.study-level-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.learning-chip {
+  background: var(--surface-info);
+  color: var(--accent-katakana);
+}
+
+.study-level-badge {
+  background: var(--surface-success);
+  color: var(--accent-romaji);
+}
+
+.learning-card__jp {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.learning-card__reading {
+  margin-top: 0.4rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.83rem;
+}
+
+.learning-card__blocks {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 0.85rem;
+}
+
+.learning-card__block {
+  padding: 0.75rem 0.8rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-soft);
+}
+
+.learning-card__text {
+  margin-top: 0.22rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.83rem;
+}
+
 /* ================================================================
    FOCUS DECK
    ================================================================ */
@@ -739,6 +860,13 @@ html[data-theme='light'] .workspace-shell {
   gap: 0.75rem;
 }
 
+.focus-card__badges {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.45rem;
+}
+
 .focus-card__topic {
   display: inline-flex;
   padding: 0.2rem 0.55rem;
@@ -748,7 +876,7 @@ html[data-theme='light'] .workspace-shell {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0;
 }
 
 .focus-card__jp {
@@ -777,6 +905,14 @@ html[data-theme='light'] .workspace-shell {
   color: var(--accent-romaji);
   line-height: 1.6;
   font-weight: 600;
+}
+
+.focus-card__note {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.8rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--border-subtle);
 }
 
 .focus-card__actions {
@@ -1336,6 +1472,19 @@ html[data-theme='light'] .workspace-shell {
 .history-item__value--hiragana { color: var(--accent-hiragana); }
 .history-item__value--katakana { color: var(--accent-katakana); }
 .history-item__value--kanji { color: var(--accent-kanji); }
+
+.history-item__meta-text {
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.text-mask {
+  color: var(--text-muted) !important;
+  font-family: 'Inter', sans-serif !important;
+  font-style: italic;
+}
 
 .history-item__actions {
   grid-column: 1 / -1;
@@ -2360,6 +2509,17 @@ html[data-theme='light'] .quiz-shell {
   font-size: 0.9rem;
 }
 
+.study-card__tip {
+  margin: 0.8rem 0 0.95rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--accent-katakana-soft);
+  background: var(--surface-info);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.82rem;
+}
+
 .study-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(100px, 1fr));
@@ -2422,6 +2582,12 @@ html[data-theme='light'] .quiz-shell {
 
 .study-card__title {
   font-size: 1.08rem;
+}
+
+.study-card__filters {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
 }
 
 .study-select,
@@ -2688,6 +2854,12 @@ html[data-theme='light'] .quiz-shell {
   margin-bottom: 0.5rem;
 }
 
+.phrase-item__badges {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
 .phrase-item__topic {
   display: inline-flex;
   padding: 0.2rem 0.55rem;
@@ -2721,6 +2893,36 @@ html[data-theme='light'] .quiz-shell {
   margin-bottom: 0.4rem;
 }
 
+.phrase-item__meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-bottom: 0.55rem;
+}
+
+.phrase-item__meta-block {
+  padding: 0.68rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.phrase-item__meta-label {
+  display: block;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.phrase-item__meta-value {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  font-size: 0.8rem;
+}
+
 .phrase-item__note {
   color: var(--text-secondary);
   font-size: 0.83rem;
@@ -2742,6 +2944,10 @@ html[data-theme='light'] .quiz-shell {
 
   .workflow-strip,
   .workspace-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-preferences__grid {
     grid-template-columns: 1fr;
   }
 
@@ -2781,7 +2987,8 @@ html[data-theme='light'] .quiz-shell {
   .quiz-metrics--summary,
   .study-stats,
   .quiz-metrics,
-  .quiz-options {
+  .quiz-options,
+  .phrase-item__meta-grid {
     grid-template-columns: 1fr;
   }
 
@@ -2790,6 +2997,15 @@ html[data-theme='light'] .quiz-shell {
   .phrase-item__top {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .study-card__filters {
+    width: 100%;
+  }
+
+  .study-card__filters .study-select {
+    flex: 1 1 100%;
+    min-width: 0;
   }
 
   .phrase-item__jp {

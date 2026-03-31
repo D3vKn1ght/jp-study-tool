@@ -35,14 +35,16 @@ Project này tập trung vào một luồng học rất thực dụng:
 - Copy All có cấu hình:
   bật/tắt từng trường, đổi thứ tự kéo thả, chỉnh separator, lưu preset custom.
 - Study Hub:
-  có sẵn bộ câu mẫu để luyện cho người Việt học tiếng Nhật.
+  có sẵn bộ câu mẫu theo chủ đề và cấp độ `JLPT N5/N4`, kèm cấu trúc và cách dùng.
 - Mini quiz:
-  hỗ trợ 3 chế độ:
-  `JP -> VI`, `VI -> JP`, `Kana -> Romaji`.
+  hỗ trợ 4 chế độ:
+  `JP -> VI`, `VI -> JP`, `Kana -> Romaji`, `Kanji -> Kana`.
+- Learning mode cho người học:
+  có thể ẩn romaji trong phần ôn và giảm hint quiz để bớt phụ thuộc vào chữ latin.
 - Phát âm tiếng Nhật:
   dùng `speechSynthesis` của trình duyệt cho câu mẫu.
 - Lưu trạng thái cục bộ:
-  lịch sử, văn bản đã soạn, quiz state và copy settings được lưu trong `localStorage`.
+  lịch sử, văn bản đã soạn, quiz state, learning mode và copy settings được lưu trong `localStorage`.
 
 ## Stack kỹ thuật
 
@@ -139,6 +141,7 @@ Các key hiện tại:
 - `jta-history`: lịch sử từ/câu đã lưu, tối đa 50 mục
 - `jta-composed`: văn bản đã soạn
 - `jta-quiz-state`: điểm, số câu đã trả lời, streak và mode quiz
+- `jta-learning-settings`: chế độ hiện/ẩn romaji và mức gợi ý quiz
 - `jta-copy-settings`: cấu hình Copy All và custom cards
 
 ## API nội bộ

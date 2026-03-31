@@ -142,6 +142,32 @@
               </div>
             </div>
 
+            <section class="learning-preferences">
+              <div class="learning-preferences__head">
+                <div class="workspace-eyebrow">Learning Mode</div>
+                <h3 class="learning-preferences__title">Giảm lệ thuộc romaji khi đã qua bước nhập</h3>
+              </div>
+              <div class="learning-preferences__grid">
+                <label class="learning-select-card" for="learning-romaji-mode">
+                  <span class="learning-select-card__label">Romaji trong phần ôn</span>
+                  <select class="study-select" id="learning-romaji-mode">
+                    <option value="assisted">Hiện romaji hỗ trợ</option>
+                    <option value="hidden">Ẩn romaji để nhớ kana</option>
+                  </select>
+                </label>
+                <label class="learning-select-card" for="learning-quiz-hint-mode">
+                  <span class="learning-select-card__label">Mức gợi ý quiz</span>
+                  <select class="study-select" id="learning-quiz-hint-mode">
+                    <option value="guided">Gợi ý đầy đủ</option>
+                    <option value="active">Gợi ý tối giản</option>
+                  </select>
+                </label>
+              </div>
+              <div class="learning-preferences__tip" id="learning-settings-tip">
+                Giữ romaji hỗ trợ khi mới học, rồi chuyển dần sang ẩn romaji và gợi ý tối giản để ép mình đọc kana trực tiếp.
+              </div>
+            </section>
+
             <section class="output-grid-wrapper">
               <div class="copy-all-bar">
                 <button class="copy-all-btn" id="copy-all-btn" title="Copy theo cấu hình">
@@ -287,6 +313,29 @@
                   Nhấn Enter để thêm từ vào đây...
                 </div>
               </div>
+            </section>
+
+            <section class="learning-card" id="learning-panel">
+              <div class="workspace-guide__eyebrow">Study Coach</div>
+              <h3 class="learning-card__title">Gợi ý học cho mục hiện tại</h3>
+              <div class="learning-card__chips" id="learning-current-tags"></div>
+              <div class="learning-card__jp" id="learning-current-jp">Chưa có mục đang học.</div>
+              <div class="learning-card__reading" id="learning-current-reading">Kana, mức độ và mẹo học sẽ hiện ở đây khi bạn nhập hoặc nạp một mục.</div>
+              <div class="learning-card__blocks">
+                <div class="learning-card__block">
+                  <div class="learning-card__label">Cấu trúc</div>
+                  <div class="learning-card__text" id="learning-pattern">Chưa có dữ liệu.</div>
+                </div>
+                <div class="learning-card__block">
+                  <div class="learning-card__label">Cách dùng</div>
+                  <div class="learning-card__text" id="learning-usage">Chọn một câu mẫu hoặc gõ một mục để xem gợi ý dùng thực tế.</div>
+                </div>
+                <div class="learning-card__block">
+                  <div class="learning-card__label">Điểm cần nhớ</div>
+                  <div class="learning-card__text" id="learning-note">App sẽ ưu tiên hiển thị mẹo sát với mục hiện tại thay vì chỉ dịch nghĩa.</div>
+                </div>
+              </div>
+              <div class="learning-card__tip" id="learning-recommendation">Hãy bắt đầu từ một từ hoặc một câu ngắn, sau đó kiểm tra kanji và chuyển sang quiz phù hợp.</div>
             </section>
 
             <section class="workspace-guide">
@@ -492,7 +541,7 @@
                 <button type="button" class="help-trigger" data-help-target="help-study" aria-label="Hướng dẫn study hub">?</button>
                 <div class="help-popover" id="help-study" hidden>
                   <div class="help-popover__title">Study Hub</div>
-                  <div class="help-popover__text">Chọn câu theo chủ đề như lớp học, giao tiếp, công việc, mua sắm. Bạn có thể nạp nhanh vào màn hình, nghe phát âm hoặc đưa thẳng vào Sổ cần thuộc để gom những câu muốn học kỹ.</div>
+                  <div class="help-popover__text">Chọn câu theo chủ đề và cấp độ JLPT như N5, N4. Bạn có thể nạp nhanh vào màn hình, nghe phát âm, xem cấu trúc câu và đưa thẳng vào Sổ cần thuộc để gom những câu muốn học kỹ.</div>
                 </div>
               </div>
             </div>
@@ -526,13 +575,19 @@
             <div class="study-card__eyebrow">Theo Chủ Đề</div>
             <div class="study-card__title-row">
               <h3 class="study-card__title">Bộ câu cho người Việt</h3>
-              <select class="study-select" id="phrase-topic-filter">
-                <option value="all">Tất cả chủ đề</option>
-              </select>
+              <div class="study-card__filters">
+                <select class="study-select" id="phrase-topic-filter">
+                  <option value="all">Tất cả chủ đề</option>
+                </select>
+                <select class="study-select" id="phrase-level-filter">
+                  <option value="all">Tất cả cấp độ</option>
+                </select>
+              </div>
             </div>
             <p class="study-card__description">
-              Chọn câu quen thuộc trong lớp học, giao tiếp, công việc hay mua sắm rồi nạp ngay vào màn hình để luyện tiếp.
+              Chọn câu quen thuộc trong lớp học, giao tiếp, công việc hay mua sắm; lọc thêm theo cấp độ N5/N4 rồi nạp ngay vào màn hình để luyện tiếp.
             </p>
+            <div class="study-card__tip" id="study-filter-summary">Đang xem toàn bộ câu mẫu theo chủ đề và cấp độ.</div>
             <div class="phrase-list" id="phrase-list"></div>
           </article>
         </div>
@@ -609,6 +664,21 @@
       currentKatakana: '',
       currentKanji: '',
       currentVietnamese: '',
+      learning: (() => {
+        try {
+          const saved = JSON.parse(localStorage.getItem('jta-learning-settings') || 'null');
+          if (saved && typeof saved === 'object') {
+            return {
+              romajiMode: saved.romajiMode === 'hidden' ? 'hidden' : 'assisted',
+              quizHintMode: saved.quizHintMode === 'active' ? 'active' : 'guided',
+            };
+          }
+        } catch (_) {}
+        return {
+          romajiMode: 'assisted',
+          quizHintMode: 'guided',
+        };
+      })(),
       quiz: (() => {
         try {
           const saved = JSON.parse(localStorage.getItem('jta-quiz-state') || 'null');
@@ -691,6 +761,18 @@
     const $workspaceNextTip = document.getElementById('workspace-next-tip');
     const $focusCurrentBtn = document.getElementById('focus-current-btn');
     const $focusStartQuizBtn = document.getElementById('focus-start-quiz-btn');
+    const $learningRomajiMode = document.getElementById('learning-romaji-mode');
+    const $learningQuizHintMode = document.getElementById('learning-quiz-hint-mode');
+    const $learningSettingsTip = document.getElementById('learning-settings-tip');
+    const $learningCurrentTags = document.getElementById('learning-current-tags');
+    const $learningCurrentJP = document.getElementById('learning-current-jp');
+    const $learningCurrentReading = document.getElementById('learning-current-reading');
+    const $learningPattern = document.getElementById('learning-pattern');
+    const $learningUsage = document.getElementById('learning-usage');
+    const $learningNote = document.getElementById('learning-note');
+    const $learningRecommendation = document.getElementById('learning-recommendation');
+    const $phraseLevelFilter = document.getElementById('phrase-level-filter');
+    const $studyFilterSummary = document.getElementById('study-filter-summary');
     const helpTriggers = Array.from(document.querySelectorAll('.help-trigger'));
     const navLinks = Array.from(document.querySelectorAll('.top-nav__link'));
 
@@ -698,122 +780,184 @@
       {
         id: 'study-japanese',
         topic: 'Học tập',
+        level: 'N4',
         romaji: 'nihongo o benkyou shiteimasu',
         hiragana: 'にほんごをべんきょうしています',
         katakana: 'ニホンゴヲベンキョウシテイマス',
         kanji: '日本語を勉強しています',
         vietnamese: 'Tôi đang học tiếng Nhật',
+        pattern: 'N を 勉強しています',
+        usage: 'Dùng khi tự giới thiệu về việc đang học một môn hay ngôn ngữ.',
         note: 'Mẫu câu tự giới thiệu rất hợp khi học ở lớp hoặc giao tiếp với người Nhật.',
       },
       {
         id: 'repeat-please',
         topic: 'Lớp học',
+        level: 'N5',
         romaji: 'mou ichido onegaishimasu',
         hiragana: 'もういちどおねがいします',
         katakana: 'モウイチドオネガイシマス',
         kanji: 'もう一度お願いします',
         vietnamese: 'Làm ơn nói lại một lần nữa',
+        pattern: 'もう一度 + お願いします',
+        usage: 'Dùng khi nghe chưa kịp và muốn người đối diện nhắc lại lịch sự.',
         note: 'Câu cực hữu ích cho người Việt khi nghe chưa kịp trong lớp hoặc ngoài đời.',
       },
       {
         id: 'speak-slowly',
         topic: 'Lớp học',
+        level: 'N5',
         romaji: 'yukkuri hanashite kudasai',
         hiragana: 'ゆっくりはなしてください',
         katakana: 'ユックリハナシテクダサイ',
         kanji: 'ゆっくり話してください',
         vietnamese: 'Xin hãy nói chậm hơn',
+        pattern: 'ゆっくり + Vてください',
+        usage: 'Xin người đối diện nói chậm để bạn kịp bắt âm và tách từ.',
         note: 'Giúp bạn xin người đối diện nói chậm lại để bắt âm tốt hơn.',
       },
       {
         id: 'yoroshiku',
         topic: 'Giao tiếp',
+        level: 'N5',
         romaji: 'yoroshiku onegaishimasu',
         hiragana: 'よろしくおねがいします',
         katakana: 'ヨロシクオネガイシマス',
         kanji: 'よろしくお願いします',
         vietnamese: 'Rất mong được giúp đỡ / mong được hợp tác',
+        pattern: 'よろしくお願いします',
+        usage: 'Dùng khi bắt đầu mối quan hệ, buổi học, công việc hoặc nhờ vả.',
         note: 'Câu chào mở đầu rất quan trọng trong văn hóa giao tiếp Nhật.',
       },
       {
         id: 'how-much',
         topic: 'Mua sắm',
+        level: 'N5',
         romaji: 'kore wa ikura desu ka',
         hiragana: 'これはいくらですか',
         katakana: 'コレハイクラデスカ',
         kanji: 'これはいくらですか',
         vietnamese: 'Cái này bao nhiêu tiền?',
+        pattern: 'これは + いくら + ですか',
+        usage: 'Dùng để hỏi giá món đồ khi mua sắm hoặc hỏi dịch vụ.',
         note: 'Dễ dùng ngay khi đi siêu thị, cửa hàng tiện lợi hoặc mua quà.',
       },
       {
         id: 'sumimasen',
         topic: 'Giao tiếp',
+        level: 'N5',
         romaji: 'sumimasen',
         hiragana: 'すみません',
         katakana: 'スミマセン',
         kanji: 'すみません',
         vietnamese: 'Xin lỗi / làm ơn / cảm ơn vì đã làm phiền',
+        pattern: 'すみません',
+        usage: 'Một từ đa năng để gọi ai đó, xin lỗi nhẹ hoặc cảm ơn vì làm phiền.',
         note: 'Một từ đa dụng, gần như người mới học nào cũng nên thuộc sớm.',
       },
       {
         id: 'daijoubu',
         topic: 'Sinh hoạt',
+        level: 'N5',
         romaji: 'daijoubu desu',
         hiragana: 'だいじょうぶです',
         katakana: 'ダイジョウブデス',
         kanji: '大丈夫です',
         vietnamese: 'Ổn / không sao / tôi ổn',
+        pattern: '大丈夫です',
+        usage: 'Dùng để nói mình ổn, từ chối nhẹ hoặc trấn an người khác.',
         note: 'Ngắn gọn nhưng cực kỳ hay dùng trong sinh hoạt, công việc và giao tiếp hằng ngày.',
       },
       {
         id: 'thank-you',
         topic: 'Giao tiếp',
+        level: 'N5',
         romaji: 'arigatou gozaimasu',
         hiragana: 'ありがとうございます',
         katakana: 'アリガトウゴザイマス',
         kanji: 'ありがとうございます',
         vietnamese: 'Cảm ơn',
+        pattern: 'ありがとうございます',
+        usage: 'Bản lịch sự, an toàn khi dùng với giáo viên, người lạ và đồng nghiệp.',
         note: 'Bản lịch sự nên phù hợp hơn cho người mới học trong đa số ngữ cảnh.',
       },
       {
         id: 'excuse-me',
         topic: 'Công việc',
+        level: 'N4',
         romaji: 'shitsurei shimasu',
         hiragana: 'しつれいします',
         katakana: 'シツレイシマス',
         kanji: '失礼します',
         vietnamese: 'Xin phép / thất lễ',
+        pattern: '失礼します',
+        usage: 'Dùng khi vào phòng, rời công ty hoặc xen vào cuộc trò chuyện một cách lịch sự.',
         note: 'Hay dùng khi vào phòng, rời công ty hoặc xen vào cuộc trò chuyện.',
       },
       {
         id: 'part-time-job',
         topic: 'Công việc',
+        level: 'N4',
         romaji: 'baito o sagashiteimasu',
         hiragana: 'ばいとをさがしています',
         katakana: 'バイトヲサガシテイマス',
         kanji: 'バイトを探しています',
         vietnamese: 'Tôi đang tìm việc làm thêm',
+        pattern: 'N を 探しています',
+        usage: 'Dùng khi nói về nhu cầu tìm việc hoặc tìm một thứ gì đó ở hiện tại.',
         note: 'Sát với nhu cầu của nhiều bạn Việt sang Nhật học tập và sinh sống.',
       },
       {
         id: 'where-station',
         topic: 'Di chuyển',
+        level: 'N5',
         romaji: 'eki wa doko desu ka',
         hiragana: 'えきはどこですか',
         katakana: 'エキハドコデスカ',
         kanji: '駅はどこですか',
         vietnamese: 'Nhà ga ở đâu?',
+        pattern: 'N は どこ ですか',
+        usage: 'Dùng để hỏi vị trí địa điểm như ga, trường, nhà vệ sinh hoặc bến xe.',
         note: 'Một trong những câu thiết thực nhất khi di chuyển bằng tàu điện ở Nhật.',
       },
       {
         id: 'understood',
         topic: 'Lớp học',
+        level: 'N5',
         romaji: 'wakarimashita',
         hiragana: 'わかりました',
         katakana: 'ワカリマシタ',
         kanji: '分かりました',
         vietnamese: 'Tôi hiểu rồi',
+        pattern: '分かりました',
+        usage: 'Dùng để xác nhận đã hiểu sau khi nghe hướng dẫn hoặc yêu cầu.',
         note: 'Dùng tốt với giáo viên, quản lý hoặc đồng nghiệp khi xác nhận đã hiểu.',
+      },
+      {
+        id: 'how-read-kanji',
+        topic: 'Lớp học',
+        level: 'N5',
+        romaji: 'kono kanji wa dou yomimasu ka',
+        hiragana: 'このかんじはどうよみますか',
+        katakana: 'コノカンジハドウヨミマスカ',
+        kanji: 'この漢字はどう読みますか',
+        vietnamese: 'Kanji này đọc như thế nào?',
+        pattern: 'この + N は どう読みますか',
+        usage: 'Dùng ngay trong lớp hoặc khi tự học để hỏi cách đọc một chữ kanji.',
+        note: 'Đúng kiểu vướng mắc mà người Việt mới học thường gặp: thấy mặt chữ nhưng không biết đọc.',
+      },
+      {
+        id: 'not-confident-yet',
+        topic: 'Công việc',
+        level: 'N4',
+        romaji: 'mada jishin ga arimasen',
+        hiragana: 'まだじしんがありません',
+        katakana: 'マダジシンガアリマセン',
+        kanji: 'まだ自信がありません',
+        vietnamese: 'Tôi vẫn chưa tự tin',
+        pattern: 'まだ + N/khả năng + が ありません',
+        usage: 'Dùng khi muốn nói mình chưa đủ tự tin hoặc chưa sẵn sàng trong công việc hay học tập.',
+        note: 'Mẫu này hợp cho người đã qua giai đoạn nhập môn và cần diễn đạt mềm hơn trong giao tiếp.',
       },
     ];
 
@@ -1145,6 +1289,10 @@
           item.kanji,
           item.vietnamese,
           item.topic,
+          item.level,
+          item.pattern,
+          item.usage,
+          item.note,
         ].some(value => (value || '').toLowerCase().includes(keyword)));
       }
 
@@ -1188,14 +1336,18 @@
         card.innerHTML = `
           <div class="focus-card__top">
             <div>
-              <div class="focus-card__topic">${escapeHtml(item.topic || 'Tự chọn')}</div>
+              <div class="focus-card__badges">
+                <div class="focus-card__topic">${escapeHtml(item.topic || 'Tự chọn')}</div>
+                ${item.level ? `<div class="study-level-badge">${escapeHtml(item.level)}</div>` : ''}
+              </div>
               <div class="focus-card__jp">${escapeHtml(item.kanji || item.hiragana)}</div>
             </div>
             <div class="focus-card__meta">${escapeHtml(item.focusSource || 'Đã chọn')}</div>
           </div>
           <div class="focus-card__kana">${escapeHtml(item.hiragana)}</div>
-          <div class="focus-card__romaji">${escapeHtml(item.romaji)}</div>
+          ${getRomajiMarkup('focus-card__romaji', item.romaji)}
           <div class="focus-card__vi">${escapeHtml(item.vietnamese || 'Chưa có nghĩa tiếng Việt')}</div>
+          ${(item.note || item.usage) ? `<div class="focus-card__note">${escapeHtml(item.note || item.usage)}</div>` : ''}
           <div class="focus-card__actions">
             <button type="button" class="study-action-btn">Nạp vào màn hình</button>
             <button type="button" class="study-action-btn study-action-btn--ghost">Nghe Nhật</button>
@@ -1238,30 +1390,41 @@
         if (child.id !== 'history-empty') child.remove();
       });
 
-      state.history.forEach((entry, i) => {
+      state.history.forEach((entry) => {
+        const normalizedEntry = normalizeStudyEntry(entry);
+        const historyMeta = [
+          normalizedEntry.topic && normalizedEntry.topic !== 'Đã học' ? normalizedEntry.topic : '',
+          normalizedEntry.level,
+          normalizedEntry.pattern,
+        ].filter(Boolean).join(' • ');
         const item = document.createElement('div');
         item.className = 'history-item';
         item.innerHTML = `
           <div class="history-item__cell">
             <span class="history-item__label">Romaji</span>
-            <span class="history-item__value history-item__value--romaji">${escapeHtml(entry.romaji)}</span>
+            <span class="history-item__value history-item__value--romaji${isRomajiPracticeHidden() ? ' text-mask' : ''}">${escapeHtml(isRomajiPracticeHidden() ? 'Đang ẩn để luyện kana' : normalizedEntry.romaji)}</span>
           </div>
           <div class="history-item__cell">
             <span class="history-item__label">Hiragana</span>
-            <span class="history-item__value history-item__value--hiragana">${escapeHtml(entry.hiragana)}</span>
+            <span class="history-item__value history-item__value--hiragana">${escapeHtml(normalizedEntry.hiragana)}</span>
           </div>
           <div class="history-item__cell">
             <span class="history-item__label">Katakana</span>
-            <span class="history-item__value history-item__value--katakana">${escapeHtml(entry.katakana)}</span>
+            <span class="history-item__value history-item__value--katakana">${escapeHtml(normalizedEntry.katakana)}</span>
           </div>
           <div class="history-item__cell">
             <span class="history-item__label">Kanji</span>
-            <span class="history-item__value history-item__value--kanji">${escapeHtml(entry.kanji)}</span>
+            <span class="history-item__value history-item__value--kanji">${escapeHtml(normalizedEntry.kanji)}</span>
           </div>
-          ${entry.vietnamese ? `
+          ${normalizedEntry.vietnamese ? `
           <div class="history-item__cell" style="grid-column: 1 / -1;">
             <span class="history-item__label">🇻🇳 Tiếng Việt</span>
-            <span class="history-item__value" style="color: var(--accent-romaji);">${escapeHtml(entry.vietnamese)}</span>
+            <span class="history-item__value" style="color: var(--accent-romaji);">${escapeHtml(normalizedEntry.vietnamese)}</span>
+          </div>` : ''}
+          ${historyMeta ? `
+          <div class="history-item__cell" style="grid-column: 1 / -1;">
+            <span class="history-item__label">Gợi ý học</span>
+            <span class="history-item__value history-item__meta-text">${escapeHtml(historyMeta)}</span>
           </div>` : ''}
           <div class="history-item__actions">
             <button type="button" class="study-action-btn study-action-btn--small">Nạp lại</button>
@@ -1269,21 +1432,21 @@
           </div>
         `;
         item.addEventListener('click', () => {
-          const text = `${entry.romaji} → ${entry.hiragana} / ${entry.katakana} / ${entry.kanji}${entry.vietnamese ? ' = ' + entry.vietnamese : ''}`;
+          const text = `${normalizedEntry.romaji} → ${normalizedEntry.hiragana} / ${normalizedEntry.katakana} / ${normalizedEntry.kanji}${normalizedEntry.vietnamese ? ' = ' + normalizedEntry.vietnamese : ''}`;
           copyToClipboard(text);
           showToast('Đã copy lịch sử!');
         });
         const [loadButton, focusButton] = item.querySelectorAll('.history-item__actions button');
         loadButton.addEventListener('click', (e) => {
           e.stopPropagation();
-          applyStudyEntry(entry, {
+          applyStudyEntry(normalizedEntry, {
             addToHistory: true,
             toastMessage: 'Đã nạp mục từ lịch sử',
           });
         });
         focusButton.addEventListener('click', (e) => {
           e.stopPropagation();
-          addToFocusList(entry, {
+          addToFocusList(normalizedEntry, {
             focusSource: 'Lịch sử',
             toastMessage: 'Đã thêm mục lịch sử vào sổ cần thuộc',
           });
@@ -1787,6 +1950,18 @@ const COPY_FIELDS_DEFAULT = [
       localStorage.setItem('jta-quiz-state', JSON.stringify(state.quiz));
     }
 
+    function saveLearningSettings() {
+      localStorage.setItem('jta-learning-settings', JSON.stringify(state.learning));
+    }
+
+    function isRomajiPracticeHidden() {
+      return state.learning.romajiMode === 'hidden';
+    }
+
+    function isQuizHintCompact() {
+      return state.learning.quizHintMode === 'active';
+    }
+
     function applyTheme(theme) {
       const nextTheme = theme === 'light' ? 'light' : 'dark';
       document.documentElement.dataset.theme = nextTheme;
@@ -1824,18 +1999,23 @@ const COPY_FIELDS_DEFAULT = [
     }
 
     function normalizeStudyEntry(entry) {
-      const hiragana = entry.hiragana || (entry.romaji ? wanakana.toHiragana(entry.romaji) : '');
-      const katakana = entry.katakana || (hiragana ? wanakana.toKatakana(hiragana) : '');
-      const romaji = entry.romaji || (hiragana ? wanakana.toRomaji(hiragana) : '');
-      const kanji = entry.kanji || hiragana;
+      const safeEntry = entry || {};
+      const hiragana = safeEntry.hiragana || (safeEntry.romaji ? wanakana.toHiragana(safeEntry.romaji) : '');
+      const katakana = safeEntry.katakana || (hiragana ? wanakana.toKatakana(hiragana) : '');
+      const romaji = safeEntry.romaji || (hiragana ? wanakana.toRomaji(hiragana) : '');
+      const kanji = safeEntry.kanji || hiragana;
       return {
-        ...entry,
+        ...safeEntry,
         romaji,
         hiragana,
         katakana,
         kanji,
-        vietnamese: entry.vietnamese || '',
-        topic: entry.topic || 'Đã học',
+        vietnamese: safeEntry.vietnamese || '',
+        topic: safeEntry.topic || 'Đã học',
+        level: safeEntry.level || '',
+        pattern: safeEntry.pattern || '',
+        usage: safeEntry.usage || '',
+        note: safeEntry.note || '',
       };
     }
 
@@ -1849,6 +2029,169 @@ const COPY_FIELDS_DEFAULT = [
         normalized.romaji,
         normalized.vietnamese,
       ].join('|').toLowerCase();
+    }
+
+    function getLevelSortValue(level) {
+      const match = String(level || '').match(/(\d+)/);
+      return match ? Number(match[1]) : Number.POSITIVE_INFINITY;
+    }
+
+    function findEntryByKey(collection, key) {
+      if (!key) return null;
+      return collection.find(item => makeStudyEntryKey(item) === key) || null;
+    }
+
+    function getRomajiMarkup(className, text) {
+      if (!text) return '';
+      const content = isRomajiPracticeHidden() ? 'Romaji đang ẩn để luyện kana' : escapeHtml(text);
+      return `<div class="${className}${isRomajiPracticeHidden() ? ' text-mask' : ''}">${content}</div>`;
+    }
+
+    function hasDistinctKanji(entry) {
+      return !!(entry.kanji && entry.hiragana && entry.kanji !== entry.hiragana);
+    }
+
+    function isSentenceEntry(entry) {
+      const romaji = (entry.romaji || '').trim();
+      const vietnamese = (entry.vietnamese || '').trim();
+      return romaji.includes(' ') || vietnamese.split(/\s+/).length >= 4;
+    }
+
+    function getGenericPatternForEntry(entry) {
+      if (entry.pattern) return entry.pattern;
+      if (hasDistinctKanji(entry)) {
+        return isSentenceEntry(entry)
+          ? 'Câu có cả kanji và kana, nên tách theo cụm để nhớ.'
+          : 'Từ có kanji, ưu tiên nối mặt chữ với cách đọc hiragana.';
+      }
+      return isSentenceEntry(entry)
+        ? 'Câu ngắn thực hành giao tiếp bằng kana.'
+        : 'Từ hoặc cụm ngắn bằng kana.';
+    }
+
+    function getGenericUsageForEntry(entry) {
+      if (entry.usage) return entry.usage;
+      return isSentenceEntry(entry)
+        ? 'Đọc thành tiếng vài lần, rồi chuyển sang quiz để luyện phản xạ gọi lại.'
+        : 'Phù hợp để đưa vào Sổ cần thuộc nếu bạn hay quên nghĩa hoặc cách đọc.';
+    }
+
+    function getGenericNoteForEntry(entry) {
+      if (entry.note) return entry.note;
+      if (hasDistinctKanji(entry)) {
+        return 'Đừng bám romaji quá lâu. Hãy nhìn kanji, gọi lại hiragana, rồi mới đối chiếu nghĩa.';
+      }
+      return isSentenceEntry(entry)
+        ? 'Với câu dài, hãy nhớ cụm cuối câu trước rồi mở rộng dần ra đầu câu.'
+        : 'Đọc thẳng kana vài lần trước khi nhìn lại romaji.';
+    }
+
+    function getQuizRecommendationText(entry) {
+      if (!entry) {
+        return 'Hãy nhập hoặc nạp một mục để nhận khuyến nghị luyện cụ thể.';
+      }
+
+      const firstMode = hasDistinctKanji(entry)
+        ? 'Kanji → Kana'
+        : (entry.vietnamese ? 'VI → JP' : 'JP → VI');
+      const followUpMode = hasDistinctKanji(entry) && entry.vietnamese
+        ? 'VI → JP'
+        : ((entry.hiragana && entry.romaji) ? 'Kana → Romaji' : 'JP → VI');
+      const romajiTip = isRomajiPracticeHidden()
+        ? 'Romaji đang được ẩn ở phần ôn để bạn bám kana trực tiếp.'
+        : 'Khi đã quen, hãy chuyển romaji sang ẩn để nhớ kana bền hơn.';
+
+      if (followUpMode && followUpMode !== firstMode) {
+        return `Bắt đầu với ${firstMode}, sau đó chuyển sang ${followUpMode}. ${romajiTip}`;
+      }
+
+      return `Bắt đầu với ${firstMode}. ${romajiTip}`;
+    }
+
+    function getCurrentLearningSnapshot() {
+      const current = getCurrentStudyEntry();
+      if (!current) return null;
+
+      const key = makeStudyEntryKey(current);
+      const focusMatch = findEntryByKey(state.focusList, key);
+      const phraseMatch = findEntryByKey(PRACTICE_PHRASES, key);
+      const historyMatch = findEntryByKey(state.history, key);
+      const matched = focusMatch || phraseMatch || historyMatch || {};
+
+      const merged = normalizeStudyEntry({
+        ...matched,
+        ...current,
+        topic: current.topic && current.topic !== 'Đang nhập' ? current.topic : (matched.topic || current.topic),
+        level: current.level || matched.level || '',
+        pattern: current.pattern || matched.pattern || '',
+        usage: current.usage || matched.usage || '',
+        note: current.note || matched.note || '',
+      });
+
+      const sourceLabel = focusMatch
+        ? 'Sổ cần thuộc'
+        : (phraseMatch ? 'Bộ câu mẫu' : (historyMatch ? 'Lịch sử' : 'Tự nhập'));
+
+      return {
+        entry: merged,
+        sourceLabel,
+        patternText: getGenericPatternForEntry(merged),
+        usageText: getGenericUsageForEntry(merged),
+        noteText: getGenericNoteForEntry(merged),
+        recommendationText: getQuizRecommendationText(merged),
+        tags: [sourceLabel, merged.topic, merged.level].filter(Boolean),
+      };
+    }
+
+    function renderLearningPreferences() {
+      $learningRomajiMode.value = state.learning.romajiMode;
+      $learningQuizHintMode.value = state.learning.quizHintMode;
+
+      if (isRomajiPracticeHidden() && isQuizHintCompact()) {
+        $learningSettingsTip.textContent = 'Bạn đang ở chế độ nhớ chủ động: romaji bị ẩn trong phần ôn và quiz chỉ giữ gợi ý ngắn.';
+        return;
+      }
+
+      if (isRomajiPracticeHidden()) {
+        $learningSettingsTip.textContent = 'Romaji đang bị ẩn trong phần ôn. Hãy nhìn thẳng kana và chỉ quay lại romaji khi thực sự bí.';
+        return;
+      }
+
+      if (isQuizHintCompact()) {
+        $learningSettingsTip.textContent = 'Quiz đang dùng gợi ý tối giản. Đây là bước tốt khi bạn đã bớt phụ thuộc vào nghĩa và romaji.';
+        return;
+      }
+
+      $learningSettingsTip.textContent = 'Giữ romaji hỗ trợ khi mới học, rồi chuyển dần sang ẩn romaji và gợi ý tối giản để ép mình đọc kana trực tiếp.';
+    }
+
+    function renderLearningPanel() {
+      const snapshot = getCurrentLearningSnapshot();
+
+      if (!snapshot) {
+        $learningCurrentTags.innerHTML = '';
+        $learningCurrentJP.textContent = 'Chưa có mục đang học.';
+        $learningCurrentReading.textContent = 'Kana, mức độ và mẹo học sẽ hiện ở đây khi bạn nhập hoặc nạp một mục.';
+        $learningPattern.textContent = 'Chưa có dữ liệu.';
+        $learningUsage.textContent = 'Chọn một câu mẫu hoặc gõ một mục để xem gợi ý dùng thực tế.';
+        $learningNote.textContent = 'App sẽ ưu tiên hiển thị mẹo sát với mục hiện tại thay vì chỉ dịch nghĩa.';
+        $learningRecommendation.textContent = 'Hãy bắt đầu từ một từ hoặc một câu ngắn, sau đó kiểm tra kanji và chuyển sang quiz phù hợp.';
+        return;
+      }
+
+      $learningCurrentTags.innerHTML = snapshot.tags
+        .map(tag => `<span class="learning-chip">${escapeHtml(tag)}</span>`)
+        .join('');
+      $learningCurrentJP.textContent = snapshot.entry.kanji || snapshot.entry.hiragana || snapshot.entry.romaji;
+      $learningCurrentReading.textContent = [
+        snapshot.entry.hiragana ? `Hiragana: ${snapshot.entry.hiragana}` : '',
+        snapshot.entry.katakana ? `Katakana: ${snapshot.entry.katakana}` : '',
+        snapshot.entry.romaji ? (isRomajiPracticeHidden() ? 'Romaji đang ẩn ở phần ôn tập' : `Romaji: ${snapshot.entry.romaji}`) : '',
+      ].filter(Boolean).join(' • ');
+      $learningPattern.textContent = snapshot.patternText;
+      $learningUsage.textContent = snapshot.usageText;
+      $learningNote.textContent = snapshot.noteText;
+      $learningRecommendation.textContent = snapshot.recommendationText;
     }
 
     function getCurrentStudyEntry() {
@@ -2030,19 +2373,34 @@ const COPY_FIELDS_DEFAULT = [
       return arr;
     }
 
+    function buildQuizMeta(parts) {
+      return parts.filter(Boolean).join(' • ');
+    }
+
     function getQuizDefinition(mode, entry) {
       if (mode === 'kanji-to-kana') {
         return {
           prompt: entry.kanji,
-          hint: entry.vietnamese ? `Nghĩa: ${entry.vietnamese}` : `Romaji: ${entry.romaji || '—'}`,
+          hint: isQuizHintCompact()
+            ? buildQuizMeta([
+              entry.vietnamese ? `Nghĩa: ${entry.vietnamese}` : '',
+              entry.level ? `JLPT: ${entry.level}` : '',
+              entry.topic ? `Chủ đề: ${entry.topic}` : '',
+            ])
+            : buildQuizMeta([
+              entry.vietnamese ? `Nghĩa: ${entry.vietnamese}` : '',
+              !isRomajiPracticeHidden() && entry.romaji ? `Romaji: ${entry.romaji}` : '',
+              entry.level ? `JLPT: ${entry.level}` : '',
+            ]),
           correctValue: entry.hiragana,
           explanation: {
             primary: `${entry.kanji} → ${entry.hiragana}`,
-            secondary: [
+            secondary: buildQuizMeta([
               entry.katakana ? `Katakana: ${entry.katakana}` : '',
-              entry.romaji ? `Romaji: ${entry.romaji}` : '',
+              !isRomajiPracticeHidden() && entry.romaji ? `Romaji: ${entry.romaji}` : '',
               entry.vietnamese ? `Nghĩa: ${entry.vietnamese}` : '',
-            ].filter(Boolean).join(' • '),
+              entry.level ? `JLPT: ${entry.level}` : '',
+            ]),
           },
           optionValue: item => item.hiragana,
         };
@@ -2051,15 +2409,25 @@ const COPY_FIELDS_DEFAULT = [
       if (mode === 'vi-to-jp') {
         return {
           prompt: entry.vietnamese,
-          hint: entry.topic ? `Chủ đề: ${entry.topic}` : 'Chọn cách viết đúng',
+          hint: isQuizHintCompact()
+            ? buildQuizMeta([
+              entry.topic ? `Chủ đề: ${entry.topic}` : '',
+              entry.level ? `JLPT: ${entry.level}` : '',
+            ]) || 'Chọn cách viết đúng'
+            : buildQuizMeta([
+              entry.hiragana ? `Hiragana: ${entry.hiragana}` : '',
+              !isRomajiPracticeHidden() && entry.romaji ? `Romaji: ${entry.romaji}` : '',
+              entry.level ? `JLPT: ${entry.level}` : '',
+            ]) || 'Chọn cách viết đúng',
           correctValue: entry.kanji || entry.hiragana,
           explanation: {
             primary: `${entry.vietnamese} = ${entry.kanji || entry.hiragana}`,
-            secondary: [
+            secondary: buildQuizMeta([
               entry.hiragana ? `Hiragana: ${entry.hiragana}` : '',
-              entry.romaji ? `Romaji: ${entry.romaji}` : '',
+              !isRomajiPracticeHidden() && entry.romaji ? `Romaji: ${entry.romaji}` : '',
               entry.topic ? `Chủ đề: ${entry.topic}` : '',
-            ].filter(Boolean).join(' • '),
+              entry.level ? `JLPT: ${entry.level}` : '',
+            ]),
           },
           optionValue: item => item.kanji || item.hiragana,
         };
@@ -2068,15 +2436,26 @@ const COPY_FIELDS_DEFAULT = [
       if (mode === 'kana-to-romaji') {
         return {
           prompt: entry.hiragana || entry.katakana,
-          hint: entry.vietnamese ? `Nghĩa: ${entry.vietnamese}` : `Kanji: ${entry.kanji || '—'}`,
+          hint: isQuizHintCompact()
+            ? buildQuizMeta([
+              entry.vietnamese ? `Nghĩa: ${entry.vietnamese}` : '',
+              entry.topic ? `Chủ đề: ${entry.topic}` : '',
+              entry.level ? `JLPT: ${entry.level}` : '',
+            ])
+            : buildQuizMeta([
+              entry.vietnamese ? `Nghĩa: ${entry.vietnamese}` : '',
+              entry.kanji && entry.kanji !== entry.hiragana ? `Kanji: ${entry.kanji}` : '',
+              entry.level ? `JLPT: ${entry.level}` : '',
+            ]),
           correctValue: entry.romaji,
           explanation: {
             primary: `${entry.hiragana || entry.katakana} → ${entry.romaji}`,
-            secondary: [
+            secondary: buildQuizMeta([
               entry.kanji && entry.kanji !== entry.hiragana ? `Kanji: ${entry.kanji}` : '',
               entry.vietnamese ? `Nghĩa: ${entry.vietnamese}` : '',
               entry.topic ? `Chủ đề: ${entry.topic}` : '',
-            ].filter(Boolean).join(' • '),
+              entry.level ? `JLPT: ${entry.level}` : '',
+            ]),
           },
           optionValue: item => item.romaji,
         };
@@ -2084,15 +2463,25 @@ const COPY_FIELDS_DEFAULT = [
 
       return {
         prompt: entry.kanji || entry.hiragana,
-        hint: [entry.hiragana, entry.romaji].filter(Boolean).join(' • '),
+        hint: isQuizHintCompact()
+          ? buildQuizMeta([
+            entry.topic ? `Chủ đề: ${entry.topic}` : '',
+            entry.level ? `JLPT: ${entry.level}` : '',
+          ])
+          : buildQuizMeta([
+            entry.hiragana ? `Hiragana: ${entry.hiragana}` : '',
+            !isRomajiPracticeHidden() && entry.romaji ? `Romaji: ${entry.romaji}` : '',
+            entry.level ? `JLPT: ${entry.level}` : '',
+          ]),
         correctValue: entry.vietnamese,
         explanation: {
           primary: `${entry.kanji || entry.hiragana} = ${entry.vietnamese}`,
-          secondary: [
+          secondary: buildQuizMeta([
             entry.hiragana ? `Hiragana: ${entry.hiragana}` : '',
-            entry.romaji ? `Romaji: ${entry.romaji}` : '',
+            !isRomajiPracticeHidden() && entry.romaji ? `Romaji: ${entry.romaji}` : '',
             entry.topic ? `Chủ đề: ${entry.topic}` : '',
-          ].filter(Boolean).join(' • '),
+            entry.level ? `JLPT: ${entry.level}` : '',
+          ]),
         },
         optionValue: item => item.vietnamese,
       };
@@ -2196,41 +2585,10 @@ const COPY_FIELDS_DEFAULT = [
       renderQuizMetrics();
     }
 
-    function answerQuizQuestion(selectedValue) {
-      const question = state.currentQuiz;
-      if (!question || question.answered) return;
-
-      question.answered = true;
-      state.quiz.answered += 1;
-
-      const isCorrect = selectedValue === question.correctValue;
-      if (isCorrect) {
-        state.quiz.score += 10;
-        state.quiz.streak += 1;
-        state.quiz.correct += 1;
-      } else {
-        state.quiz.streak = 0;
-      }
-
-      state.quiz.lastQuestionKey = question.entryKey || '';
-      if (question.entryKey) {
-        const progress = state.quiz.weakMap[question.entryKey] || { seen: 0, correct: 0, wrong: 0, lastResult: '' };
-        progress.seen = (Number(progress.seen) || 0) + 1;
-        if (isCorrect) {
-          progress.correct = (Number(progress.correct) || 0) + 1;
-          progress.lastResult = 'correct';
-        } else {
-          progress.wrong = (Number(progress.wrong) || 0) + 1;
-          progress.lastResult = 'wrong';
-        }
-        state.quiz.weakMap[question.entryKey] = progress;
-      }
-
-      saveQuizState();
-
+    function renderQuizAnswerState(question) {
       Array.from($quizOptions.children).forEach(button => {
         const buttonIsCorrect = button.dataset.correct === 'true';
-        const buttonIsSelected = button.dataset.value === selectedValue;
+        const buttonIsSelected = button.dataset.value === question.selectedValue;
         button.disabled = true;
         button.classList.add('quiz-option--locked');
         if (buttonIsCorrect) button.classList.add('quiz-option--correct');
@@ -2238,8 +2596,8 @@ const COPY_FIELDS_DEFAULT = [
       });
 
       $quizResult.innerHTML = `
-        <div class="quiz-result__status ${isCorrect ? 'quiz-result__status--correct' : 'quiz-result__status--wrong'}">
-          ${isCorrect ? 'Chính xác!' : 'Chưa đúng'}
+        <div class="quiz-result__status ${question.selectedValue === question.correctValue ? 'quiz-result__status--correct' : 'quiz-result__status--wrong'}">
+          ${question.selectedValue === question.correctValue ? 'Chính xác!' : 'Chưa đúng'}
         </div>
         <div class="quiz-result__text">${escapeHtml(question.explanation.primary)}</div>
         <div class="quiz-result__meta">${escapeHtml(question.explanation.secondary || '')}</div>
@@ -2271,6 +2629,57 @@ const COPY_FIELDS_DEFAULT = [
       });
 
       renderQuizMetrics();
+    }
+
+    function refreshCurrentQuizView() {
+      if (!state.currentQuiz) {
+        renderQuizMetrics();
+        return;
+      }
+
+      const definition = getQuizDefinition(state.currentQuiz.mode, state.currentQuiz.entry);
+      state.currentQuiz.hint = definition.hint;
+      state.currentQuiz.explanation = definition.explanation;
+      renderQuizQuestion(state.currentQuiz);
+
+      if (state.currentQuiz.answered) {
+        renderQuizAnswerState(state.currentQuiz);
+      }
+    }
+
+    function answerQuizQuestion(selectedValue) {
+      const question = state.currentQuiz;
+      if (!question || question.answered) return;
+
+      question.answered = true;
+      question.selectedValue = selectedValue;
+      state.quiz.answered += 1;
+
+      const isCorrect = selectedValue === question.correctValue;
+      if (isCorrect) {
+        state.quiz.score += 10;
+        state.quiz.streak += 1;
+        state.quiz.correct += 1;
+      } else {
+        state.quiz.streak = 0;
+      }
+
+      state.quiz.lastQuestionKey = question.entryKey || '';
+      if (question.entryKey) {
+        const progress = state.quiz.weakMap[question.entryKey] || { seen: 0, correct: 0, wrong: 0, lastResult: '' };
+        progress.seen = (Number(progress.seen) || 0) + 1;
+        if (isCorrect) {
+          progress.correct = (Number(progress.correct) || 0) + 1;
+          progress.lastResult = 'correct';
+        } else {
+          progress.wrong = (Number(progress.wrong) || 0) + 1;
+          progress.lastResult = 'wrong';
+        }
+        state.quiz.weakMap[question.entryKey] = progress;
+      }
+
+      saveQuizState();
+      renderQuizAnswerState(question);
     }
 
     function generateQuizQuestion(options = {}) {
@@ -2360,9 +2769,48 @@ const COPY_FIELDS_DEFAULT = [
       });
     }
 
+    function populatePhraseLevels() {
+      const levels = [...new Set(PRACTICE_PHRASES.map(item => item.level).filter(Boolean))]
+        .sort((a, b) => getLevelSortValue(b) - getLevelSortValue(a));
+
+      levels.forEach(level => {
+        const option = document.createElement('option');
+        option.value = level;
+        option.textContent = level;
+        $phraseLevelFilter.appendChild(option);
+      });
+    }
+
+    function renderStudyFilterSummary(items) {
+      const selectedTopic = $phraseTopicFilter.value || 'all';
+      const selectedLevel = $phraseLevelFilter.value || 'all';
+      const topicLabel = selectedTopic === 'all' ? 'mọi chủ đề' : `chủ đề ${selectedTopic}`;
+      const levelLabel = selectedLevel === 'all' ? 'mọi cấp độ' : `cấp độ ${selectedLevel}`;
+      const romajiLabel = isRomajiPracticeHidden()
+        ? 'Romaji đang ẩn ở phần ôn tập.'
+        : 'Romaji đang bật để hỗ trợ đọc.';
+      const hintLabel = isQuizHintCompact()
+        ? 'Quiz đang ở chế độ gợi ý tối giản.'
+        : 'Quiz đang ở chế độ gợi ý đầy đủ.';
+
+      if (!items.length) {
+        $studyFilterSummary.textContent = `Không có câu mẫu khớp với ${topicLabel} và ${levelLabel}.`;
+        return;
+      }
+
+      $studyFilterSummary.textContent = `Đang xem ${items.length} câu thuộc ${topicLabel}, ${levelLabel}. ${romajiLabel} ${hintLabel}`;
+    }
+
     function renderPhraseList() {
       const selectedTopic = $phraseTopicFilter.value || 'all';
-      const items = PRACTICE_PHRASES.filter(item => selectedTopic === 'all' || item.topic === selectedTopic);
+      const selectedLevel = $phraseLevelFilter.value || 'all';
+      const items = PRACTICE_PHRASES.filter(item => {
+        const topicMatches = selectedTopic === 'all' || item.topic === selectedTopic;
+        const levelMatches = selectedLevel === 'all' || item.level === selectedLevel;
+        return topicMatches && levelMatches;
+      });
+
+      renderStudyFilterSummary(items);
 
       if (!items.length) {
         $phraseList.innerHTML = '<div class="quiz-empty">Chưa có câu mẫu ở chủ đề này.</div>';
@@ -2375,12 +2823,25 @@ const COPY_FIELDS_DEFAULT = [
         card.className = 'phrase-item';
         card.innerHTML = `
           <div class="phrase-item__top">
-            <span class="phrase-item__topic">${escapeHtml(item.topic)}</span>
+            <div class="phrase-item__badges">
+              <span class="phrase-item__topic">${escapeHtml(item.topic)}</span>
+              ${item.level ? `<span class="study-level-badge">${escapeHtml(item.level)}</span>` : ''}
+            </div>
             <span class="phrase-item__jp">${escapeHtml(item.kanji || item.hiragana)}</span>
           </div>
           <div class="phrase-item__kana">${escapeHtml(item.hiragana)}</div>
-          <div class="phrase-item__romaji">${escapeHtml(item.romaji)}</div>
+          ${getRomajiMarkup('phrase-item__romaji', item.romaji)}
           <div class="phrase-item__vi">${escapeHtml(item.vietnamese)}</div>
+          <div class="phrase-item__meta-grid">
+            <div class="phrase-item__meta-block">
+              <span class="phrase-item__meta-label">Cấu trúc</span>
+              <span class="phrase-item__meta-value">${escapeHtml(item.pattern || 'Mẫu câu giao tiếp')}</span>
+            </div>
+            <div class="phrase-item__meta-block">
+              <span class="phrase-item__meta-label">Cách dùng</span>
+              <span class="phrase-item__meta-value">${escapeHtml(item.usage || item.note)}</span>
+            </div>
+          </div>
           <div class="phrase-item__note">${escapeHtml(item.note)}</div>
           <div class="phrase-item__actions">
             <button type="button" class="study-action-btn">Luyện câu này</button>
@@ -2420,7 +2881,16 @@ const COPY_FIELDS_DEFAULT = [
       renderFocusList();
       renderFocusGuidance();
       renderWorkspaceSummary(readyCount);
+      renderLearningPanel();
       renderQuizMetrics();
+    }
+
+    function refreshLearningModeViews() {
+      renderLearningPreferences();
+      renderHistory();
+      renderStudyStats();
+      renderPhraseList();
+      refreshCurrentQuizView();
     }
 
     document.querySelectorAll('.quiz-mode-btn').forEach(button => {
@@ -2499,6 +2969,10 @@ const COPY_FIELDS_DEFAULT = [
       renderPhraseList();
     });
 
+    $phraseLevelFilter.addEventListener('change', () => {
+      renderPhraseList();
+    });
+
     $focusSearchInput.addEventListener('input', () => {
       renderFocusList();
     });
@@ -2509,6 +2983,20 @@ const COPY_FIELDS_DEFAULT = [
 
     $themeToggle.addEventListener('click', () => {
       applyTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
+    });
+
+    $learningRomajiMode.addEventListener('change', () => {
+      state.learning.romajiMode = $learningRomajiMode.value === 'hidden' ? 'hidden' : 'assisted';
+      saveLearningSettings();
+      refreshLearningModeViews();
+      showToast(isRomajiPracticeHidden() ? 'Đã ẩn romaji trong phần ôn tập' : 'Đã bật romaji hỗ trợ');
+    });
+
+    $learningQuizHintMode.addEventListener('change', () => {
+      state.learning.quizHintMode = $learningQuizHintMode.value === 'active' ? 'active' : 'guided';
+      saveLearningSettings();
+      refreshLearningModeViews();
+      showToast(isQuizHintCompact() ? 'Quiz chuyển sang gợi ý tối giản' : 'Quiz chuyển sang gợi ý đầy đủ');
     });
 
     helpTriggers.forEach(trigger => {
@@ -2662,6 +3150,8 @@ const COPY_FIELDS_DEFAULT = [
     updateComposed();
     applyTheme(document.documentElement.dataset.theme || 'dark');
     populatePhraseTopics();
+    populatePhraseLevels();
+    renderLearningPreferences();
     renderPhraseList();
     renderStudyStats();
     generateQuizQuestion({ silent: true });
