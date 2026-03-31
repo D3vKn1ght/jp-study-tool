@@ -37,13 +37,13 @@
           <button type="button" class="help-trigger help-trigger--header" data-help-target="help-overview" aria-label="Hướng dẫn tổng quan">?</button>
           <div class="help-popover" id="help-overview" hidden>
             <div class="help-popover__title">Cách dùng nhanh</div>
-            <div class="help-popover__text">1. Gõ romaji vào ô nhập. 2. Chờ kanji và nghĩa xuất hiện. 3. Nhấn Enter để lưu. 4. Đưa các mục khó vào Sổ cần thuộc. 5. Ôn lại bằng Quiz Zone, nhất là chế độ Kanji → Kana và VI → JP.</div>
+            <div class="help-popover__text">1. Gõ mẫu N2/N1 bằng romaji. 2. Kiểm tra kanji, cấu trúc và nghĩa. 3. Nhấn Enter để lưu. 4. Đưa các mẫu hàn lâm hoặc business khó vào Sổ cần thuộc. 5. Ôn lại bằng Quiz Zone, nhất là Kanji → Kana và VI → JP để kéo lại khả năng gọi biểu đạt nâng cao.</div>
           </div>
         </div>
       </div>
       <div class="header__icon">🎌</div>
       <h1 class="header__title">Japanese Typing Assistant</h1>
-      <p class="header__subtitle">Gõ romaji → Hiển thị Hiragana・Katakana・漢字・Nghĩa tiếng Việt</p>
+      <p class="header__subtitle">Gõ romaji → Hiển thị Hiragana・Katakana・漢字・Nghĩa tiếng Việt cho mẫu N2/N1</p>
     </header>
 
     <nav class="top-nav" aria-label="Điều hướng nhanh">
@@ -60,9 +60,9 @@
         <div class="workspace-head">
           <div>
             <div class="workspace-eyebrow">Workspace</div>
-            <h2 class="workspace-title">Nhập, xem kết quả và lưu theo một luồng học rõ ràng</h2>
+            <h2 class="workspace-title">Nhập và mổ xẻ mẫu N2/N1 theo một luồng học rõ ràng</h2>
             <p class="workspace-subtitle">
-              Mọi thứ quan trọng đều nằm trong cùng một khu làm việc: nhập romaji, kiểm tra kana và kanji, xác nhận nghĩa tiếng Việt rồi lưu ngay để chuyển sang phần ôn tập.
+              Mọi thứ quan trọng đều nằm trong cùng một khu làm việc: nhập romaji cho mẫu nâng cao, kiểm tra kana và kanji dày, xác nhận nghĩa tiếng Việt rồi lưu ngay để chuyển sang phần ôn tập.
             </p>
           </div>
           <div class="workspace-overview">
@@ -89,22 +89,22 @@
           <article class="workflow-step">
             <span class="workflow-step__index">1</span>
             <div>
-              <div class="workflow-step__title">Gõ romaji</div>
-              <div class="workflow-step__text">Nhập theo cách đọc latin để tạo nhanh hiragana và katakana.</div>
+              <div class="workflow-step__title">Gõ mẫu ngữ pháp</div>
+              <div class="workflow-step__text">Nhập theo romaji để bung nhanh kana cho cụm N2/N1 và câu formal.</div>
             </div>
           </article>
           <article class="workflow-step">
             <span class="workflow-step__index">2</span>
             <div>
-              <div class="workflow-step__title">Kiểm tra kanji và nghĩa</div>
-              <div class="workflow-step__text">Chờ hệ thống gợi ý kanji, dịch sang tiếng Việt và chọn lại nếu cần.</div>
+              <div class="workflow-step__title">Kiểm tra kanji và sắc thái</div>
+              <div class="workflow-step__text">Chờ hệ thống gợi ý kanji, đối chiếu nghĩa tiếng Việt và cấu trúc trước khi chốt.</div>
             </div>
           </article>
           <article class="workflow-step">
             <span class="workflow-step__index">3</span>
             <div>
-              <div class="workflow-step__title">Lưu để ôn</div>
-              <div class="workflow-step__text">Nhấn Enter để đưa mục này vào lịch sử, văn bản đã soạn và vòng quiz.</div>
+              <div class="workflow-step__title">Lưu để luyện biểu đạt</div>
+              <div class="workflow-step__text">Nhấn Enter để đưa mẫu này vào lịch sử, văn bản đã soạn và vòng quiz nâng cao.</div>
             </div>
           </article>
         </div>
@@ -116,13 +116,13 @@
                 <div class="section-label-row">
                   <label class="input-label" for="romaji-input">
                     <span class="input-label__dot"></span>
-                    Nhập Romaji tại đây
+                    Nhập mẫu N2/N1 tại đây
                   </label>
                   <div class="help-anchor">
                     <button type="button" class="help-trigger" data-help-target="help-input" aria-label="Hướng dẫn ô nhập">?</button>
                     <div class="help-popover" id="help-input" hidden>
                       <div class="help-popover__title">Ô nhập romaji</div>
-                      <div class="help-popover__text">Nhập theo cách đọc latin như `ohayou`, `arigatou`, `nihongo`. App sẽ đổi ngay sang hiragana và katakana, rồi tự thử lấy kanji sau 2 giây.</div>
+                      <div class="help-popover__text">Nhập theo romaji cho mẫu như `ichigai ni wa ienai`, `minaosazaru o enai`, `shiryou ni motozuite`. App sẽ đổi ngay sang hiragana và katakana, rồi tự thử lấy kanji sau 2 giây.</div>
                     </div>
                   </div>
                 </div>
@@ -130,7 +130,7 @@
                   type="text"
                   id="romaji-input"
                   class="input-field"
-                  placeholder="Ví dụ: ohayou, konnichiwa, arigatou..."
+                  placeholder="Ví dụ: ichigai ni wa ienai, minaosazaru o enai..."
                   autocomplete="off"
                   spellcheck="false"
                 >
@@ -164,7 +164,7 @@
                 </label>
               </div>
               <div class="learning-preferences__tip" id="learning-settings-tip">
-                Giữ romaji hỗ trợ khi mới học, rồi chuyển dần sang ẩn romaji và gợi ý tối giản để ép mình đọc kana trực tiếp.
+                Với N2/N1, nên chuyển sang ẩn romaji sớm và dùng hint tối giản để buộc mình bám kanji, kana và sắc thái.
               </div>
             </section>
 
@@ -202,7 +202,7 @@
                   <label class="copy-option-label copy-option-label--stack copy-custom-form">
                     <span>Lưu cấu hình hiện tại thành thẻ custom</span>
                     <div class="copy-custom-form__controls">
-                      <input type="text" id="copy-custom-name" class="copy-custom-name-input" placeholder="Ví dụ: Học từ vựng N5" maxlength="28">
+                      <input type="text" id="copy-custom-name" class="copy-custom-name-input" placeholder="Ví dụ: Mẫu viết luận N1" maxlength="28">
                       <button type="button" class="copy-option-btn" id="copy-save-custom-card">Lưu thẻ</button>
                     </div>
                   </label>
@@ -328,14 +328,14 @@
                 </div>
                 <div class="learning-card__block">
                   <div class="learning-card__label">Cách dùng</div>
-                  <div class="learning-card__text" id="learning-usage">Chọn một câu mẫu hoặc gõ một mục để xem gợi ý dùng thực tế.</div>
+                  <div class="learning-card__text" id="learning-usage">Chọn một mẫu N2/N1 hoặc gõ một mục để xem gợi ý dùng thực tế.</div>
                 </div>
                 <div class="learning-card__block">
                   <div class="learning-card__label">Điểm cần nhớ</div>
                   <div class="learning-card__text" id="learning-note">App sẽ ưu tiên hiển thị mẹo sát với mục hiện tại thay vì chỉ dịch nghĩa.</div>
                 </div>
               </div>
-              <div class="learning-card__tip" id="learning-recommendation">Hãy bắt đầu từ một từ hoặc một câu ngắn, sau đó kiểm tra kanji và chuyển sang quiz phù hợp.</div>
+              <div class="learning-card__tip" id="learning-recommendation">Hãy bắt đầu từ một mẫu N2/N1, sau đó kiểm tra kanji và chuyển sang quiz phù hợp.</div>
             </section>
 
             <section class="workspace-guide">
@@ -350,7 +350,7 @@
                   <span class="workspace-progress__index">1</span>
                   <div>
                     <div class="workspace-progress__title">Nhập romaji</div>
-                    <div class="workspace-progress__text">Bắt đầu từ một từ hoặc một câu ngắn để thấy kết quả nhanh.</div>
+                    <div class="workspace-progress__text">Bắt đầu từ một mẫu N2 hoặc một câu formal để thấy kết quả rõ nhất.</div>
                   </div>
                 </div>
                 <div class="workspace-progress__item">
@@ -368,7 +368,7 @@
                   </div>
                 </div>
               </div>
-              <div class="workspace-guide__tip" id="workspace-next-tip">Nhập một từ romaji để bắt đầu.</div>
+              <div class="workspace-guide__tip" id="workspace-next-tip">Nhập một mẫu N2/N1 bằng romaji để bắt đầu.</div>
             </section>
           </aside>
         </div>
@@ -385,13 +385,13 @@
                 <button type="button" class="help-trigger" data-help-target="help-focus" aria-label="Hướng dẫn sổ cần thuộc">?</button>
                 <div class="help-popover" id="help-focus" hidden>
                   <div class="help-popover__title">Sổ cần thuộc</div>
-                  <div class="help-popover__text">Dành cho các mục người Việt hay quên: khó đọc kanji, nhớ nghĩa nhưng không gọi lại được tiếng Nhật, hoặc mẫu câu cần dùng thật. Sau khi gom vào đây, hãy chọn nguồn “Chỉ sổ thuộc” để ôn tập trung.</div>
+                  <div class="help-popover__text">Dành cho các mẫu N2/N1 bạn hay quên: khó đọc kanji, nhớ nghĩa nhưng không gọi lại được biểu đạt, hoặc cụm formal cần dùng thật. Sau khi gom vào đây, hãy chọn nguồn “Chỉ sổ thuộc” để ôn tập trung.</div>
                 </div>
               </div>
             </div>
-            <h2 class="focus-section__title">Chọn đúng từ/câu cần nhớ cho người Việt học tiếng Nhật</h2>
+            <h2 class="focus-section__title">Chọn đúng mẫu N2/N1 cần nhớ sâu</h2>
             <p class="focus-section__subtitle">
-              Gom những mục bạn hay quên, dễ nhầm nghĩa hoặc muốn học thuộc trước. Đây là nguồn tốt nhất để luyện quiz theo kiểu nhớ sâu thay vì học dàn trải.
+              Gom những mẫu phản biện, văn viết, business hoặc collocation trừu tượng mà bạn hay hụt. Đây là nguồn tốt nhất để luyện nhớ sâu thay vì học dàn trải.
             </p>
           </div>
           <div class="focus-stats">
@@ -450,13 +450,13 @@
                 <button type="button" class="help-trigger" data-help-target="help-quiz" aria-label="Hướng dẫn quiz">?</button>
                 <div class="help-popover" id="help-quiz" hidden>
                   <div class="help-popover__title">Quiz Zone</div>
-                  <div class="help-popover__text">Chọn chế độ luyện và nguồn câu hỏi. Nếu học theo kiểu người Việt hay vướng, hãy ưu tiên nguồn “Chỉ sổ thuộc” và mode Kanji → Kana hoặc VI → JP. Quiz sẽ ưu tiên những mục bạn từng làm sai để tăng lặp lại.</div>
+                  <div class="help-popover__text">Chọn chế độ luyện và nguồn câu hỏi. Với N2/N1, hãy ưu tiên nguồn “Chỉ sổ thuộc” và mode Kanji → Kana hoặc VI → JP để kéo lại cách đọc, collocation và sắc thái. Quiz sẽ ưu tiên những mục bạn từng làm sai để tăng lặp lại.</div>
                 </div>
               </div>
             </div>
             <h2 class="quiz-section__title">Khu luyện phản xạ tiếng Nhật</h2>
             <p class="quiz-section__subtitle">
-              Tách riêng khỏi bộ câu mẫu để bạn tập trung vào ôn nghĩa, kana, romaji và lặp lại nhiều hơn ở những mục vừa làm sai.
+              Tách riêng khỏi bộ câu mẫu để bạn tập trung vào nghĩa trừu tượng, cách đọc kanji dày và lặp lại nhiều hơn ở những mục vừa làm sai.
             </p>
           </div>
           <div class="quiz-metrics quiz-metrics--summary">
@@ -513,7 +513,7 @@
           </div>
 
           <div class="quiz-empty" id="quiz-empty">
-            Lưu vài từ hoặc chọn một câu mẫu để bắt đầu quiz. Càng luyện nhiều, quiz càng sát nội dung bạn đang học.
+            Lưu vài mẫu N2/N1 hoặc chọn một câu mẫu để bắt đầu quiz. Càng luyện nhiều, quiz càng sát nội dung bạn đang học.
           </div>
 
           <div class="quiz-question" id="quiz-question" hidden>
@@ -541,13 +541,13 @@
                 <button type="button" class="help-trigger" data-help-target="help-study" aria-label="Hướng dẫn study hub">?</button>
                 <div class="help-popover" id="help-study" hidden>
                   <div class="help-popover__title">Study Hub</div>
-                  <div class="help-popover__text">Chọn câu theo chủ đề và cấp độ JLPT như N5, N4. Bạn có thể nạp nhanh vào màn hình, nghe phát âm, xem cấu trúc câu và đưa thẳng vào Sổ cần thuộc để gom những câu muốn học kỹ.</div>
+                  <div class="help-popover__text">Chọn câu theo chủ đề và cấp độ JLPT như N2/N1. Bạn có thể nạp nhanh vào màn hình, nghe phát âm, xem cấu trúc câu, sắc thái formal và đưa thẳng vào Sổ cần thuộc để gom những câu muốn học kỹ.</div>
                 </div>
               </div>
             </div>
-            <h2 class="study-section__title">Bộ câu mẫu cho người Việt học tiếng Nhật</h2>
+            <h2 class="study-section__title">Bộ câu mẫu N2/N1 cho người học nâng cao</h2>
             <p class="study-section__subtitle">
-              Chọn theo chủ đề, nạp nhanh vào màn hình chính, nghe phát âm và biến câu mẫu thành dữ liệu để ôn trong Quiz Zone.
+              Chọn theo chủ đề, nạp nhanh vào màn hình chính, nghe phát âm và biến câu mẫu formal, phản biện, học thuật thành dữ liệu để ôn trong Quiz Zone.
             </p>
           </div>
           <div class="study-stats">
@@ -574,7 +574,7 @@
           <article class="study-card">
             <div class="study-card__eyebrow">Theo Chủ Đề</div>
             <div class="study-card__title-row">
-              <h3 class="study-card__title">Bộ câu cho người Việt</h3>
+              <h3 class="study-card__title">Bộ câu N2/N1</h3>
               <div class="study-card__filters">
                 <select class="study-select" id="phrase-topic-filter">
                   <option value="all">Tất cả chủ đề</option>
@@ -585,7 +585,7 @@
               </div>
             </div>
             <p class="study-card__description">
-              Chọn câu quen thuộc trong lớp học, giao tiếp, công việc hay mua sắm; lọc thêm theo cấp độ N5/N4 rồi nạp ngay vào màn hình để luyện tiếp.
+              Chọn mẫu phản biện, báo cáo, học thuật, chính sách hay business; lọc thêm theo cấp độ N2/N1 rồi nạp ngay vào màn hình để luyện tiếp.
             </p>
             <div class="study-card__tip" id="study-filter-summary">Đang xem toàn bộ câu mẫu theo chủ đề và cấp độ.</div>
             <div class="phrase-list" id="phrase-list"></div>
@@ -778,186 +778,160 @@
 
     const PRACTICE_PHRASES = [
       {
-        id: 'study-japanese',
-        topic: 'Học tập',
-        level: 'N4',
-        romaji: 'nihongo o benkyou shiteimasu',
-        hiragana: 'にほんごをべんきょうしています',
-        katakana: 'ニホンゴヲベンキョウシテイマス',
-        kanji: '日本語を勉強しています',
-        vietnamese: 'Tôi đang học tiếng Nhật',
-        pattern: 'N を 勉強しています',
-        usage: 'Dùng khi tự giới thiệu về việc đang học một môn hay ngôn ngữ.',
-        note: 'Mẫu câu tự giới thiệu rất hợp khi học ở lớp hoặc giao tiếp với người Nhật.',
+        id: 'ichigai-ni-wa-ienai',
+        topic: 'Tranh luận',
+        level: 'N2',
+        romaji: 'ichigai ni wa ienai',
+        hiragana: 'いちがいにはいえない',
+        katakana: 'イチガイニハイエナイ',
+        kanji: '一概には言えない',
+        vietnamese: 'Không thể kết luận một chiều',
+        pattern: '一概には〜と言えない',
+        usage: 'Dùng khi muốn giữ lập luận cân bằng và tránh khẳng định tuyệt đối.',
+        note: 'Rất hay trong nói và viết N2 khi cần thể hiện sắc thái thận trọng.',
       },
       {
-        id: 'repeat-please',
-        topic: 'Lớp học',
-        level: 'N5',
-        romaji: 'mou ichido onegaishimasu',
-        hiragana: 'もういちどおねがいします',
-        katakana: 'モウイチドオネガイシマス',
-        kanji: 'もう一度お願いします',
-        vietnamese: 'Làm ơn nói lại một lần nữa',
-        pattern: 'もう一度 + お願いします',
-        usage: 'Dùng khi nghe chưa kịp và muốn người đối diện nhắc lại lịch sự.',
-        note: 'Câu cực hữu ích cho người Việt khi nghe chưa kịp trong lớp hoặc ngoài đời.',
+        id: 'wake-dewa-arimasen',
+        topic: 'Xã hội',
+        level: 'N2',
+        romaji: 'kantan ni kaiketsu dekiru wake dewa arimasen',
+        hiragana: 'かんたんにかいけつできるわけではありません',
+        katakana: 'カンタンニカイケツデキルワケデハアリマセン',
+        kanji: '簡単に解決できるわけではありません',
+        vietnamese: 'Không phải là vấn đề có thể giải quyết đơn giản',
+        pattern: '〜わけではない',
+        usage: 'Dùng để phủ định một phần hoặc chỉnh lại cách hiểu quá đơn giản.',
+        note: 'Mẫu này xuất hiện dày ở đọc hiểu và nghe N2.',
       },
       {
-        id: 'speak-slowly',
-        topic: 'Lớp học',
-        level: 'N5',
-        romaji: 'yukkuri hanashite kudasai',
-        hiragana: 'ゆっくりはなしてください',
-        katakana: 'ユックリハナシテクダサイ',
-        kanji: 'ゆっくり話してください',
-        vietnamese: 'Xin hãy nói chậm hơn',
-        pattern: 'ゆっくり + Vてください',
-        usage: 'Xin người đối diện nói chậm để bạn kịp bắt âm và tách từ.',
-        note: 'Giúp bạn xin người đối diện nói chậm lại để bắt âm tốt hơn.',
-      },
-      {
-        id: 'yoroshiku',
-        topic: 'Giao tiếp',
-        level: 'N5',
-        romaji: 'yoroshiku onegaishimasu',
-        hiragana: 'よろしくおねがいします',
-        katakana: 'ヨロシクオネガイシマス',
-        kanji: 'よろしくお願いします',
-        vietnamese: 'Rất mong được giúp đỡ / mong được hợp tác',
-        pattern: 'よろしくお願いします',
-        usage: 'Dùng khi bắt đầu mối quan hệ, buổi học, công việc hoặc nhờ vả.',
-        note: 'Câu chào mở đầu rất quan trọng trong văn hóa giao tiếp Nhật.',
-      },
-      {
-        id: 'how-much',
-        topic: 'Mua sắm',
-        level: 'N5',
-        romaji: 'kore wa ikura desu ka',
-        hiragana: 'これはいくらですか',
-        katakana: 'コレハイクラデスカ',
-        kanji: 'これはいくらですか',
-        vietnamese: 'Cái này bao nhiêu tiền?',
-        pattern: 'これは + いくら + ですか',
-        usage: 'Dùng để hỏi giá món đồ khi mua sắm hoặc hỏi dịch vụ.',
-        note: 'Dễ dùng ngay khi đi siêu thị, cửa hàng tiện lợi hoặc mua quà.',
-      },
-      {
-        id: 'sumimasen',
-        topic: 'Giao tiếp',
-        level: 'N5',
-        romaji: 'sumimasen',
-        hiragana: 'すみません',
-        katakana: 'スミマセン',
-        kanji: 'すみません',
-        vietnamese: 'Xin lỗi / làm ơn / cảm ơn vì đã làm phiền',
-        pattern: 'すみません',
-        usage: 'Một từ đa năng để gọi ai đó, xin lỗi nhẹ hoặc cảm ơn vì làm phiền.',
-        note: 'Một từ đa dụng, gần như người mới học nào cũng nên thuộc sớm.',
-      },
-      {
-        id: 'daijoubu',
-        topic: 'Sinh hoạt',
-        level: 'N5',
-        romaji: 'daijoubu desu',
-        hiragana: 'だいじょうぶです',
-        katakana: 'ダイジョウブデス',
-        kanji: '大丈夫です',
-        vietnamese: 'Ổn / không sao / tôi ổn',
-        pattern: '大丈夫です',
-        usage: 'Dùng để nói mình ổn, từ chối nhẹ hoặc trấn an người khác.',
-        note: 'Ngắn gọn nhưng cực kỳ hay dùng trong sinh hoạt, công việc và giao tiếp hằng ngày.',
-      },
-      {
-        id: 'thank-you',
-        topic: 'Giao tiếp',
-        level: 'N5',
-        romaji: 'arigatou gozaimasu',
-        hiragana: 'ありがとうございます',
-        katakana: 'アリガトウゴザイマス',
-        kanji: 'ありがとうございます',
-        vietnamese: 'Cảm ơn',
-        pattern: 'ありがとうございます',
-        usage: 'Bản lịch sự, an toàn khi dùng với giáo viên, người lạ và đồng nghiệp.',
-        note: 'Bản lịch sự nên phù hợp hơn cho người mới học trong đa số ngữ cảnh.',
-      },
-      {
-        id: 'excuse-me',
+        id: 'minaosazaru-o-enai',
         topic: 'Công việc',
-        level: 'N4',
-        romaji: 'shitsurei shimasu',
-        hiragana: 'しつれいします',
-        katakana: 'シツレイシマス',
-        kanji: '失礼します',
-        vietnamese: 'Xin phép / thất lễ',
-        pattern: '失礼します',
-        usage: 'Dùng khi vào phòng, rời công ty hoặc xen vào cuộc trò chuyện một cách lịch sự.',
-        note: 'Hay dùng khi vào phòng, rời công ty hoặc xen vào cuộc trò chuyện.',
+        level: 'N1',
+        romaji: 'kono keikaku wa minaosazaru o enai',
+        hiragana: 'このけいかくはみなおさざるをえない',
+        katakana: 'コノケイカクハミナオサザルヲエナイ',
+        kanji: 'この計画は見直さざるを得ない',
+        vietnamese: 'Kế hoạch này buộc phải xem xét lại',
+        pattern: '〜ざるを得ない',
+        usage: 'Dùng khi không còn lựa chọn nào khác ngoài việc phải làm.',
+        note: 'Đây là mẫu N1 kinh điển, rất hay gặp trong báo cáo và luận.',
       },
       {
-        id: 'part-time-job',
-        topic: 'Công việc',
-        level: 'N4',
-        romaji: 'baito o sagashiteimasu',
-        hiragana: 'ばいとをさがしています',
-        katakana: 'バイトヲサガシテイマス',
-        kanji: 'バイトを探しています',
-        vietnamese: 'Tôi đang tìm việc làm thêm',
-        pattern: 'N を 探しています',
-        usage: 'Dùng khi nói về nhu cầu tìm việc hoặc tìm một thứ gì đó ở hiện tại.',
-        note: 'Sát với nhu cầu của nhiều bạn Việt sang Nhật học tập và sinh sống.',
+        id: 'kanarazushimo-kagiranai',
+        topic: 'Tiêu dùng',
+        level: 'N2',
+        romaji: 'takai shouhin ga kanarazushimo yoi to wa kagiranai',
+        hiragana: 'たかいしょうひんがかならずしもよいとはかぎらない',
+        katakana: 'タカイショウヒンガカナラズシモヨイトハカギラナイ',
+        kanji: '高い商品が必ずしも良いとは限らない',
+        vietnamese: 'Hàng đắt chưa chắc đã tốt',
+        pattern: '必ずしも〜とは限らない',
+        usage: 'Dùng để nói “không hẳn lúc nào cũng…”, rất hợp khi phản biện.',
+        note: 'N2 đọc hiểu rất chuộng kiểu lập luận này.',
       },
       {
-        id: 'where-station',
-        topic: 'Di chuyển',
-        level: 'N5',
-        romaji: 'eki wa doko desu ka',
-        hiragana: 'えきはどこですか',
-        katakana: 'エキハドコデスカ',
-        kanji: '駅はどこですか',
-        vietnamese: 'Nhà ga ở đâu?',
-        pattern: 'N は どこ ですか',
-        usage: 'Dùng để hỏi vị trí địa điểm như ga, trường, nhà vệ sinh hoặc bến xe.',
-        note: 'Một trong những câu thiết thực nhất khi di chuyển bằng tàu điện ở Nhật.',
+        id: 'ni-suginai',
+        topic: 'Học thuật',
+        level: 'N1',
+        romaji: 'sore wa hitotsu no katei ni suginai',
+        hiragana: 'それはひとつのかていにすぎない',
+        katakana: 'ソレハヒトツノカテイニスギナイ',
+        kanji: 'それは一つの仮定にすぎない',
+        vietnamese: 'Đó chỉ là một giả định',
+        pattern: '〜にすぎない',
+        usage: 'Dùng khi hạ mức độ một nhận định hoặc nhấn mạnh “chỉ là”.',
+        note: 'Hợp với văn viết, thuyết trình và trả lời mang tính phân tích.',
       },
       {
-        id: 'understood',
-        topic: 'Lớp học',
-        level: 'N5',
-        romaji: 'wakarimashita',
-        hiragana: 'わかりました',
-        katakana: 'ワカリマシタ',
-        kanji: '分かりました',
-        vietnamese: 'Tôi hiểu rồi',
-        pattern: '分かりました',
-        usage: 'Dùng để xác nhận đã hiểu sau khi nghe hướng dẫn hoặc yêu cầu.',
-        note: 'Dùng tốt với giáo viên, quản lý hoặc đồng nghiệp khi xác nhận đã hiểu.',
+        id: 'ni-motozuite',
+        topic: 'Phân tích',
+        level: 'N2',
+        romaji: 'shiryou ni motozuite handan subeki da',
+        hiragana: 'しりょうにもとづいてはんだんすべきだ',
+        katakana: 'シリョウニモトヅイテハンダンスベキダ',
+        kanji: '資料に基づいて判断すべきだ',
+        vietnamese: 'Nên đưa ra quyết định dựa trên tài liệu',
+        pattern: '〜に基づいて',
+        usage: 'Dùng khi nói về căn cứ, cơ sở của nhận định hoặc quyết định.',
+        note: 'Rất hợp cho môi trường công việc, báo cáo và đọc học thuật.',
       },
       {
-        id: 'how-read-kanji',
-        topic: 'Lớp học',
-        level: 'N5',
-        romaji: 'kono kanji wa dou yomimasu ka',
-        hiragana: 'このかんじはどうよみますか',
-        katakana: 'コノカンジハドウヨミマスカ',
-        kanji: 'この漢字はどう読みますか',
-        vietnamese: 'Kanji này đọc như thế nào?',
-        pattern: 'この + N は どう読みますか',
-        usage: 'Dùng ngay trong lớp hoặc khi tự học để hỏi cách đọc một chữ kanji.',
-        note: 'Đúng kiểu vướng mắc mà người Việt mới học thường gặp: thấy mặt chữ nhưng không biết đọc.',
+        id: 'ni-kakawaru',
+        topic: 'Xã hội',
+        level: 'N2',
+        romaji: 'kankyou mondai wa subete no sedai ni kakawaru',
+        hiragana: 'かんきょうもんだいはすべてのせだいにかかわる',
+        katakana: 'カンキョウモンダイハスベテノセダイニカカワル',
+        kanji: '環境問題はすべての世代に関わる',
+        vietnamese: 'Vấn đề môi trường liên quan đến mọi thế hệ',
+        pattern: '〜に関わる',
+        usage: 'Dùng để nói một vấn đề có liên quan hoặc ảnh hưởng đến một đối tượng rộng.',
+        note: 'Từ vựng xã hội học và báo chí gặp rất nhiều ở N2/N1.',
       },
       {
-        id: 'not-confident-yet',
-        topic: 'Công việc',
-        level: 'N4',
-        romaji: 'mada jishin ga arimasen',
-        hiragana: 'まだじしんがありません',
-        katakana: 'マダジシンガアリマセン',
-        kanji: 'まだ自信がありません',
-        vietnamese: 'Tôi vẫn chưa tự tin',
-        pattern: 'まだ + N/khả năng + が ありません',
-        usage: 'Dùng khi muốn nói mình chưa đủ tự tin hoặc chưa sẵn sàng trong công việc hay học tập.',
-        note: 'Mẫu này hợp cho người đã qua giai đoạn nhập môn và cần diễn đạt mềm hơn trong giao tiếp.',
+        id: 'ni-sotte',
+        topic: 'Báo cáo',
+        level: 'N1',
+        romaji: 'kijun ni sotte hyouka o okonau',
+        hiragana: 'きじゅんにそってひょうかをおこなう',
+        katakana: 'キジュンニソッテヒョウカヲオコナウ',
+        kanji: '基準に沿って評価を行う',
+        vietnamese: 'Tiến hành đánh giá theo tiêu chuẩn',
+        pattern: '〜に沿って',
+        usage: 'Dùng trong báo cáo, hướng dẫn, quy trình và văn bản hành chính.',
+        note: 'Câu ngắn nhưng giàu collocation kiểu N1/N2.',
+      },
+      {
+        id: 'ni-watatte',
+        topic: 'Nghiên cứu',
+        level: 'N2',
+        romaji: 'kono chousa wa san nen ni watatte okonawareta',
+        hiragana: 'このちょうさはさんねんにわたっておこなわれた',
+        katakana: 'コノチョウサハサンネンニワタッテオコナワレタ',
+        kanji: 'この調査は三年にわたって行われた',
+        vietnamese: 'Cuộc khảo sát này được tiến hành trong suốt ba năm',
+        pattern: '〜にわたって',
+        usage: 'Dùng để nói phạm vi thời gian hoặc phạm vi không gian kéo dài.',
+        note: 'Mẫu này lên đề rất đều ở đọc hiểu N2.',
+      },
+      {
+        id: 'wo-fumaete',
+        topic: 'Chính sách',
+        level: 'N1',
+        romaji: 'genjitsu o fumaete seisaku o minaosu hitsuyou ga aru',
+        hiragana: 'げんじつをふまえてせいさくをみなおすひつようがある',
+        katakana: 'ゲンジツヲフマエテセイサクヲミナオスヒツヨウガアル',
+        kanji: '現実を踏まえて政策を見直す必要がある',
+        vietnamese: 'Cần xem xét lại chính sách dựa trên thực tế',
+        pattern: '〜を踏まえて',
+        usage: 'Dùng khi lập luận trên cơ sở tình hình thực tế, số liệu hay bối cảnh.',
+        note: 'Rất hợp với đề tài xã hội, chính sách và bình luận N1.',
+      },
+      {
+        id: 'jijou-o-kangaeru-to',
+        topic: 'Lập luận',
+        level: 'N1',
+        romaji: 'jijou o kangaeru to ichigai ni hantai wa dekinai',
+        hiragana: 'じじょうをかんがえるといちがいにはんたいはできない',
+        katakana: 'ジジョウヲカンガエルトイチガイニハンタイハデキナイ',
+        kanji: '事情を考えると一概に反対はできない',
+        vietnamese: 'Xét hoàn cảnh thì cũng không thể phản đối một chiều',
+        pattern: '事情を考えると + 一概に〜ない',
+        usage: 'Dùng khi thêm bối cảnh để làm mềm quan điểm phản đối.',
+        note: 'Rất sát kiểu trả lời nói và viết nâng cao.',
+      },
+      {
+        id: 'genten-ni-modotte',
+        topic: 'Học thuật',
+        level: 'N2',
+        romaji: 'genten ni modotte kangaenaosu hitsuyou ga aru',
+        hiragana: 'げんてんにもどってかんがえなおすひつようがある',
+        katakana: 'ゲンテンニモドッテカンガエナオスヒツヨウガアル',
+        kanji: '原点に戻って考え直す必要がある',
+        vietnamese: 'Cần quay về điểm xuất phát để suy nghĩ lại',
+        pattern: '原点に戻って + V直す',
+        usage: 'Dùng khi muốn nhấn mạnh việc rà soát vấn đề từ gốc.',
+        note: 'Hợp với văn viết phân tích và phát biểu trang trọng.',
       },
     ];
 
@@ -1689,11 +1663,11 @@ const COPY_FIELDS_DEFAULT = [
       if (!$preview) return;
 
       const placeholders = {
-        romaji: 'ohayou',
-        hiragana: 'おはよう',
-        katakana: 'オハヨウ',
-        kanji: 'お早う',
-        vietnamese: 'chào buổi sáng',
+        romaji: 'ichigai ni wa ienai',
+        hiragana: 'いちがいにはいえない',
+        katakana: 'イチガイニハイエナイ',
+        kanji: '一概には言えない',
+        vietnamese: 'không thể kết luận một chiều',
       };
 
       const previewText = buildCopyTextFromResolver(fieldId => placeholders[fieldId] || '');
@@ -1733,11 +1707,11 @@ const COPY_FIELDS_DEFAULT = [
       if (!$cards) return;
 
       const placeholders = {
-        romaji: 'ohayou',
-        hiragana: 'おはよう',
-        katakana: 'オハヨウ',
-        kanji: 'お早う',
-        vietnamese: 'chào buổi sáng',
+        romaji: 'ichigai ni wa ienai',
+        hiragana: 'いちがいにはいえない',
+        katakana: 'イチガイニハイエナイ',
+        kanji: '一概には言えない',
+        vietnamese: 'không thể kết luận một chiều',
       };
 
       $cards.innerHTML = '';
@@ -2065,30 +2039,30 @@ const COPY_FIELDS_DEFAULT = [
           : 'Từ có kanji, ưu tiên nối mặt chữ với cách đọc hiragana.';
       }
       return isSentenceEntry(entry)
-        ? 'Câu ngắn thực hành giao tiếp bằng kana.'
-        : 'Từ hoặc cụm ngắn bằng kana.';
+        ? 'Câu phân tích hoặc phát biểu trang trọng cần đọc theo cụm.'
+        : 'Cụm biểu đạt nâng cao bằng kana.';
     }
 
     function getGenericUsageForEntry(entry) {
       if (entry.usage) return entry.usage;
       return isSentenceEntry(entry)
-        ? 'Đọc thành tiếng vài lần, rồi chuyển sang quiz để luyện phản xạ gọi lại.'
-        : 'Phù hợp để đưa vào Sổ cần thuộc nếu bạn hay quên nghĩa hoặc cách đọc.';
+        ? 'Đọc thành tiếng theo cụm, rồi chuyển sang quiz để luyện phản xạ gọi lại mẫu nâng cao.'
+        : 'Phù hợp để đưa vào Sổ cần thuộc nếu bạn hay quên nghĩa, sắc thái hoặc cách đọc.';
     }
 
     function getGenericNoteForEntry(entry) {
       if (entry.note) return entry.note;
       if (hasDistinctKanji(entry)) {
-        return 'Đừng bám romaji quá lâu. Hãy nhìn kanji, gọi lại hiragana, rồi mới đối chiếu nghĩa.';
+        return 'Đừng bám romaji quá lâu. Hãy nhìn cụm kanji, gọi lại cách đọc, rồi mới đối chiếu sắc thái và nghĩa.';
       }
       return isSentenceEntry(entry)
-        ? 'Với câu dài, hãy nhớ cụm cuối câu trước rồi mở rộng dần ra đầu câu.'
+        ? 'Với câu dài, hãy nhớ cụm logic và quan hệ ý trước rồi mới học thuộc toàn câu.'
         : 'Đọc thẳng kana vài lần trước khi nhìn lại romaji.';
     }
 
     function getQuizRecommendationText(entry) {
       if (!entry) {
-        return 'Hãy nhập hoặc nạp một mục để nhận khuyến nghị luyện cụ thể.';
+        return 'Hãy nhập hoặc nạp một mẫu N2/N1 để nhận khuyến nghị luyện cụ thể.';
       }
 
       const firstMode = hasDistinctKanji(entry)
@@ -2098,8 +2072,8 @@ const COPY_FIELDS_DEFAULT = [
         ? 'VI → JP'
         : ((entry.hiragana && entry.romaji) ? 'Kana → Romaji' : 'JP → VI');
       const romajiTip = isRomajiPracticeHidden()
-        ? 'Romaji đang được ẩn ở phần ôn để bạn bám kana trực tiếp.'
-        : 'Khi đã quen, hãy chuyển romaji sang ẩn để nhớ kana bền hơn.';
+        ? 'Romaji đang được ẩn ở phần ôn để bạn bám trực tiếp vào kanji, kana và collocation.'
+        : 'Với N2/N1, hãy sớm chuyển romaji sang ẩn để ép mình gọi lại biểu đạt trực tiếp.';
 
       if (followUpMode && followUpMode !== firstMode) {
         return `Bắt đầu với ${firstMode}, sau đó chuyển sang ${followUpMode}. ${romajiTip}`;
@@ -2148,7 +2122,7 @@ const COPY_FIELDS_DEFAULT = [
       $learningQuizHintMode.value = state.learning.quizHintMode;
 
       if (isRomajiPracticeHidden() && isQuizHintCompact()) {
-        $learningSettingsTip.textContent = 'Bạn đang ở chế độ nhớ chủ động: romaji bị ẩn trong phần ôn và quiz chỉ giữ gợi ý ngắn.';
+        $learningSettingsTip.textContent = 'Bạn đang ở chế độ nhớ chủ động cho N2/N1: romaji bị ẩn trong phần ôn và quiz chỉ giữ gợi ý ngắn.';
         return;
       }
 
@@ -2162,7 +2136,7 @@ const COPY_FIELDS_DEFAULT = [
         return;
       }
 
-      $learningSettingsTip.textContent = 'Giữ romaji hỗ trợ khi mới học, rồi chuyển dần sang ẩn romaji và gợi ý tối giản để ép mình đọc kana trực tiếp.';
+      $learningSettingsTip.textContent = 'Nếu đang luyện N2/N1, hãy coi romaji như cầu nối tạm thời và sớm chuyển sang ẩn romaji cùng hint tối giản.';
     }
 
     function renderLearningPanel() {
@@ -2173,9 +2147,9 @@ const COPY_FIELDS_DEFAULT = [
         $learningCurrentJP.textContent = 'Chưa có mục đang học.';
         $learningCurrentReading.textContent = 'Kana, mức độ và mẹo học sẽ hiện ở đây khi bạn nhập hoặc nạp một mục.';
         $learningPattern.textContent = 'Chưa có dữ liệu.';
-        $learningUsage.textContent = 'Chọn một câu mẫu hoặc gõ một mục để xem gợi ý dùng thực tế.';
+        $learningUsage.textContent = 'Chọn một mẫu N2/N1 hoặc gõ một mục để xem gợi ý dùng thực tế.';
         $learningNote.textContent = 'App sẽ ưu tiên hiển thị mẹo sát với mục hiện tại thay vì chỉ dịch nghĩa.';
-        $learningRecommendation.textContent = 'Hãy bắt đầu từ một từ hoặc một câu ngắn, sau đó kiểm tra kanji và chuyển sang quiz phù hợp.';
+        $learningRecommendation.textContent = 'Hãy bắt đầu từ một mẫu N2/N1, sau đó kiểm tra kanji và chuyển sang quiz phù hợp.';
         return;
       }
 
@@ -2235,7 +2209,7 @@ const COPY_FIELDS_DEFAULT = [
         return {
           mode: 'kanji-to-kana',
           title: 'Ưu tiên luyện cách đọc kanji',
-          text: `Sổ hiện có ${counts['kanji-to-kana']} mục đủ cho Kanji → Kana. Đây là chỗ người Việt thường hụt nhất: nhớ nghĩa nhưng quên cách đọc.`,
+          text: `Sổ hiện có ${counts['kanji-to-kana']} mục đủ cho Kanji → Kana. Với N2/N1, đây là chỗ hụt phổ biến nhất: nhớ nghĩa nhưng quên cách đọc và mặt chữ.`,
           buttonLabel: 'Luyện Kanji → Kana',
           disabled: false,
         };
@@ -2245,7 +2219,7 @@ const COPY_FIELDS_DEFAULT = [
         return {
           mode: 'vi-to-jp',
           title: 'Đẩy trí nhớ chủ động từ nghĩa Việt',
-          text: `Sổ hiện có ${counts['vi-to-jp']} mục đủ cho VI → JP. Cách này hợp để ép mình gọi lại tiếng Nhật từ nghĩa quen thuộc trong đầu.`,
+          text: `Sổ hiện có ${counts['vi-to-jp']} mục đủ cho VI → JP. Cách này hợp để ép mình gọi lại đúng biểu đạt, collocation và sắc thái từ nghĩa tiếng Việt.`,
           buttonLabel: 'Luyện VI → JP',
           disabled: false,
         };
@@ -2255,7 +2229,7 @@ const COPY_FIELDS_DEFAULT = [
         return {
           mode: 'jp-to-vi',
           title: 'Ôn nhận biết nhanh nghĩa tiếng Việt',
-          text: `Sổ hiện có ${counts['jp-to-vi']} mục đủ cho JP → VI. Dùng chế độ này khi bạn mới gặp từ/câu và cần nhận ra nghĩa trước.`,
+          text: `Sổ hiện có ${counts['jp-to-vi']} mục đủ cho JP → VI. Dùng chế độ này khi bạn muốn bắt nhanh nghĩa của câu formal, văn viết hoặc mẫu phản biện.`,
           buttonLabel: 'Luyện JP → VI',
           disabled: false,
         };
@@ -2264,8 +2238,8 @@ const COPY_FIELDS_DEFAULT = [
       if (counts['kana-to-romaji'] >= 4) {
         return {
           mode: 'kana-to-romaji',
-          title: 'Củng cố kana và cách đọc latin',
-          text: `Sổ hiện có ${counts['kana-to-romaji']} mục đủ cho Kana → Romaji. Phù hợp khi bạn còn chậm ở hiragana hoặc katakana.`,
+          title: 'Củng cố cách đọc của mẫu khó',
+          text: `Sổ hiện có ${counts['kana-to-romaji']} mục đủ cho Kana → Romaji. Chỉ nên dùng khi bạn muốn rà lại cách đọc của các mẫu hoặc từ Hán tự khó.`,
           buttonLabel: 'Luyện Kana → Romaji',
           disabled: false,
         };
@@ -2779,6 +2753,10 @@ const COPY_FIELDS_DEFAULT = [
         option.textContent = level;
         $phraseLevelFilter.appendChild(option);
       });
+
+      if (levels.includes('N2')) {
+        $phraseLevelFilter.value = 'N2';
+      }
     }
 
     function renderStudyFilterSummary(items) {
@@ -3065,7 +3043,7 @@ const COPY_FIELDS_DEFAULT = [
         : false;
 
       let liveState = 'Chưa nhập';
-      let nextTip = 'Nhập một từ romaji để bắt đầu.';
+      let nextTip = 'Nhập một mẫu N2/N1 bằng romaji để bắt đầu.';
 
       if (hasRomaji && !hasKanji && !hasMeaning) {
         liveState = 'Đang chuyển đổi';

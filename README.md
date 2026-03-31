@@ -35,7 +35,7 @@ Project này tập trung vào một luồng học rất thực dụng:
 - Copy All có cấu hình:
   bật/tắt từng trường, đổi thứ tự kéo thả, chỉnh separator, lưu preset custom.
 - Study Hub:
-  có sẵn bộ câu mẫu theo chủ đề và cấp độ `JLPT N5/N4`, kèm cấu trúc và cách dùng.
+  có sẵn bộ câu mẫu theo chủ đề và cấp độ `JLPT N2/N1`, kèm cấu trúc và cách dùng.
 - Mini quiz:
   hỗ trợ 4 chế độ:
   `JP -> VI`, `VI -> JP`, `Kana -> Romaji`, `Kanji -> Kana`.
@@ -99,9 +99,9 @@ Ngoài ra server có endpoint:
 Ví dụ:
 
 ```text
-ohayou
-arigatou gozaimasu
-nihongo o benkyou shiteimasu
+ichigai ni wa ienai
+minaosazaru o enai
+shiryou ni motozuite handan subeki da
 ```
 
 Ngay khi nhập:
