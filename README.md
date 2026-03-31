@@ -35,7 +35,7 @@ Project này tập trung vào một luồng học rất thực dụng:
 - Copy All có cấu hình:
   bật/tắt từng trường, đổi thứ tự kéo thả, chỉnh separator, lưu preset custom.
 - Study Hub:
-  có sẵn bộ câu mẫu theo chủ đề và cấp độ `JLPT N2/N1`, kèm cấu trúc và cách dùng.
+  có sẵn bộ câu mẫu theo chủ đề, kèm cấu trúc và cách dùng.
 - Mini quiz:
   hỗ trợ 4 chế độ:
   `JP -> VI`, `VI -> JP`, `Kana -> Romaji`, `Kanji -> Kana`.
@@ -286,7 +286,7 @@ Runtime sẽ dùng:
 - Thêm test cho API route và các utility quiz/copy config.
 - Dùng API dịch/chuyển đổi chính thức thay cho endpoint public.
 - Thêm export/import dữ liệu học dưới dạng JSON.
-- Thêm bộ từ vựng theo JLPT hoặc chủ đề.
+- Thêm bộ từ vựng theo chủ đề hoặc mục tiêu học tập.
 - Tách dữ liệu câu mẫu sang file JSON riêng.
 
 ## Ghi chú kỹ thuật
