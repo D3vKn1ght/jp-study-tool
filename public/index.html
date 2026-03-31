@@ -47,194 +47,276 @@
     </header>
 
     <nav class="top-nav" aria-label="Điều hướng nhanh">
-      <a class="top-nav__link top-nav__link--active" href="#input-section" data-nav-target="input-section">Nhập liệu</a>
+      <a class="top-nav__link top-nav__link--active" href="#input-section" data-nav-target="input-section">Workspace</a>
       <a class="top-nav__link" href="#quiz-section" data-nav-target="quiz-section">Quiz Zone</a>
       <a class="top-nav__link" href="#study-section" data-nav-target="study-section">Study Hub</a>
       <a class="top-nav__link" href="#history-section" data-nav-target="history-section">Lịch sử</a>
       <a class="top-nav__link" href="#shortcuts-bar" data-nav-target="shortcuts-bar">Phím tắt</a>
     </nav>
 
-    <!-- Input Section -->
-    <section class="input-section" id="input-section">
-      <div class="input-wrapper">
-        <div class="section-label-row">
-          <label class="input-label" for="romaji-input">
-            <span class="input-label__dot"></span>
-            Nhập Romaji tại đây
-          </label>
-          <div class="help-anchor">
-            <button type="button" class="help-trigger" data-help-target="help-input" aria-label="Hướng dẫn ô nhập">?</button>
-            <div class="help-popover" id="help-input" hidden>
-              <div class="help-popover__title">Ô nhập romaji</div>
-              <div class="help-popover__text">Nhập theo cách đọc latin như `ohayou`, `arigatou`, `nihongo`. App sẽ đổi ngay sang hiragana và katakana, rồi tự thử lấy kanji sau 2 giây.</div>
+    <section class="workspace-section" id="input-section">
+      <div class="workspace-shell">
+        <div class="workspace-head">
+          <div>
+            <div class="workspace-eyebrow">Workspace</div>
+            <h2 class="workspace-title">Nhập, xem kết quả và lưu theo một luồng học rõ ràng</h2>
+            <p class="workspace-subtitle">
+              Mọi thứ quan trọng đều nằm trong cùng một khu làm việc: nhập romaji, kiểm tra kana và kanji, xác nhận nghĩa tiếng Việt rồi lưu ngay để chuyển sang phần ôn tập.
+            </p>
+          </div>
+          <div class="workspace-overview">
+            <div class="workspace-stat">
+              <span class="workspace-stat__label">Trạng thái</span>
+              <strong class="workspace-stat__value" id="workspace-live-state">Chưa nhập</strong>
+            </div>
+            <div class="workspace-stat">
+              <span class="workspace-stat__label">Kana hiện tại</span>
+              <strong class="workspace-stat__value workspace-stat__value--jp" id="workspace-current-kana">—</strong>
+            </div>
+            <div class="workspace-stat">
+              <span class="workspace-stat__label">Lịch sử đã lưu</span>
+              <strong class="workspace-stat__value" id="workspace-history-size">0</strong>
+            </div>
+            <div class="workspace-stat">
+              <span class="workspace-stat__label">Quiz khả dụng</span>
+              <strong class="workspace-stat__value" id="workspace-ready-count">0</strong>
             </div>
           </div>
         </div>
-        <input
-          type="text"
-          id="romaji-input"
-          class="input-field"
-          placeholder="Ví dụ: ohayou, konnichiwa, arigatou..."
-          autocomplete="off"
-          spellcheck="false"
-        >
-        <div class="input-hint">
-          <span>💡 Gõ romaji → tự động chuyển đổi. Kanji hiện sau 2s ngừng gõ.</span>
-          <kbd>Enter</kbd> <span>để lưu</span>
-          <kbd>Esc</kbd> <span>để xóa</span>
-        </div>
-      </div>
-    </section>
 
-    <!-- Output Panels -->
-    <section class="output-grid-wrapper">
-    <div class="copy-all-bar">
-      <button class="copy-all-btn" id="copy-all-btn" title="Copy theo cấu hình">
-        <span class="copy-all-btn__icon">📋</span>
-        <span>Copy All</span>
-        <span class="copy-all-btn__badge" id="copy-all-badge">Romaji · Hiragana · Katakana · Kanji · Nghĩa VN</span>
-      </button>
-      <button class="copy-settings-toggle" id="copy-settings-toggle" title="Tùy chỉnh Copy All">⚙️</button>
-      <div class="help-anchor">
-        <button type="button" class="help-trigger" data-help-target="help-copy" aria-label="Hướng dẫn copy">?</button>
-        <div class="help-popover help-popover--right" id="help-copy" hidden>
-          <div class="help-popover__title">Copy All và preset</div>
-          <div class="help-popover__text">Bạn có thể chọn trường nào sẽ được copy, đổi thứ tự kéo thả và lưu format riêng để dùng khi học từ vựng, ghi chú hoặc gửi cho bạn học.</div>
+        <div class="workflow-strip">
+          <article class="workflow-step">
+            <span class="workflow-step__index">1</span>
+            <div>
+              <div class="workflow-step__title">Gõ romaji</div>
+              <div class="workflow-step__text">Nhập theo cách đọc latin để tạo nhanh hiragana và katakana.</div>
+            </div>
+          </article>
+          <article class="workflow-step">
+            <span class="workflow-step__index">2</span>
+            <div>
+              <div class="workflow-step__title">Kiểm tra kanji và nghĩa</div>
+              <div class="workflow-step__text">Chờ hệ thống gợi ý kanji, dịch sang tiếng Việt và chọn lại nếu cần.</div>
+            </div>
+          </article>
+          <article class="workflow-step">
+            <span class="workflow-step__index">3</span>
+            <div>
+              <div class="workflow-step__title">Lưu để ôn</div>
+              <div class="workflow-step__text">Nhấn Enter để đưa mục này vào lịch sử, văn bản đã soạn và vòng quiz.</div>
+            </div>
+          </article>
         </div>
-      </div>
-    </div>
 
-    <!-- Copy All Settings Panel -->
-    <div class="copy-settings-panel" id="copy-settings-panel">
-      <div class="copy-settings-top">
-        <div class="copy-settings-title">✏️ Tùy chỉnh Copy All</div>
-        <span class="copy-settings-hint">☰ Kéo thả để sắp xếp, bật/tắt từng trường và chỉnh riêng từng vị trí phân cách</span>
-      </div>
-      <div class="copy-settings-tip">
-        Mỗi dòng có ô "Phân cách sau mục này" để bạn tạo format kiểu như `Romaji (Hiragana) - Kanji = Nghĩa`.
-      </div>
-      <ul class="copy-fields-list" id="copy-fields-list"></ul>
-      <div class="copy-options-row">
-        <label class="copy-option-label copy-option-checkbox">
-          <input type="checkbox" id="copy-show-labels">
-          Hiển thị nhãn
-        </label>
-        <label class="copy-option-label copy-option-label--stack copy-custom-form">
-          <span>Lưu cấu hình hiện tại thành thẻ custom</span>
-          <div class="copy-custom-form__controls">
-            <input type="text" id="copy-custom-name" class="copy-custom-name-input" placeholder="Ví dụ: Học từ vựng N5" maxlength="28">
-            <button type="button" class="copy-option-btn" id="copy-save-custom-card">Lưu thẻ</button>
-          </div>
-        </label>
-      </div>
-      <div class="copy-custom-cards" id="copy-custom-cards"></div>
-      <div class="copy-preview-row">
-        <span class="copy-preview-label">Xem trước:</span>
-        <code class="copy-preview-code" id="copy-preview-code">—</code>
-      </div>
-    </div>
-    <section class="output-grid" id="output-grid">
-      <!-- Romaji Panel -->
-      <div class="output-panel output-panel--romaji" id="panel-romaji">
-        <div class="panel-header">
-          <div class="panel-label panel-label--romaji">
-            <div class="panel-label__icon">A</div>
-            Romaji
-          </div>
-          <button class="copy-btn copy-btn--panel" id="copy-romaji-btn" title="Copy Romaji">
-            📋 Copy
-          </button>
-        </div>
-        <div class="panel-content panel-content--empty" id="romaji-output">
-          Chờ nhập liệu...
-        </div>
-      </div>
+        <div class="workspace-grid">
+          <div class="workspace-main">
+            <div class="input-section">
+              <div class="input-wrapper">
+                <div class="section-label-row">
+                  <label class="input-label" for="romaji-input">
+                    <span class="input-label__dot"></span>
+                    Nhập Romaji tại đây
+                  </label>
+                  <div class="help-anchor">
+                    <button type="button" class="help-trigger" data-help-target="help-input" aria-label="Hướng dẫn ô nhập">?</button>
+                    <div class="help-popover" id="help-input" hidden>
+                      <div class="help-popover__title">Ô nhập romaji</div>
+                      <div class="help-popover__text">Nhập theo cách đọc latin như `ohayou`, `arigatou`, `nihongo`. App sẽ đổi ngay sang hiragana và katakana, rồi tự thử lấy kanji sau 2 giây.</div>
+                    </div>
+                  </div>
+                </div>
+                <input
+                  type="text"
+                  id="romaji-input"
+                  class="input-field"
+                  placeholder="Ví dụ: ohayou, konnichiwa, arigatou..."
+                  autocomplete="off"
+                  spellcheck="false"
+                >
+                <div class="input-hint">
+                  <span>💡 Gõ romaji → tự động chuyển đổi. Kanji hiện sau 2s ngừng gõ.</span>
+                  <kbd>Enter</kbd> <span>để lưu</span>
+                  <kbd>Esc</kbd> <span>để xóa</span>
+                </div>
+              </div>
+            </div>
 
-      <!-- Hiragana Panel -->
-      <div class="output-panel output-panel--hiragana" id="panel-hiragana">
-        <div class="panel-header">
-          <div class="panel-label panel-label--hiragana">
-            <div class="panel-label__icon">あ</div>
-            Hiragana
-          </div>
-          <button class="copy-btn copy-btn--panel" id="copy-hiragana-btn" title="Copy Hiragana">
-            📋 Copy
-          </button>
-        </div>
-        <div class="panel-content panel-content--empty" id="hiragana-output">
-          Chờ nhập liệu...
-        </div>
-      </div>
+            <section class="output-grid-wrapper">
+              <div class="copy-all-bar">
+                <button class="copy-all-btn" id="copy-all-btn" title="Copy theo cấu hình">
+                  <span class="copy-all-btn__icon">📋</span>
+                  <span>Copy All</span>
+                  <span class="copy-all-btn__badge" id="copy-all-badge">Romaji · Hiragana · Katakana · Kanji · Nghĩa VN</span>
+                </button>
+                <button class="copy-settings-toggle" id="copy-settings-toggle" title="Tùy chỉnh Copy All">⚙️</button>
+                <div class="help-anchor">
+                  <button type="button" class="help-trigger" data-help-target="help-copy" aria-label="Hướng dẫn copy">?</button>
+                  <div class="help-popover help-popover--right" id="help-copy" hidden>
+                    <div class="help-popover__title">Copy All và preset</div>
+                    <div class="help-popover__text">Bạn có thể chọn trường nào sẽ được copy, đổi thứ tự kéo thả và lưu format riêng để dùng khi học từ vựng, ghi chú hoặc gửi cho bạn học.</div>
+                  </div>
+                </div>
+              </div>
 
-      <!-- Katakana Panel -->
-      <div class="output-panel output-panel--katakana" id="panel-katakana">
-        <div class="panel-header">
-          <div class="panel-label panel-label--katakana">
-            <div class="panel-label__icon">ア</div>
-            Katakana
-          </div>
-          <button class="copy-btn copy-btn--panel" id="copy-katakana-btn" title="Copy Katakana">
-            📋 Copy
-          </button>
-        </div>
-        <div class="panel-content panel-content--empty" id="katakana-output">
-          Chờ nhập liệu...
-        </div>
-      </div>
+              <div class="copy-settings-panel" id="copy-settings-panel">
+                <div class="copy-settings-top">
+                  <div class="copy-settings-title">✏️ Tùy chỉnh Copy All</div>
+                  <span class="copy-settings-hint">☰ Kéo thả để sắp xếp, bật/tắt từng trường và chỉnh riêng từng vị trí phân cách</span>
+                </div>
+                <div class="copy-settings-tip">
+                  Mỗi dòng có ô "Phân cách sau mục này" để bạn tạo format kiểu như `Romaji (Hiragana) - Kanji = Nghĩa`.
+                </div>
+                <ul class="copy-fields-list" id="copy-fields-list"></ul>
+                <div class="copy-options-row">
+                  <label class="copy-option-label copy-option-checkbox">
+                    <input type="checkbox" id="copy-show-labels">
+                    Hiển thị nhãn
+                  </label>
+                  <label class="copy-option-label copy-option-label--stack copy-custom-form">
+                    <span>Lưu cấu hình hiện tại thành thẻ custom</span>
+                    <div class="copy-custom-form__controls">
+                      <input type="text" id="copy-custom-name" class="copy-custom-name-input" placeholder="Ví dụ: Học từ vựng N5" maxlength="28">
+                      <button type="button" class="copy-option-btn" id="copy-save-custom-card">Lưu thẻ</button>
+                    </div>
+                  </label>
+                </div>
+                <div class="copy-custom-cards" id="copy-custom-cards"></div>
+                <div class="copy-preview-row">
+                  <span class="copy-preview-label">Xem trước:</span>
+                  <code class="copy-preview-code" id="copy-preview-code">—</code>
+                </div>
+              </div>
 
-      <!-- Kanji Panel -->
-      <div class="output-panel output-panel--kanji" id="panel-kanji">
-        <div class="panel-header">
-          <div class="panel-label panel-label--kanji">
-            <div class="panel-label__icon">漢</div>
-            Kanji (漢字)
-          </div>
-          <button class="copy-btn copy-btn--panel" id="copy-kanji-btn" title="Copy Kanji">
-            📋 Copy
-          </button>
-        </div>
-        <div class="panel-content panel-content--empty" id="kanji-output">
-          Nhấn Enter để chuyển đổi Kanji...
-        </div>
-        <!-- Kanji Suggestions -->
-        <div class="kanji-suggestions" id="kanji-suggestions" style="display:none;">
-          <div class="kanji-suggestions__title">Gợi ý Kanji (click để chọn)</div>
-          <div class="kanji-suggestions__list" id="kanji-list"></div>
-        </div>
-      </div>
-    </section>
-    </section><!-- /output-grid-wrapper -->
+              <section class="output-grid" id="output-grid">
+                <div class="output-panel output-panel--romaji" id="panel-romaji">
+                  <div class="panel-header">
+                    <div class="panel-label panel-label--romaji">
+                      <div class="panel-label__icon">A</div>
+                      Romaji
+                    </div>
+                    <button class="copy-btn copy-btn--panel" id="copy-romaji-btn" title="Copy Romaji">
+                      📋 Copy
+                    </button>
+                  </div>
+                  <div class="panel-content panel-content--empty" id="romaji-output">
+                    Chờ nhập liệu...
+                  </div>
+                </div>
 
-    <!-- Vietnamese Translation -->
-    <section class="composed-section" id="translation-section">
-      <div class="composed-wrapper">
-        <div class="composed-header">
-          <div class="composed-label">
-            🇻🇳 Nghĩa tiếng Việt
-          </div>
-          <button class="copy-btn" id="copy-translation-btn" title="Copy nghĩa tiếng Việt">
-            📋 Copy
-          </button>
-        </div>
-        <div class="composed-content composed-content--empty" id="vietnamese-output">
-          Nhấn Enter để dịch sang tiếng Việt...
-        </div>
-      </div>
-    </section>
+                <div class="output-panel output-panel--hiragana" id="panel-hiragana">
+                  <div class="panel-header">
+                    <div class="panel-label panel-label--hiragana">
+                      <div class="panel-label__icon">あ</div>
+                      Hiragana
+                    </div>
+                    <button class="copy-btn copy-btn--panel" id="copy-hiragana-btn" title="Copy Hiragana">
+                      📋 Copy
+                    </button>
+                  </div>
+                  <div class="panel-content panel-content--empty" id="hiragana-output">
+                    Chờ nhập liệu...
+                  </div>
+                </div>
 
-    <!-- Composed Text -->
-    <section class="composed-section">
-      <div class="composed-wrapper">
-        <div class="composed-header">
-          <div class="composed-label">
-            📝 Văn bản đã soạn
+                <div class="output-panel output-panel--katakana" id="panel-katakana">
+                  <div class="panel-header">
+                    <div class="panel-label panel-label--katakana">
+                      <div class="panel-label__icon">ア</div>
+                      Katakana
+                    </div>
+                    <button class="copy-btn copy-btn--panel" id="copy-katakana-btn" title="Copy Katakana">
+                      📋 Copy
+                    </button>
+                  </div>
+                  <div class="panel-content panel-content--empty" id="katakana-output">
+                    Chờ nhập liệu...
+                  </div>
+                </div>
+
+                <div class="output-panel output-panel--kanji" id="panel-kanji">
+                  <div class="panel-header">
+                    <div class="panel-label panel-label--kanji">
+                      <div class="panel-label__icon">漢</div>
+                      Kanji (漢字)
+                    </div>
+                    <button class="copy-btn copy-btn--panel" id="copy-kanji-btn" title="Copy Kanji">
+                      📋 Copy
+                    </button>
+                  </div>
+                  <div class="panel-content panel-content--empty" id="kanji-output">
+                    Nhấn Enter để chuyển đổi Kanji...
+                  </div>
+                  <div class="kanji-suggestions" id="kanji-suggestions" style="display:none;">
+                    <div class="kanji-suggestions__title">Gợi ý Kanji (click để chọn)</div>
+                    <div class="kanji-suggestions__list" id="kanji-list"></div>
+                  </div>
+                </div>
+              </section>
+            </section>
           </div>
-          <button class="copy-btn" id="copy-composed-btn" title="Copy văn bản">
-            📋 Copy
-          </button>
-        </div>
-        <div class="composed-content composed-content--empty" id="composed-output">
-          Nhấn Enter để thêm từ vào đây...
+
+          <aside class="workspace-side">
+            <section class="composed-section composed-section--side" id="translation-section">
+              <div class="composed-wrapper">
+                <div class="composed-header">
+                  <div class="composed-label">
+                    🇻🇳 Nghĩa tiếng Việt
+                  </div>
+                  <button class="copy-btn" id="copy-translation-btn" title="Copy nghĩa tiếng Việt">
+                    📋 Copy
+                  </button>
+                </div>
+                <div class="composed-content composed-content--empty" id="vietnamese-output">
+                  Nhấn Enter để dịch sang tiếng Việt...
+                </div>
+              </div>
+            </section>
+
+            <section class="composed-section composed-section--side">
+              <div class="composed-wrapper">
+                <div class="composed-header">
+                  <div class="composed-label">
+                    📝 Văn bản đã soạn
+                  </div>
+                  <button class="copy-btn" id="copy-composed-btn" title="Copy văn bản">
+                    📋 Copy
+                  </button>
+                </div>
+                <div class="composed-content composed-content--empty" id="composed-output">
+                  Nhấn Enter để thêm từ vào đây...
+                </div>
+              </div>
+            </section>
+
+            <section class="workspace-guide">
+              <div class="workspace-guide__eyebrow">Tiến trình học</div>
+              <h3 class="workspace-guide__title">Bước tiếp theo nên làm gì?</h3>
+              <div class="workspace-progress">
+                <div class="workspace-progress__item">
+                  <span class="workspace-progress__index">1</span>
+                  <div>
+                    <div class="workspace-progress__title">Nhập romaji</div>
+                    <div class="workspace-progress__text">Bắt đầu từ một từ hoặc một câu ngắn để thấy kết quả nhanh.</div>
+                  </div>
+                </div>
+                <div class="workspace-progress__item">
+                  <span class="workspace-progress__index">2</span>
+                  <div>
+                    <div class="workspace-progress__title">Kiểm tra nghĩa và kanji</div>
+                    <div class="workspace-progress__text">Nếu có nhiều gợi ý, chọn candidate đúng trước khi lưu.</div>
+                  </div>
+                </div>
+                <div class="workspace-progress__item">
+                  <span class="workspace-progress__index">3</span>
+                  <div>
+                    <div class="workspace-progress__title">Đưa vào vòng ôn</div>
+                    <div class="workspace-progress__text">Nhấn Enter để mục này xuất hiện ở lịch sử và Quiz Zone.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="workspace-guide__tip" id="workspace-next-tip">Nhập một từ romaji để bắt đầu.</div>
+            </section>
+          </aside>
         </div>
       </div>
     </section>
@@ -520,6 +602,11 @@
     const $studyHistoryCount = document.getElementById('study-history-count');
     const $studyMeaningCount = document.getElementById('study-meaning-count');
     const $studyReadyCount = document.getElementById('study-ready-count');
+    const $workspaceLiveState = document.getElementById('workspace-live-state');
+    const $workspaceCurrentKana = document.getElementById('workspace-current-kana');
+    const $workspaceHistorySize = document.getElementById('workspace-history-size');
+    const $workspaceReadyCount = document.getElementById('workspace-ready-count');
+    const $workspaceNextTip = document.getElementById('workspace-next-tip');
     const helpTriggers = Array.from(document.querySelectorAll('.help-trigger'));
     const navLinks = Array.from(document.querySelectorAll('.top-nav__link'));
 
@@ -1985,10 +2072,12 @@ const COPY_FIELDS_DEFAULT = [
 
     function renderStudyStats() {
       const pool = getStudyPool('mixed');
+      const readyCount = getQuizEligibleEntries(state.quiz.mode, getStudyPool(state.quiz.source)).length;
       $studyTotalCount.textContent = pool.length;
       $studyHistoryCount.textContent = state.history.length;
       $studyMeaningCount.textContent = pool.filter(entry => entry.vietnamese).length;
-      $studyReadyCount.textContent = getQuizEligibleEntries(state.quiz.mode, getStudyPool(state.quiz.source)).length;
+      $studyReadyCount.textContent = readyCount;
+      renderWorkspaceSummary(readyCount);
       renderQuizMetrics();
     }
 
@@ -2090,6 +2179,32 @@ const COPY_FIELDS_DEFAULT = [
     // ================================================================
     // UTILITIES
     // ================================================================
+    function renderWorkspaceSummary(readyCount = getQuizEligibleEntries(state.quiz.mode, getStudyPool(state.quiz.source)).length) {
+      const hasRomaji = !!state.currentRomaji;
+      const hasKanji = !!state.currentKanji;
+      const hasMeaning = !!state.currentVietnamese;
+
+      let liveState = 'Chưa nhập';
+      let nextTip = 'Nhập một từ romaji để bắt đầu.';
+
+      if (hasRomaji && !hasKanji && !hasMeaning) {
+        liveState = 'Đang chuyển đổi';
+        nextTip = 'Dừng gõ khoảng 2 giây hoặc nhấn Enter để lấy kanji và nghĩa.';
+      } else if (hasRomaji && hasKanji && !hasMeaning) {
+        liveState = 'Đã có kanji';
+        nextTip = 'Kiểm tra candidate kanji rồi chờ nghĩa tiếng Việt xuất hiện.';
+      } else if (hasRomaji && (hasKanji || hasMeaning)) {
+        liveState = 'Sẵn để lưu';
+        nextTip = 'Nhấn Enter để đưa mục này vào lịch sử, văn bản đã soạn và Quiz Zone.';
+      }
+
+      $workspaceLiveState.textContent = liveState;
+      $workspaceCurrentKana.textContent = state.currentHiragana || '—';
+      $workspaceHistorySize.textContent = state.history.length;
+      $workspaceReadyCount.textContent = readyCount;
+      $workspaceNextTip.textContent = nextTip;
+    }
+
     function updatePanel(el, text, className) {
       el.textContent = text;
       el.className = `panel-content ${className}`;

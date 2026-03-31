@@ -340,6 +340,219 @@ html[data-theme='light'] .bg-grid {
 }
 
 /* ================================================================
+   WORKSPACE
+   ================================================================ */
+.workspace-section {
+  margin-bottom: 2rem;
+}
+
+.workspace-shell {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)) padding-box,
+    linear-gradient(135deg, rgba(52, 211, 153, 0.22), rgba(96, 165, 250, 0.18), rgba(167, 139, 250, 0.18)) border-box;
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius-xl) + 4px);
+  padding: 1.35rem;
+  backdrop-filter: blur(22px);
+  box-shadow: var(--shadow-lg);
+}
+
+.workspace-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.workspace-eyebrow {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-romaji);
+  margin-bottom: 0.4rem;
+}
+
+.workspace-title {
+  font-size: 1.45rem;
+  margin-bottom: 0.4rem;
+}
+
+.workspace-subtitle {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 64ch;
+}
+
+.workspace-overview {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(110px, 1fr));
+  gap: 0.75rem;
+  min-width: min(100%, 520px);
+}
+
+.workspace-stat {
+  padding: 0.85rem 0.95rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.workspace-stat__label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.3rem;
+}
+
+.workspace-stat__value {
+  display: block;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.workspace-stat__value--jp {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 1rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.workflow-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.workflow-step {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  padding: 0.95rem 1rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.workflow-step__index,
+.workspace-progress__index {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--border-medium);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.workflow-step__title,
+.workspace-progress__title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.2rem;
+}
+
+.workflow-step__text,
+.workspace-progress__text {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.82rem;
+}
+
+.workspace-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.workspace-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.workspace-main .input-section {
+  margin-bottom: 0;
+}
+
+.section-label-row .input-label {
+  margin-bottom: 0;
+}
+
+.workspace-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: sticky;
+  top: 5.8rem;
+}
+
+.workspace-side .composed-section {
+  margin-top: 0;
+}
+
+.composed-section--side .composed-wrapper {
+  height: 100%;
+}
+
+.workspace-guide {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 1.15rem 1.2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.workspace-guide__eyebrow {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-katakana);
+  margin-bottom: 0.35rem;
+}
+
+.workspace-guide__title {
+  font-size: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.workspace-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.workspace-progress__item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.workspace-guide__tip {
+  margin-top: 1rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(52, 211, 153, 0.15);
+  background: rgba(52, 211, 153, 0.08);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.83rem;
+}
+
+/* ================================================================
    INPUT SECTION
    ================================================================ */
 .input-section {
@@ -998,6 +1211,15 @@ html[data-theme='light'] .bg-grid {
     justify-content: flex-start;
     border-radius: var(--radius-xl);
     width: 100%;
+  }
+
+  .workspace-shell {
+    padding: 1rem;
+  }
+
+  .workspace-overview,
+  .workflow-strip {
+    grid-template-columns: 1fr;
   }
 
   .output-grid {
@@ -2243,6 +2465,20 @@ html[data-theme='light'] .bg-grid {
 }
 
 @media (max-width: 900px) {
+  .workspace-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-width: 100%;
+  }
+
+  .workflow-strip,
+  .workspace-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace-side {
+    position: static;
+  }
+
   .quiz-toolbar {
     grid-template-columns: 1fr;
   }
