@@ -3,11 +3,20 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
+const HOST = process.env.HOST || '0.0.0.0';
+const DISPLAY_HOST = HOST === '0.0.0.0' ? 'localhost' : HOST;
+
+app.disable('x-powered-by');
+app.set('trust proxy', 1);
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/libs', express.static(path.join(__dirname, 'node_modules')));
+
+app.get('/healthz', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 
 // Proxy: Hiragana → Kanji conversion via Google Transliterate
 app.get('/api/convert', async (req, res) => {
@@ -59,11 +68,15 @@ app.get('/api/translate', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log('');
-  console.log('  🎌 Japanese Typing Assistant');
-  console.log('  ───────────────────────────');
-  console.log(`  ✅ Server:  http://localhost:${PORT}`);
-  console.log('  📝 Gõ romaji → Hiển thị Hiragana, Katakana, Kanji & Nghĩa tiếng Việt');
-  console.log('');
-});
+if (require.main === module) {
+  app.listen(PORT, HOST, () => {
+    console.log('');
+    console.log('  🎌 Japanese Typing Assistant');
+    console.log('  ───────────────────────────');
+    console.log(`  ✅ Server:  http://${DISPLAY_HOST}:${PORT}`);
+    console.log('  📝 Gõ romaji → Hiển thị Hiragana, Katakana, Kanji & Nghĩa tiếng Việt');
+    console.log('');
+  });
+}
+
+module.exports = app;

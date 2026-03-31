@@ -5,7 +5,11 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "render-build": "npm ci"
+  },
+  "engines": {
+    "node": ">=18.19.0"
   },
   "dependencies": {
     "cors": "^2.8.5",

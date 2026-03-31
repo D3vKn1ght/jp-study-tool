@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: jp-study-tool
+    runtime: node
+    plan: free
+    autoDeploy: true
+    buildCommand: npm run render-build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
