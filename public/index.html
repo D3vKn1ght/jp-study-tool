@@ -11,6 +11,12 @@
     } catch (_) {
       document.documentElement.dataset.theme = 'dark';
     }
+    try {
+      const layout = JSON.parse(localStorage.getItem('jta-layout-settings') || 'null');
+      document.documentElement.dataset.layoutMode = layout && layout.mode === 'full' ? 'full' : 'focus';
+    } catch (_) {
+      document.documentElement.dataset.layoutMode = 'focus';
+    }
   </script>
   <link rel="stylesheet" href="styles.css">
   <!-- WanaKana.js - Romaji ↔ Kana conversion -->
@@ -37,13 +43,13 @@
           <button type="button" class="help-trigger help-trigger--header" data-help-target="help-overview" aria-label="Hướng dẫn tổng quan">?</button>
           <div class="help-popover" id="help-overview" hidden>
             <div class="help-popover__title">Cách dùng nhanh</div>
-            <div class="help-popover__text">1. Gõ mẫu N2/N1 bằng romaji. 2. Kiểm tra kanji, cấu trúc và nghĩa. 3. Nhấn Enter để lưu. 4. Đưa các mẫu hàn lâm hoặc business khó vào Sổ cần thuộc. 5. Ôn lại bằng Quiz Zone, nhất là Kanji → Kana và VI → JP để kéo lại khả năng gọi biểu đạt nâng cao.</div>
+            <div class="help-popover__text">1. Gõ mẫu câu hoặc biểu đạt bằng romaji. 2. Kiểm tra kanji, cấu trúc và nghĩa. 3. Nhấn Enter để lưu. 4. Đưa các mục khó hoặc hay quên vào Sổ cần thuộc. 5. Ôn lại bằng Quiz Zone, nhất là Kanji → Kana và VI → JP để kéo lại khả năng gọi lại biểu đạt.</div>
           </div>
         </div>
       </div>
       <div class="header__icon">🎌</div>
       <h1 class="header__title">Japanese Typing Assistant</h1>
-      <p class="header__subtitle">Gõ romaji → Hiển thị Hiragana・Katakana・漢字・Nghĩa tiếng Việt cho mẫu N2/N1</p>
+      <p class="header__subtitle">Gõ romaji → Hiển thị Hiragana・Katakana・漢字・Nghĩa tiếng Việt cho người học tiếng Nhật</p>
     </header>
 
     <nav class="top-nav" aria-label="Điều hướng nhanh">
@@ -60,27 +66,39 @@
         <div class="workspace-head">
           <div>
             <div class="workspace-eyebrow">Workspace</div>
-            <h2 class="workspace-title">Nhập và mổ xẻ mẫu N2/N1 theo một luồng học rõ ràng</h2>
+            <h2 class="workspace-title">Nhập và mổ xẻ mẫu tiếng Nhật theo một luồng học rõ ràng</h2>
             <p class="workspace-subtitle">
               Mọi thứ quan trọng đều nằm trong cùng một khu làm việc: nhập romaji cho mẫu nâng cao, kiểm tra kana và kanji dày, xác nhận nghĩa tiếng Việt rồi lưu ngay để chuyển sang phần ôn tập.
             </p>
           </div>
-          <div class="workspace-overview">
-            <div class="workspace-stat">
-              <span class="workspace-stat__label">Trạng thái</span>
-              <strong class="workspace-stat__value" id="workspace-live-state">Chưa nhập</strong>
-            </div>
-            <div class="workspace-stat">
-              <span class="workspace-stat__label">Kana hiện tại</span>
-              <strong class="workspace-stat__value workspace-stat__value--jp" id="workspace-current-kana">—</strong>
-            </div>
-            <div class="workspace-stat">
-              <span class="workspace-stat__label">Lịch sử đã lưu</span>
-              <strong class="workspace-stat__value" id="workspace-history-size">0</strong>
-            </div>
-            <div class="workspace-stat">
-              <span class="workspace-stat__label">Quiz khả dụng</span>
-              <strong class="workspace-stat__value" id="workspace-ready-count">0</strong>
+          <div class="workspace-head__side">
+            <section class="workspace-view-card" aria-label="Chế độ giao diện">
+              <div class="workspace-view-card__meta">
+                <div class="workspace-view-card__label">Giao diện</div>
+                <div class="workspace-view-card__hint" id="layout-mode-hint">Ẩn bớt các khối phụ để dễ tập trung vào mẫu đang học.</div>
+              </div>
+              <div class="view-mode-group" role="group" aria-label="Chọn chế độ giao diện">
+                <button type="button" class="view-mode-btn" data-layout-mode="focus">Tập trung</button>
+                <button type="button" class="view-mode-btn" data-layout-mode="full">Đầy đủ</button>
+              </div>
+            </section>
+            <div class="workspace-overview">
+              <div class="workspace-stat">
+                <span class="workspace-stat__label">Trạng thái</span>
+                <strong class="workspace-stat__value" id="workspace-live-state">Chưa nhập</strong>
+              </div>
+              <div class="workspace-stat">
+                <span class="workspace-stat__label">Kana hiện tại</span>
+                <strong class="workspace-stat__value workspace-stat__value--jp" id="workspace-current-kana">—</strong>
+              </div>
+              <div class="workspace-stat">
+                <span class="workspace-stat__label">Lịch sử đã lưu</span>
+                <strong class="workspace-stat__value" id="workspace-history-size">0</strong>
+              </div>
+              <div class="workspace-stat">
+                <span class="workspace-stat__label">Quiz khả dụng</span>
+                <strong class="workspace-stat__value" id="workspace-ready-count">0</strong>
+              </div>
             </div>
           </div>
         </div>
@@ -90,7 +108,7 @@
             <span class="workflow-step__index">1</span>
             <div>
               <div class="workflow-step__title">Gõ mẫu ngữ pháp</div>
-              <div class="workflow-step__text">Nhập theo romaji để bung nhanh kana cho cụm N2/N1 và câu formal.</div>
+              <div class="workflow-step__text">Nhập theo romaji để bung nhanh kana cho từ, cụm và câu tiếng Nhật.</div>
             </div>
           </article>
           <article class="workflow-step">
@@ -116,7 +134,7 @@
                 <div class="section-label-row">
                   <label class="input-label" for="romaji-input">
                     <span class="input-label__dot"></span>
-                    Nhập mẫu N2/N1 tại đây
+                    Nhập mẫu tiếng Nhật tại đây
                   </label>
                   <div class="help-anchor">
                     <button type="button" class="help-trigger" data-help-target="help-input" aria-label="Hướng dẫn ô nhập">?</button>
@@ -164,7 +182,7 @@
                 </label>
               </div>
               <div class="learning-preferences__tip" id="learning-settings-tip">
-                Với N2/N1, nên chuyển sang ẩn romaji sớm và dùng hint tối giản để buộc mình bám kanji, kana và sắc thái.
+                Khi đã quen mặt chữ, nên chuyển sang ẩn romaji sớm và dùng hint tối giản để buộc mình bám kanji, kana và sắc thái.
               </div>
             </section>
 
@@ -202,7 +220,7 @@
                   <label class="copy-option-label copy-option-label--stack copy-custom-form">
                     <span>Lưu cấu hình hiện tại thành thẻ custom</span>
                     <div class="copy-custom-form__controls">
-                      <input type="text" id="copy-custom-name" class="copy-custom-name-input" placeholder="Ví dụ: Mẫu viết luận N1" maxlength="28">
+                      <input type="text" id="copy-custom-name" class="copy-custom-name-input" placeholder="Ví dụ: Mẫu ghi chú học tập" maxlength="28">
                       <button type="button" class="copy-option-btn" id="copy-save-custom-card">Lưu thẻ</button>
                     </div>
                   </label>
@@ -215,7 +233,7 @@
               </div>
 
               <section class="output-grid" id="output-grid">
-                <div class="output-panel output-panel--romaji" id="panel-romaji">
+                <div class="output-panel output-panel--romaji output-panel--secondary" id="panel-romaji">
                   <div class="panel-header">
                     <div class="panel-label panel-label--romaji">
                       <div class="panel-label__icon">A</div>
@@ -245,7 +263,7 @@
                   </div>
                 </div>
 
-                <div class="output-panel output-panel--katakana" id="panel-katakana">
+                <div class="output-panel output-panel--katakana output-panel--secondary" id="panel-katakana">
                   <div class="panel-header">
                     <div class="panel-label panel-label--katakana">
                       <div class="panel-label__icon">ア</div>
@@ -299,7 +317,7 @@
               </div>
             </section>
 
-            <section class="composed-section composed-section--side">
+            <section class="composed-section composed-section--side composed-section--composed">
               <div class="composed-wrapper">
                 <div class="composed-header">
                   <div class="composed-label">
@@ -328,14 +346,14 @@
                 </div>
                 <div class="learning-card__block">
                   <div class="learning-card__label">Cách dùng</div>
-                  <div class="learning-card__text" id="learning-usage">Chọn một mẫu N2/N1 hoặc gõ một mục để xem gợi ý dùng thực tế.</div>
+                  <div class="learning-card__text" id="learning-usage">Chọn một mẫu câu hoặc gõ một mục để xem gợi ý dùng thực tế.</div>
                 </div>
                 <div class="learning-card__block">
                   <div class="learning-card__label">Điểm cần nhớ</div>
                   <div class="learning-card__text" id="learning-note">App sẽ ưu tiên hiển thị mẹo sát với mục hiện tại thay vì chỉ dịch nghĩa.</div>
                 </div>
               </div>
-              <div class="learning-card__tip" id="learning-recommendation">Hãy bắt đầu từ một mẫu N2/N1, sau đó kiểm tra kanji và chuyển sang quiz phù hợp.</div>
+              <div class="learning-card__tip" id="learning-recommendation">Hãy bắt đầu từ một mẫu câu, sau đó kiểm tra kanji và chuyển sang quiz phù hợp.</div>
             </section>
 
             <section class="workspace-guide">
@@ -350,7 +368,7 @@
                   <span class="workspace-progress__index">1</span>
                   <div>
                     <div class="workspace-progress__title">Nhập romaji</div>
-                    <div class="workspace-progress__text">Bắt đầu từ một mẫu N2 hoặc một câu formal để thấy kết quả rõ nhất.</div>
+                    <div class="workspace-progress__text">Bắt đầu từ một mẫu câu ngắn hoặc một câu hoàn chỉnh để thấy kết quả rõ nhất.</div>
                   </div>
                 </div>
                 <div class="workspace-progress__item">
@@ -368,7 +386,7 @@
                   </div>
                 </div>
               </div>
-              <div class="workspace-guide__tip" id="workspace-next-tip">Nhập một mẫu N2/N1 bằng romaji để bắt đầu.</div>
+              <div class="workspace-guide__tip" id="workspace-next-tip">Nhập một mẫu tiếng Nhật bằng romaji để bắt đầu.</div>
             </section>
           </aside>
         </div>
@@ -385,11 +403,11 @@
                 <button type="button" class="help-trigger" data-help-target="help-focus" aria-label="Hướng dẫn sổ cần thuộc">?</button>
                 <div class="help-popover" id="help-focus" hidden>
                   <div class="help-popover__title">Sổ cần thuộc</div>
-                  <div class="help-popover__text">Dành cho các mẫu N2/N1 bạn hay quên: khó đọc kanji, nhớ nghĩa nhưng không gọi lại được biểu đạt, hoặc cụm formal cần dùng thật. Sau khi gom vào đây, hãy chọn nguồn “Chỉ sổ thuộc” để ôn tập trung.</div>
+                  <div class="help-popover__text">Dành cho các mẫu bạn hay quên: khó đọc kanji, nhớ nghĩa nhưng không gọi lại được biểu đạt, hoặc cụm cần dùng thật. Sau khi gom vào đây, hãy chọn nguồn “Chỉ sổ thuộc” để ôn tập trung.</div>
                 </div>
               </div>
             </div>
-            <h2 class="focus-section__title">Chọn đúng mẫu N2/N1 cần nhớ sâu</h2>
+            <h2 class="focus-section__title">Chọn đúng mẫu cần nhớ sâu</h2>
             <p class="focus-section__subtitle">
               Gom những mẫu phản biện, văn viết, business hoặc collocation trừu tượng mà bạn hay hụt. Đây là nguồn tốt nhất để luyện nhớ sâu thay vì học dàn trải.
             </p>
@@ -450,7 +468,7 @@
                 <button type="button" class="help-trigger" data-help-target="help-quiz" aria-label="Hướng dẫn quiz">?</button>
                 <div class="help-popover" id="help-quiz" hidden>
                   <div class="help-popover__title">Quiz Zone</div>
-                  <div class="help-popover__text">Chọn chế độ luyện và nguồn câu hỏi. Với N2/N1, hãy ưu tiên nguồn “Chỉ sổ thuộc” và mode Kanji → Kana hoặc VI → JP để kéo lại cách đọc, collocation và sắc thái. Quiz sẽ ưu tiên những mục bạn từng làm sai để tăng lặp lại.</div>
+                  <div class="help-popover__text">Chọn chế độ luyện và nguồn câu hỏi. Hãy ưu tiên nguồn “Chỉ sổ thuộc” và mode Kanji → Kana hoặc VI → JP để kéo lại cách đọc, collocation và sắc thái. Quiz sẽ ưu tiên những mục bạn từng làm sai để tăng lặp lại.</div>
                 </div>
               </div>
             </div>
@@ -513,7 +531,7 @@
           </div>
 
           <div class="quiz-empty" id="quiz-empty">
-            Lưu vài mẫu N2/N1 hoặc chọn một câu mẫu để bắt đầu quiz. Càng luyện nhiều, quiz càng sát nội dung bạn đang học.
+            Lưu vài mẫu câu hoặc chọn một câu mẫu để bắt đầu quiz. Càng luyện nhiều, quiz càng sát nội dung bạn đang học.
           </div>
 
           <div class="quiz-question" id="quiz-question" hidden>
@@ -541,11 +559,11 @@
                 <button type="button" class="help-trigger" data-help-target="help-study" aria-label="Hướng dẫn study hub">?</button>
                 <div class="help-popover" id="help-study" hidden>
                   <div class="help-popover__title">Study Hub</div>
-                  <div class="help-popover__text">Chọn câu theo chủ đề và cấp độ JLPT như N2/N1. Bạn có thể nạp nhanh vào màn hình, nghe phát âm, xem cấu trúc câu, sắc thái formal và đưa thẳng vào Sổ cần thuộc để gom những câu muốn học kỹ.</div>
+                  <div class="help-popover__text">Chọn câu theo chủ đề. Bạn có thể nạp nhanh vào màn hình, nghe phát âm, xem cấu trúc câu, sắc thái và đưa thẳng vào Sổ cần thuộc để gom những câu muốn học kỹ.</div>
                 </div>
               </div>
             </div>
-            <h2 class="study-section__title">Bộ câu mẫu N2/N1 cho người học nâng cao</h2>
+            <h2 class="study-section__title">Bộ câu mẫu cho người học tiếng Nhật</h2>
             <p class="study-section__subtitle">
               Chọn theo chủ đề, nạp nhanh vào màn hình chính, nghe phát âm và biến câu mẫu formal, phản biện, học thuật thành dữ liệu để ôn trong Quiz Zone.
             </p>
@@ -574,20 +592,17 @@
           <article class="study-card">
             <div class="study-card__eyebrow">Theo Chủ Đề</div>
             <div class="study-card__title-row">
-              <h3 class="study-card__title">Bộ câu N2/N1</h3>
+              <h3 class="study-card__title">Bộ câu theo chủ đề</h3>
               <div class="study-card__filters">
                 <select class="study-select" id="phrase-topic-filter">
                   <option value="all">Tất cả chủ đề</option>
                 </select>
-                <select class="study-select" id="phrase-level-filter">
-                  <option value="all">Tất cả cấp độ</option>
-                </select>
               </div>
             </div>
             <p class="study-card__description">
-              Chọn mẫu phản biện, báo cáo, học thuật, chính sách hay business; lọc thêm theo cấp độ N2/N1 rồi nạp ngay vào màn hình để luyện tiếp.
+              Chọn mẫu phản biện, báo cáo, học thuật, chính sách hay business rồi nạp ngay vào màn hình để luyện tiếp.
             </p>
-            <div class="study-card__tip" id="study-filter-summary">Đang xem toàn bộ câu mẫu theo chủ đề và cấp độ.</div>
+            <div class="study-card__tip" id="study-filter-summary">Đang xem toàn bộ câu mẫu theo chủ đề.</div>
             <div class="phrase-list" id="phrase-list"></div>
           </article>
         </div>
@@ -664,6 +679,18 @@
       currentKatakana: '',
       currentKanji: '',
       currentVietnamese: '',
+      layout: (() => {
+        try {
+          const saved = JSON.parse(localStorage.getItem('jta-layout-settings') || 'null');
+          return {
+            mode: saved && saved.mode === 'full' ? 'full' : 'focus',
+          };
+        } catch (_) {
+          return {
+            mode: 'focus',
+          };
+        }
+      })(),
       learning: (() => {
         try {
           const saved = JSON.parse(localStorage.getItem('jta-learning-settings') || 'null');
@@ -725,6 +752,7 @@
     const $historyEmpty = document.getElementById('history-empty');
     const $toast = document.getElementById('toast');
     const $themeToggle = document.getElementById('theme-toggle');
+    const $layoutModeHint = document.getElementById('layout-mode-hint');
     const $focusList = document.getElementById('focus-list');
     const $focusEmpty = document.getElementById('focus-empty');
     const $focusTotalCount = document.getElementById('focus-total-count');
@@ -773,6 +801,7 @@
     const $learningRecommendation = document.getElementById('learning-recommendation');
     const $phraseLevelFilter = document.getElementById('phrase-level-filter');
     const $studyFilterSummary = document.getElementById('study-filter-summary');
+    const layoutModeButtons = Array.from(document.querySelectorAll('.view-mode-btn'));
     const helpTriggers = Array.from(document.querySelectorAll('.help-trigger'));
     const navLinks = Array.from(document.querySelectorAll('.top-nav__link'));
 
@@ -1928,6 +1957,10 @@ const COPY_FIELDS_DEFAULT = [
       localStorage.setItem('jta-learning-settings', JSON.stringify(state.learning));
     }
 
+    function saveLayoutSettings() {
+      localStorage.setItem('jta-layout-settings', JSON.stringify(state.layout));
+    }
+
     function isRomajiPracticeHidden() {
       return state.learning.romajiMode === 'hidden';
     }
@@ -1942,6 +1975,20 @@ const COPY_FIELDS_DEFAULT = [
       localStorage.setItem('jta-theme', nextTheme);
       $themeToggle.textContent = nextTheme === 'light' ? '☀️ Sáng' : '🌙 Tối';
       $themeToggle.setAttribute('aria-label', nextTheme === 'light' ? 'Đang ở giao diện sáng, bấm để chuyển tối' : 'Đang ở giao diện tối, bấm để chuyển sáng');
+    }
+
+    function applyLayoutMode(mode) {
+      const nextMode = mode === 'full' ? 'full' : 'focus';
+      state.layout.mode = nextMode;
+      document.documentElement.dataset.layoutMode = nextMode;
+      layoutModeButtons.forEach(button => {
+        button.classList.toggle('view-mode-btn--active', button.dataset.layoutMode === nextMode);
+      });
+      if ($layoutModeHint) {
+        $layoutModeHint.textContent = nextMode === 'focus'
+          ? 'Ẩn bớt các khối phụ để dễ tập trung vào mẫu đang học.'
+          : 'Hiện lại coach, tiến trình và toàn bộ thông tin chi tiết.';
+      }
     }
 
     function closeHelpPopovers() {
@@ -2963,6 +3010,16 @@ const COPY_FIELDS_DEFAULT = [
       applyTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
     });
 
+    layoutModeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const nextMode = button.dataset.layoutMode === 'full' ? 'full' : 'focus';
+        if (nextMode === state.layout.mode) return;
+        applyLayoutMode(nextMode);
+        saveLayoutSettings();
+        showToast(nextMode === 'focus' ? 'Đã chuyển sang giao diện tập trung' : 'Đã chuyển sang giao diện đầy đủ');
+      });
+    });
+
     $learningRomajiMode.addEventListener('change', () => {
       state.learning.romajiMode = $learningRomajiMode.value === 'hidden' ? 'hidden' : 'assisted';
       saveLearningSettings();
@@ -3126,6 +3183,7 @@ const COPY_FIELDS_DEFAULT = [
     // ================================================================
     renderHistory();
     updateComposed();
+    applyLayoutMode(state.layout.mode);
     applyTheme(document.documentElement.dataset.theme || 'dark');
     populatePhraseTopics();
     populatePhraseLevels();
