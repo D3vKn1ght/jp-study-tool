@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Công cụ hỗ trợ gõ tiếng Nhật - Tự động hiển thị Hiragana, Katakana, Kanji và nghĩa tiếng Việt">
+  <title>日本語タイピング - Japanese Typing Assistant</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- WanaKana.js - Romaji ↔ Kana conversion -->
+  <script src="/libs/wanakana/wanakana.min.js"></script>
+</head>
+<body>
+
+  <!-- Background Effects -->
+  <div class="bg-effects">
+    <div class="bg-orb bg-orb--pink"></div>
+    <div class="bg-orb bg-orb--purple"></div>
+    <div class="bg-orb bg-orb--blue"></div>
+  </div>
+  <div class="bg-grid"></div>
+
+  <!-- Main App -->
+  <div class="app">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header__icon">🎌</div>
+      <h1 class="header__title">Japanese Typing Assistant</h1>
+      <p class="header__subtitle">Gõ romaji → Hiển thị Hiragana・Katakana・漢字・Nghĩa tiếng Việt</p>
+    </header>
+
+    <!-- Input Section -->
+    <section class="input-section" id="input-section">
+      <div class="input-wrapper">
+        <label class="input-label" for="romaji-input">
+          <span class="input-label__dot"></span>
+          Nhập Romaji tại đây
+        </label>
+        <input
+          type="text"
+          id="romaji-input"
+          class="input-field"
+          placeholder="Ví dụ: ohayou, konnichiwa, arigatou..."
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <div class="input-hint">
+          <span>💡 Gõ romaji → tự động chuyển đổi. Kanji hiện sau 2s ngừng gõ.</span>
+          <kbd>Enter</kbd> <span>để lưu</span>
+          <kbd>Esc</kbd> <span>để xóa</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Output Panels -->
+    <section class="output-grid-wrapper">
+    <div class="copy-all-bar">
+      <button class="copy-all-btn" id="copy-all-btn" title="Copy theo cấu hình">
+        <span class="copy-all-btn__icon">📋</span>
+        <span>Copy All</span>
+        <span class="copy-all-btn__badge" id="copy-all-badge">Romaji · Hiragana · Katakana · Kanji · Nghĩa VN</span>
+      </button>
+      <button class="copy-settings-toggle" id="copy-settings-toggle" title="Tùy chỉnh Copy All">⚙️</button>
+    </div>
+
+    <!-- Copy All Settings Panel -->
+    <div class="copy-settings-panel" id="copy-settings-panel">
+      <div class="copy-settings-top">
+        <div class="copy-settings-title">✏️ Tùy chỉnh Copy All</div>
+        <span class="copy-settings-hint">☰ Kéo thả để sắp xếp, bật/tắt từng trường và chỉnh riêng từng vị trí phân cách</span>
+      </div>
+      <div class="copy-settings-tip">
+        Mỗi dòng có ô "Phân cách sau mục này" để bạn tạo format kiểu như `Romaji (Hiragana) - Kanji = Nghĩa`.
+      </div>
+      <ul class="copy-fields-list" id="copy-fields-list"></ul>
+      <div class="copy-options-row">
+        <label class="copy-option-label copy-option-checkbox">
+          <input type="checkbox" id="copy-show-labels">
+          Hiển thị nhãn
+        </label>
+        <label class="copy-option-label copy-option-label--stack copy-custom-form">
+          <span>Lưu cấu hình hiện tại thành thẻ custom</span>
+          <div class="copy-custom-form__controls">
+            <input type="text" id="copy-custom-name" class="copy-custom-name-input" placeholder="Ví dụ: Học từ vựng N5" maxlength="28">
+            <button type="button" class="copy-option-btn" id="copy-save-custom-card">Lưu thẻ</button>
+          </div>
+        </label>
+      </div>
+      <div class="copy-custom-cards" id="copy-custom-cards"></div>
+      <div class="copy-preview-row">
+        <span class="copy-preview-label">Xem trước:</span>
+        <code class="copy-preview-code" id="copy-preview-code">—</code>
+      </div>
+    </div>
+    <section class="output-grid" id="output-grid">
+      <!-- Romaji Panel -->
+      <div class="output-panel output-panel--romaji" id="panel-romaji">
+        <div class="panel-header">
+          <div class="panel-label panel-label--romaji">
+            <div class="panel-label__icon">A</div>
+            Romaji
+          </div>
+          <button class="copy-btn copy-btn--panel" id="copy-romaji-btn" title="Copy Romaji">
+            📋 Copy
+          </button>
+        </div>
+        <div class="panel-content panel-content--empty" id="romaji-output">
+          Chờ nhập liệu...
+        </div>
+      </div>
+
+      <!-- Hiragana Panel -->
+      <div class="output-panel output-panel--hiragana" id="panel-hiragana">
+        <div class="panel-header">
+          <div class="panel-label panel-label--hiragana">
+            <div class="panel-label__icon">あ</div>
+            Hiragana
+          </div>
+          <button class="copy-btn copy-btn--panel" id="copy-hiragana-btn" title="Copy Hiragana">
+            📋 Copy
+          </button>
+        </div>
+        <div class="panel-content panel-content--empty" id="hiragana-output">
+          Chờ nhập liệu...
+        </div>
+      </div>
+
+      <!-- Katakana Panel -->
+      <div class="output-panel output-panel--katakana" id="panel-katakana">
+        <div class="panel-header">
+          <div class="panel-label panel-label--katakana">
+            <div class="panel-label__icon">ア</div>
+            Katakana
+          </div>
+          <button class="copy-btn copy-btn--panel" id="copy-katakana-btn" title="Copy Katakana">
+            📋 Copy
+          </button>
+        </div>
+        <div class="panel-content panel-content--empty" id="katakana-output">
+          Chờ nhập liệu...
+        </div>
+      </div>
+
+      <!-- Kanji Panel -->
+      <div class="output-panel output-panel--kanji" id="panel-kanji">
+        <div class="panel-header">
+          <div class="panel-label panel-label--kanji">
+            <div class="panel-label__icon">漢</div>
+            Kanji (漢字)
+          </div>
+          <button class="copy-btn copy-btn--panel" id="copy-kanji-btn" title="Copy Kanji">
+            📋 Copy
+          </button>
+        </div>
+        <div class="panel-content panel-content--empty" id="kanji-output">
+          Nhấn Enter để chuyển đổi Kanji...
+        </div>
+        <!-- Kanji Suggestions -->
+        <div class="kanji-suggestions" id="kanji-suggestions" style="display:none;">
+          <div class="kanji-suggestions__title">Gợi ý Kanji (click để chọn)</div>
+          <div class="kanji-suggestions__list" id="kanji-list"></div>
+        </div>
+      </div>
+    </section>
+    </section><!-- /output-grid-wrapper -->
+
+    <!-- Vietnamese Translation -->
+    <section class="composed-section" id="translation-section">
+      <div class="composed-wrapper">
+        <div class="composed-header">
+          <div class="composed-label">
+            🇻🇳 Nghĩa tiếng Việt
+          </div>
+          <button class="copy-btn" id="copy-translation-btn" title="Copy nghĩa tiếng Việt">
+            📋 Copy
+          </button>
+        </div>
+        <div class="composed-content composed-content--empty" id="vietnamese-output">
+          Nhấn Enter để dịch sang tiếng Việt...
+        </div>
+      </div>
+    </section>
+
+    <!-- Composed Text -->
+    <section class="composed-section">
+      <div class="composed-wrapper">
+        <div class="composed-header">
+          <div class="composed-label">
+            📝 Văn bản đã soạn
+          </div>
+          <button class="copy-btn" id="copy-composed-btn" title="Copy văn bản">
+            📋 Copy
+          </button>
+        </div>
+        <div class="composed-content composed-content--empty" id="composed-output">
+          Nhấn Enter để thêm từ vào đây...
+        </div>
+      </div>
+    </section>
+
+    <!-- Study Hub -->
+    <section class="study-section" id="study-section">
+      <div class="study-shell">
+        <div class="study-section__head">
+          <div>
+            <div class="study-section__eyebrow">Study Hub</div>
+            <h2 class="study-section__title">Quiz và bộ câu dành cho người Việt học tiếng Nhật</h2>
+            <p class="study-section__subtitle">
+              Luyện theo nghĩa tiếng Việt, romaji, kana và những mẫu câu thường gặp trong lớp học, đi làm, mua sắm.
+            </p>
+          </div>
+          <div class="study-stats">
+            <div class="study-stat">
+              <span class="study-stat__value" id="study-total-count">0</span>
+              <span class="study-stat__label">Mục học</span>
+            </div>
+            <div class="study-stat">
+              <span class="study-stat__value" id="study-history-count">0</span>
+              <span class="study-stat__label">Trong lịch sử</span>
+            </div>
+            <div class="study-stat">
+              <span class="study-stat__value" id="study-meaning-count">0</span>
+              <span class="study-stat__label">Có nghĩa VI</span>
+            </div>
+            <div class="study-stat">
+              <span class="study-stat__value" id="study-ready-count">0</span>
+              <span class="study-stat__label">Quiz sẵn sàng</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="study-grid">
+          <article class="study-card">
+            <div class="study-card__eyebrow">Mini Game</div>
+            <div class="study-card__title-row">
+              <h3 class="study-card__title">Quiz phản xạ Nhật - Việt</h3>
+              <button type="button" class="study-action-btn study-action-btn--ghost" id="quiz-next-btn">Câu mới</button>
+            </div>
+            <p class="study-card__description">
+              Quiz sẽ ưu tiên lấy dữ liệu từ lịch sử bạn vừa học, rồi bổ sung thêm từ bộ câu mẫu bên cạnh.
+            </p>
+
+            <div class="quiz-mode-group">
+              <button type="button" class="quiz-mode-btn quiz-mode-btn--active" data-mode="jp-to-vi">JP → VI</button>
+              <button type="button" class="quiz-mode-btn" data-mode="vi-to-jp">VI → JP</button>
+              <button type="button" class="quiz-mode-btn" data-mode="kana-to-romaji">Kana → Romaji</button>
+            </div>
+
+            <div class="quiz-metrics">
+              <div class="quiz-metric">
+                <span class="quiz-metric__value" id="quiz-score">0</span>
+                <span class="quiz-metric__label">Điểm</span>
+              </div>
+              <div class="quiz-metric">
+                <span class="quiz-metric__value" id="quiz-answered">0</span>
+                <span class="quiz-metric__label">Câu đã làm</span>
+              </div>
+              <div class="quiz-metric">
+                <span class="quiz-metric__value" id="quiz-streak">0</span>
+                <span class="quiz-metric__label">Đúng liên tiếp</span>
+              </div>
+            </div>
+
+            <div class="quiz-empty" id="quiz-empty">
+              Lưu vài từ hoặc chọn một câu mẫu để bắt đầu quiz. Càng luyện nhiều, quiz càng sát nội dung bạn đang học.
+            </div>
+
+            <div class="quiz-question" id="quiz-question" hidden>
+              <div class="quiz-question__label" id="quiz-question-label">JP → VI</div>
+              <div class="quiz-question__prompt" id="quiz-prompt">...</div>
+              <div class="quiz-question__hint" id="quiz-hint"></div>
+              <div class="quiz-options" id="quiz-options"></div>
+              <div class="quiz-result" id="quiz-result"></div>
+            </div>
+          </article>
+
+          <article class="study-card">
+            <div class="study-card__eyebrow">Theo Chủ Đề</div>
+            <div class="study-card__title-row">
+              <h3 class="study-card__title">Bộ câu cho người Việt</h3>
+              <select class="study-select" id="phrase-topic-filter">
+                <option value="all">Tất cả chủ đề</option>
+              </select>
+            </div>
+            <p class="study-card__description">
+              Chọn câu quen thuộc trong lớp học, giao tiếp, công việc hay mua sắm rồi nạp ngay vào màn hình để luyện tiếp.
+            </p>
+            <div class="phrase-list" id="phrase-list"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- History Section -->
+    <section class="history-section" id="history-section">
+      <div class="history-header">
+        <div class="history-title">
+          📚 Lịch sử gõ
+        </div>
+        <button class="history-clear" id="clear-history-btn">
+          🗑️ Xóa tất cả
+        </button>
+      </div>
+      <div class="history-list" id="history-list">
+        <div class="empty-state" id="history-empty">
+          <div class="empty-state__icon">📭</div>
+          <div class="empty-state__text">Chưa có lịch sử. Nhấn Enter sau khi gõ để lưu.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shortcuts Bar -->
+    <div class="shortcuts-bar">
+      <div class="shortcut">
+        <kbd>Enter</kbd> Lưu & Dịch
+      </div>
+      <div class="shortcut">
+        <kbd>Esc</kbd> Xóa ô nhập
+      </div>
+      <div class="shortcut">
+        <kbd>Click</kbd> Copy từ panel
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Japanese Typing Assistant — Powered by <a href="https://wanakana.com" target="_blank">WanaKana.js</a> & Google APIs</p>
+    </footer>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ================================================================
+    // STATE
+    // ================================================================
+    const state = {
+      history: JSON.parse(localStorage.getItem('jta-history') || '[]'),
+      composedText: localStorage.getItem('jta-composed') || '',
+      kanjiDebounce: null,
+      currentRomaji: '',
+      currentHiragana: '',
+      currentKatakana: '',
+      currentKanji: '',
+      currentVietnamese: '',
+      quiz: (() => {
+        try {
+          const saved = JSON.parse(localStorage.getItem('jta-quiz-state') || 'null');
+          if (saved && typeof saved === 'object') {
+            return {
+              score: Number(saved.score) || 0,
+              answered: Number(saved.answered) || 0,
+              streak: Number(saved.streak) || 0,
+              mode: saved.mode || 'jp-to-vi',
+            };
+          }
+        } catch (_) {}
+        return {
+          score: 0,
+          answered: 0,
+          streak: 0,
+          mode: 'jp-to-vi',
+        };
+      })(),
+      currentQuiz: null,
+    };
+
+    // ================================================================
+    // DOM ELEMENTS
+    // ================================================================
+    const $input = document.getElementById('romaji-input');
+    const $romaji = document.getElementById('romaji-output');
+    const $hiragana = document.getElementById('hiragana-output');
+    const $katakana = document.getElementById('katakana-output');
+    const $kanji = document.getElementById('kanji-output');
+    const $kanjiSuggestions = document.getElementById('kanji-suggestions');
+    const $kanjiList = document.getElementById('kanji-list');
+    const $vietnamese = document.getElementById('vietnamese-output');
+    const $composed = document.getElementById('composed-output');
+    const $historyList = document.getElementById('history-list');
+    const $historyEmpty = document.getElementById('history-empty');
+    const $toast = document.getElementById('toast');
+    const $quizEmpty = document.getElementById('quiz-empty');
+    const $quizQuestion = document.getElementById('quiz-question');
+    const $quizQuestionLabel = document.getElementById('quiz-question-label');
+    const $quizPrompt = document.getElementById('quiz-prompt');
+    const $quizHint = document.getElementById('quiz-hint');
+    const $quizOptions = document.getElementById('quiz-options');
+    const $quizResult = document.getElementById('quiz-result');
+    const $quizScore = document.getElementById('quiz-score');
+    const $quizAnswered = document.getElementById('quiz-answered');
+    const $quizStreak = document.getElementById('quiz-streak');
+    const $phraseList = document.getElementById('phrase-list');
+    const $phraseTopicFilter = document.getElementById('phrase-topic-filter');
+    const $studyTotalCount = document.getElementById('study-total-count');
+    const $studyHistoryCount = document.getElementById('study-history-count');
+    const $studyMeaningCount = document.getElementById('study-meaning-count');
+    const $studyReadyCount = document.getElementById('study-ready-count');
+
+    const PRACTICE_PHRASES = [
+      {
+        id: 'study-japanese',
+        topic: 'Học tập',
+        romaji: 'nihongo o benkyou shiteimasu',
+        hiragana: 'にほんごをべんきょうしています',
+        katakana: 'ニホンゴヲベンキョウシテイマス',
+        kanji: '日本語を勉強しています',
+        vietnamese: 'Tôi đang học tiếng Nhật',
+        note: 'Mẫu câu tự giới thiệu rất hợp khi học ở lớp hoặc giao tiếp với người Nhật.',
+      },
+      {
+        id: 'repeat-please',
+        topic: 'Lớp học',
+        romaji: 'mou ichido onegaishimasu',
+        hiragana: 'もういちどおねがいします',
+        katakana: 'モウイチドオネガイシマス',
+        kanji: 'もう一度お願いします',
+        vietnamese: 'Làm ơn nói lại một lần nữa',
+        note: 'Câu cực hữu ích cho người Việt khi nghe chưa kịp trong lớp hoặc ngoài đời.',
+      },
+      {
+        id: 'speak-slowly',
+        topic: 'Lớp học',
+        romaji: 'yukkuri hanashite kudasai',
+        hiragana: 'ゆっくりはなしてください',
+        katakana: 'ユックリハナシテクダサイ',
+        kanji: 'ゆっくり話してください',
+        vietnamese: 'Xin hãy nói chậm hơn',
+        note: 'Giúp bạn xin người đối diện nói chậm lại để bắt âm tốt hơn.',
+      },
+      {
+        id: 'yoroshiku',
+        topic: 'Giao tiếp',
+        romaji: 'yoroshiku onegaishimasu',
+        hiragana: 'よろしくおねがいします',
+        katakana: 'ヨロシクオネガイシマス',
+        kanji: 'よろしくお願いします',
+        vietnamese: 'Rất mong được giúp đỡ / mong được hợp tác',
+        note: 'Câu chào mở đầu rất quan trọng trong văn hóa giao tiếp Nhật.',
+      },
+      {
+        id: 'how-much',
+        topic: 'Mua sắm',
+        romaji: 'kore wa ikura desu ka',
+        hiragana: 'これはいくらですか',
+        katakana: 'コレハイクラデスカ',
+        kanji: 'これはいくらですか',
+        vietnamese: 'Cái này bao nhiêu tiền?',
+        note: 'Dễ dùng ngay khi đi siêu thị, cửa hàng tiện lợi hoặc mua quà.',
+      },
+      {
+        id: 'sumimasen',
+        topic: 'Giao tiếp',
+        romaji: 'sumimasen',
+        hiragana: 'すみません',
+        katakana: 'スミマセン',
+        kanji: 'すみません',
+        vietnamese: 'Xin lỗi / làm ơn / cảm ơn vì đã làm phiền',
+        note: 'Một từ đa dụng, gần như người mới học nào cũng nên thuộc sớm.',
+      },
+      {
+        id: 'daijoubu',
+        topic: 'Sinh hoạt',
+        romaji: 'daijoubu desu',
+        hiragana: 'だいじょうぶです',
+        katakana: 'ダイジョウブデス',
+        kanji: '大丈夫です',
+        vietnamese: 'Ổn / không sao / tôi ổn',
+        note: 'Ngắn gọn nhưng cực kỳ hay dùng trong sinh hoạt, công việc và giao tiếp hằng ngày.',
+      },
+      {
+        id: 'thank-you',
+        topic: 'Giao tiếp',
+        romaji: 'arigatou gozaimasu',
+        hiragana: 'ありがとうございます',
+        katakana: 'アリガトウゴザイマス',
+        kanji: 'ありがとうございます',
+        vietnamese: 'Cảm ơn',
+        note: 'Bản lịch sự nên phù hợp hơn cho người mới học trong đa số ngữ cảnh.',
+      },
+      {
+        id: 'excuse-me',
+        topic: 'Công việc',
+        romaji: 'shitsurei shimasu',
+        hiragana: 'しつれいします',
+        katakana: 'シツレイシマス',
+        kanji: '失礼します',
+        vietnamese: 'Xin phép / thất lễ',
+        note: 'Hay dùng khi vào phòng, rời công ty hoặc xen vào cuộc trò chuyện.',
+      },
+      {
+        id: 'part-time-job',
+        topic: 'Công việc',
+        romaji: 'baito o sagashiteimasu',
+        hiragana: 'ばいとをさがしています',
+        katakana: 'バイトヲサガシテイマス',
+        kanji: 'バイトを探しています',
+        vietnamese: 'Tôi đang tìm việc làm thêm',
+        note: 'Sát với nhu cầu của nhiều bạn Việt sang Nhật học tập và sinh sống.',
+      },
+      {
+        id: 'where-station',
+        topic: 'Di chuyển',
+        romaji: 'eki wa doko desu ka',
+        hiragana: 'えきはどこですか',
+        katakana: 'エキハドコデスカ',
+        kanji: '駅はどこですか',
+        vietnamese: 'Nhà ga ở đâu?',
+        note: 'Một trong những câu thiết thực nhất khi di chuyển bằng tàu điện ở Nhật.',
+      },
+      {
+        id: 'understood',
+        topic: 'Lớp học',
+        romaji: 'wakarimashita',
+        hiragana: 'わかりました',
+        katakana: 'ワカリマシタ',
+        kanji: '分かりました',
+        vietnamese: 'Tôi hiểu rồi',
+        note: 'Dùng tốt với giáo viên, quản lý hoặc đồng nghiệp khi xác nhận đã hiểu.',
+      },
+    ];
+
+    const QUIZ_MODE_META = {
+      'jp-to-vi': {
+        label: 'JP → VI',
+        promptLabel: 'Chọn nghĩa tiếng Việt đúng',
+      },
+      'vi-to-jp': {
+        label: 'VI → JP',
+        promptLabel: 'Chọn cách viết tiếng Nhật phù hợp',
+      },
+      'kana-to-romaji': {
+        label: 'Kana → Romaji',
+        promptLabel: 'Chọn romaji đúng',
+      },
+    };
+
+    // ================================================================
+    // WANAKANA - No binding (keep input as romaji)
+    // ================================================================
+
+    // ================================================================
+    // REAL-TIME CONVERSION (Input Event)
+    // ================================================================
+    $input.addEventListener('input', () => {
+      const inputVal = $input.value;
+
+      if (!inputVal || inputVal.trim() === '') {
+        resetPanels();
+        return;
+      }
+
+      // Convert romaji to hiragana/katakana for display panels
+      const romaji = inputVal;
+      const hiragana = wanakana.toHiragana(inputVal);
+      const katakana = wanakana.toKatakana(inputVal);
+
+      state.currentRomaji = romaji;
+      state.currentHiragana = hiragana;
+      state.currentKatakana = katakana;
+      updateCopyPreview();
+      renderStudyStats();
+
+      // Update panels
+      updatePanel($romaji, romaji, 'panel-content--romaji');
+      updatePanel($hiragana, hiragana, 'panel-content--hiragana');
+      updatePanel($katakana, katakana, 'panel-content--katakana');
+
+      // Auto-convert Kanji + translate after 2 seconds idle
+      clearTimeout(state.kanjiDebounce);
+      state.kanjiDebounce = setTimeout(() => {
+        const currentVal = $input.value.trim();
+        if (currentVal) {
+          autoConvert(wanakana.toHiragana(currentVal));
+        }
+      }, 2000);
+    });
+
+    // ================================================================
+    // AUTO-CONVERT (after 2s idle) - Kanji + Vietnamese only, no save
+    // ================================================================
+    async function autoConvert(hiragana) {
+      // Show loading
+      $kanji.innerHTML = '<div class="loading"><div class="loading__dot"></div><div class="loading__dot"></div><div class="loading__dot"></div></div>';
+      $kanji.className = 'panel-content';
+      $vietnamese.innerHTML = '<div class="loading"><div class="loading__dot"></div><div class="loading__dot"></div><div class="loading__dot"></div></div>';
+      $vietnamese.className = 'composed-content';
+
+      // Fetch Kanji
+      let kanjiResult = hiragana;
+      let kanjiCandidates = [];
+      try {
+        const res = await fetch(`/api/convert?text=${encodeURIComponent(hiragana)}`);
+        const data = await res.json();
+        if (data.success && data.results && data.results.length > 0) {
+          kanjiResult = data.results.map(r => r.candidates[0] || r.input).join('');
+          kanjiCandidates = [];
+          data.results.forEach(r => {
+            if (r.candidates && r.candidates.length > 0) {
+              r.candidates.forEach(c => {
+                if (!kanjiCandidates.includes(c) && c !== hiragana) {
+                  kanjiCandidates.push(c);
+                }
+              });
+            }
+          });
+        }
+      } catch (err) {
+        console.warn('Kanji API unavailable:', err.message);
+      }
+
+      state.currentKanji = kanjiResult;
+      updatePanel($kanji, kanjiResult, 'panel-content--kanji');
+      if (kanjiCandidates.length > 0) {
+        showKanjiSuggestions(kanjiCandidates);
+      } else {
+        $kanjiSuggestions.style.display = 'none';
+      }
+
+      // Fetch Vietnamese
+      let vietnameseResult = '';
+      try {
+        const textToTranslate = kanjiResult !== hiragana ? kanjiResult : hiragana;
+        const res = await fetch(`/api/translate?text=${encodeURIComponent(textToTranslate)}`);
+        const data = await res.json();
+        if (data.success && data.translation) {
+          vietnameseResult = data.translation;
+        }
+      } catch (err) {
+        console.warn('Translation API unavailable:', err.message);
+      }
+
+      state.currentVietnamese = vietnameseResult;
+      if (vietnameseResult) {
+        $vietnamese.textContent = vietnameseResult;
+        $vietnamese.className = 'composed-content';
+      } else {
+        $vietnamese.textContent = 'Không tìm thấy bản dịch';
+        $vietnamese.className = 'composed-content composed-content--empty';
+      }
+
+      updateCopyPreview();
+      renderStudyStats();
+    }
+
+    // ================================================================
+    // ENTER KEY - Save to history + composed text
+    // ================================================================
+    $input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && $input.value.trim()) {
+        e.preventDefault();
+        clearTimeout(state.kanjiDebounce);
+        const hiragana = wanakana.toHiragana($input.value.trim());
+        convertAndSave(hiragana);
+      }
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        $input.value = '';
+        resetPanels();
+        $input.focus();
+      }
+    });
+
+    async function convertAndSave(hiragana) {
+      const katakana = wanakana.toKatakana(hiragana);
+
+      // Show loading for kanji
+      $kanji.innerHTML = '<div class="loading"><div class="loading__dot"></div><div class="loading__dot"></div><div class="loading__dot"></div></div>';
+      $kanji.className = 'panel-content';
+
+      $vietnamese.innerHTML = '<div class="loading"><div class="loading__dot"></div><div class="loading__dot"></div><div class="loading__dot"></div></div>';
+      $vietnamese.className = 'composed-content';
+
+      // Fetch Kanji conversion
+      let kanjiResult = hiragana; // fallback
+      let kanjiCandidates = [];
+      try {
+        const res = await fetch(`/api/convert?text=${encodeURIComponent(hiragana)}`);
+        const data = await res.json();
+        if (data.success && data.results && data.results.length > 0) {
+          // Build the best kanji string from first candidates
+          kanjiResult = data.results.map(r => r.candidates[0] || r.input).join('');
+          // Collect all unique candidates
+          kanjiCandidates = [];
+          data.results.forEach(r => {
+            if (r.candidates && r.candidates.length > 0) {
+              r.candidates.forEach(c => {
+                if (!kanjiCandidates.includes(c) && c !== hiragana) {
+                  kanjiCandidates.push(c);
+                }
+              });
+            }
+          });
+        }
+      } catch (err) {
+        console.warn('Kanji API unavailable:', err.message);
+      }
+
+      state.currentKanji = kanjiResult;
+      updatePanel($kanji, kanjiResult, 'panel-content--kanji');
+
+      // Show suggestions
+      if (kanjiCandidates.length > 0) {
+        showKanjiSuggestions(kanjiCandidates);
+      } else {
+        $kanjiSuggestions.style.display = 'none';
+      }
+
+      // Fetch Vietnamese translation
+      let vietnameseResult = '';
+      try {
+        // Translate the kanji/hiragana result
+        const textToTranslate = kanjiResult !== hiragana ? kanjiResult : hiragana;
+        const res = await fetch(`/api/translate?text=${encodeURIComponent(textToTranslate)}`);
+        const data = await res.json();
+        if (data.success && data.translation) {
+          vietnameseResult = data.translation;
+        }
+      } catch (err) {
+        console.warn('Translation API unavailable:', err.message);
+        vietnameseResult = '(Không thể dịch - kiểm tra kết nối)';
+      }
+
+      state.currentVietnamese = vietnameseResult;
+      if (vietnameseResult) {
+        $vietnamese.textContent = vietnameseResult;
+        $vietnamese.className = 'composed-content';
+      } else {
+        $vietnamese.textContent = 'Không tìm thấy bản dịch';
+        $vietnamese.className = 'composed-content composed-content--empty';
+      }
+
+      updateCopyPreview();
+
+      // Add to composed text
+      state.composedText += kanjiResult;
+      updateComposed();
+
+      // Add to history
+      addToHistory({
+        romaji: wanakana.toRomaji(hiragana),
+        hiragana,
+        katakana,
+        kanji: kanjiResult,
+        vietnamese: vietnameseResult,
+        timestamp: Date.now(),
+      });
+
+      // Clear input for next word
+      // Small delay so user sees the result
+      setTimeout(() => {
+        $input.value = '';
+        $input.focus();
+      }, 100);
+    }
+
+    // ================================================================
+    // KANJI SUGGESTIONS
+    // ================================================================
+    function showKanjiSuggestions(candidates) {
+      $kanjiSuggestions.style.display = 'block';
+      $kanjiList.innerHTML = '';
+
+      candidates.slice(0, 12).forEach((candidate, i) => {
+        const chip = document.createElement('button');
+        chip.className = 'kanji-chip' + (i === 0 ? ' kanji-chip--selected' : '');
+        chip.innerHTML = `${candidate}<span class="kanji-chip__index">${i + 1}</span>`;
+        chip.addEventListener('click', () => {
+          // Update kanji output
+          state.currentKanji = candidate;
+          updatePanel($kanji, candidate, 'panel-content--kanji');
+          updateCopyPreview();
+          renderStudyStats();
+
+          // Update selection visuals
+          document.querySelectorAll('.kanji-chip').forEach(c => c.classList.remove('kanji-chip--selected'));
+          chip.classList.add('kanji-chip--selected');
+
+          showToast(`Đã chọn: ${candidate}`);
+        });
+        $kanjiList.appendChild(chip);
+      });
+    }
+
+    // ================================================================
+    // HISTORY
+    // ================================================================
+    function addToHistory(entry) {
+      const key = makeStudyEntryKey(entry);
+      state.history = state.history.filter(item => makeStudyEntryKey(item) !== key);
+      state.history.unshift(entry);
+      if (state.history.length > 50) state.history.pop();
+      localStorage.setItem('jta-history', JSON.stringify(state.history));
+      renderHistory();
+      renderStudyStats();
+    }
+
+    function renderHistory() {
+      if (state.history.length === 0) {
+        $historyEmpty.style.display = 'block';
+        // Remove all non-empty-state children
+        Array.from($historyList.children).forEach(child => {
+          if (child.id !== 'history-empty') child.remove();
+        });
+        return;
+      }
+
+      $historyEmpty.style.display = 'none';
+
+      // Clear old items (keep empty state element)
+      Array.from($historyList.children).forEach(child => {
+        if (child.id !== 'history-empty') child.remove();
+      });
+
+      state.history.forEach((entry, i) => {
+        const item = document.createElement('div');
+        item.className = 'history-item';
+        item.innerHTML = `
+          <div class="history-item__cell">
+            <span class="history-item__label">Romaji</span>
+            <span class="history-item__value history-item__value--romaji">${escapeHtml(entry.romaji)}</span>
+          </div>
+          <div class="history-item__cell">
+            <span class="history-item__label">Hiragana</span>
+            <span class="history-item__value history-item__value--hiragana">${escapeHtml(entry.hiragana)}</span>
+          </div>
+          <div class="history-item__cell">
+            <span class="history-item__label">Katakana</span>
+            <span class="history-item__value history-item__value--katakana">${escapeHtml(entry.katakana)}</span>
+          </div>
+          <div class="history-item__cell">
+            <span class="history-item__label">Kanji</span>
+            <span class="history-item__value history-item__value--kanji">${escapeHtml(entry.kanji)}</span>
+          </div>
+          ${entry.vietnamese ? `
+          <div class="history-item__cell" style="grid-column: 1 / -1;">
+            <span class="history-item__label">🇻🇳 Tiếng Việt</span>
+            <span class="history-item__value" style="color: var(--accent-romaji);">${escapeHtml(entry.vietnamese)}</span>
+          </div>` : ''}
+        `;
+        item.addEventListener('click', () => {
+          const text = `${entry.romaji} → ${entry.hiragana} / ${entry.katakana} / ${entry.kanji}${entry.vietnamese ? ' = ' + entry.vietnamese : ''}`;
+          copyToClipboard(text);
+          showToast('Đã copy lịch sử!');
+        });
+        $historyList.appendChild(item);
+      });
+    }
+
+    document.getElementById('clear-history-btn').addEventListener('click', () => {
+      state.history = [];
+      localStorage.setItem('jta-history', '[]');
+      renderHistory();
+      renderStudyStats();
+      showToast('Đã xóa lịch sử!');
+    });
+
+    // ================================================================
+    // COMPOSED TEXT
+    // ================================================================
+    function updateComposed() {
+      if (state.composedText) {
+        $composed.textContent = state.composedText;
+        $composed.className = 'composed-content';
+      } else {
+        $composed.textContent = 'Nhấn Enter để thêm từ vào đây...';
+        $composed.className = 'composed-content composed-content--empty';
+      }
+      localStorage.setItem('jta-composed', state.composedText);
+    }
+
+    document.getElementById('copy-composed-btn').addEventListener('click', () => {
+      if (state.composedText) {
+        copyToClipboard(state.composedText);
+        showToast('Đã copy văn bản!');
+      }
+    });
+
+    document.getElementById('copy-translation-btn').addEventListener('click', () => {
+      if (state.currentVietnamese) {
+        copyToClipboard(state.currentVietnamese);
+        showToast('Đã copy nghĩa tiếng Việt!');
+      }
+    });
+
+    // ================================================================
+    // COPY BUTTONS
+    // ================================================================
+    document.getElementById('copy-romaji-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (state.currentRomaji) {
+        copyToClipboard(state.currentRomaji);
+        showToast(`Đã copy Romaji: ${state.currentRomaji}`);
+      }
+    });
+
+    document.getElementById('copy-hiragana-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (state.currentHiragana) {
+        copyToClipboard(state.currentHiragana);
+        showToast(`Đã copy Hiragana: ${state.currentHiragana}`);
+      }
+    });
+
+    document.getElementById('copy-katakana-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (state.currentKatakana) {
+        copyToClipboard(state.currentKatakana);
+        showToast(`Đã copy Katakana: ${state.currentKatakana}`);
+      }
+    });
+
+    document.getElementById('copy-kanji-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (state.currentKanji) {
+        copyToClipboard(state.currentKanji);
+        showToast(`Đã copy Kanji: ${state.currentKanji}`);
+      }
+    });
+
+    // ================================================================
+    // COPY ALL — CUSTOM SETTINGS
+    // ================================================================
+const COPY_FIELDS_DEFAULT = [
+      { id: 'romaji', label: 'Romaji', icon: 'A', enabled: true, separatorAfter: ' | ' },
+      { id: 'hiragana', label: 'Hiragana', icon: 'あ', enabled: true, separatorAfter: ' | ' },
+      { id: 'katakana', label: 'Katakana', icon: 'ア', enabled: true, separatorAfter: ' | ' },
+      { id: 'kanji', label: 'Kanji', icon: '漢', enabled: true, separatorAfter: ' | ' },
+      { id: 'vietnamese', label: 'Nghĩa VN', icon: 'VN', enabled: true, separatorAfter: ' | ' },
+    ];
+
+    const COPY_LAYOUT_PRESETS = {
+      standard: {
+        name: 'Tiêu chuẩn',
+        description: 'Giữ đủ 5 trường với phân cách đơn giản.',
+        showLabels: false,
+        fields: [
+          { id: 'romaji', enabled: true, separatorAfter: ' | ' },
+          { id: 'hiragana', enabled: true, separatorAfter: ' | ' },
+          { id: 'katakana', enabled: true, separatorAfter: ' | ' },
+          { id: 'kanji', enabled: true, separatorAfter: ' | ' },
+          { id: 'vietnamese', enabled: true, separatorAfter: ' | ' },
+        ],
+      },
+      study: {
+        name: 'Học từ vựng',
+        description: 'Romaji, kana, kanji và nghĩa theo format dễ ôn.',
+        showLabels: false,
+        fields: [
+          { id: 'romaji', enabled: true, separatorAfter: ' (' },
+          { id: 'hiragana', enabled: true, separatorAfter: ' / ' },
+          { id: 'katakana', enabled: true, separatorAfter: ') - ' },
+          { id: 'kanji', enabled: true, separatorAfter: ' = ' },
+          { id: 'vietnamese', enabled: true, separatorAfter: '' },
+        ],
+      },
+      chat: {
+        name: 'Gửi bạn học',
+        description: 'Gọn hơn, phù hợp gửi nhanh trong chat.',
+        showLabels: false,
+        fields: [
+          { id: 'kanji', enabled: true, separatorAfter: ' (' },
+          { id: 'hiragana', enabled: true, separatorAfter: ') - ' },
+          { id: 'vietnamese', enabled: true, separatorAfter: '' },
+          { id: 'romaji', enabled: false, separatorAfter: ' | ' },
+          { id: 'katakana', enabled: false, separatorAfter: ' | ' },
+        ],
+      },
+      labeled: {
+        name: 'Có nhãn',
+        description: 'Giữ nhãn từng trường để nhìn phát hiểu ngay.',
+        showLabels: true,
+        fields: [
+          { id: 'romaji', enabled: true, separatorAfter: ' ; ' },
+          { id: 'hiragana', enabled: true, separatorAfter: ' ; ' },
+          { id: 'katakana', enabled: true, separatorAfter: ' ; ' },
+          { id: 'kanji', enabled: true, separatorAfter: ' ; ' },
+          { id: 'vietnamese', enabled: true, separatorAfter: '' },
+        ],
+      },
+    };
+
+    function cloneCopyField(baseField, overrides = {}, fallbackSeparator = ' | ') {
+      return {
+        ...baseField,
+        enabled: typeof overrides.enabled === 'boolean' ? overrides.enabled : baseField.enabled,
+        separatorAfter: typeof overrides.separatorAfter === 'string'
+          ? overrides.separatorAfter
+          : (typeof overrides.separator === 'string' ? overrides.separator : fallbackSeparator),
+      };
+    }
+
+    function normalizeCopyFields(savedFields = [], fallbackSeparator = ' | ') {
+      const defaultsById = new Map(COPY_FIELDS_DEFAULT.map(field => [field.id, field]));
+      const savedById = new Map(savedFields.filter(field => defaultsById.has(field.id)).map(field => [field.id, field]));
+      const orderedIds = savedFields.map(field => field.id).filter(id => defaultsById.has(id));
+      COPY_FIELDS_DEFAULT.forEach(field => {
+        if (!orderedIds.includes(field.id)) orderedIds.push(field.id);
+      });
+      return orderedIds.map(id => cloneCopyField(defaultsById.get(id), savedById.get(id), fallbackSeparator));
+    }
+
+    function normalizeCopyCards(savedCards = []) {
+      return savedCards
+        .filter(card => card && typeof card.name === 'string' && Array.isArray(card.fields))
+        .map(card => ({
+          id: card.id || `custom-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          name: card.name.trim() || 'Custom',
+          description: typeof card.description === 'string' ? card.description : 'Thẻ custom của bạn',
+          showLabels: !!card.showLabels,
+          fields: normalizeCopyFields(card.fields, ' | '),
+        }));
+    }
+
+    const copySettings = (() => {
+      try {
+        const saved = JSON.parse(localStorage.getItem('jta-copy-settings') || 'null');
+        if (saved && Array.isArray(saved.fields)) {
+          const fallbackSeparator = typeof saved.quickSeparator === 'string'
+            ? saved.quickSeparator
+            : (typeof saved.separator === 'string' ? saved.separator : ' | ');
+          return {
+            fields: normalizeCopyFields(saved.fields, fallbackSeparator),
+            showLabels: !!saved.showLabels,
+            customCards: normalizeCopyCards(saved.customCards || []),
+          };
+        }
+      } catch (_) {}
+      return {
+        fields: normalizeCopyFields(COPY_FIELDS_DEFAULT, ' | '),
+        showLabels: false,
+        customCards: [],
+      };
+    })();
+
+    function saveCopySettings() {
+      localStorage.setItem('jta-copy-settings', JSON.stringify({
+        fields: copySettings.fields,
+        showLabels: copySettings.showLabels,
+        customCards: copySettings.customCards,
+      }));
+    }
+
+    function getCurrentValue(fieldId) {
+      const map = {
+        romaji: state.currentRomaji,
+        hiragana: state.currentHiragana,
+        katakana: state.currentKatakana,
+        kanji: state.currentKanji,
+        vietnamese: state.currentVietnamese,
+      };
+      return map[fieldId] || '';
+    }
+
+    function formatCopyFieldValue(field, value) {
+      return copySettings.showLabels ? `${field.label}: ${value}` : value;
+    }
+
+    function buildCopyTextWithConfig(fields, showLabels, resolver) {
+      const activeFields = fields
+        .map(field => ({ ...field, value: resolver(field.id) }))
+        .filter(field => field.enabled && field.value);
+
+      return activeFields.map((field, index) => {
+        const separatorAfter = index < activeFields.length - 1 ? (field.separatorAfter || '') : '';
+        const content = showLabels ? `${field.label}: ${field.value}` : field.value;
+        return `${content}${separatorAfter}`;
+      }).join('');
+    }
+
+    function buildCopyTextFromResolver(resolver) {
+      return buildCopyTextWithConfig(copySettings.fields, copySettings.showLabels, resolver);
+    }
+
+    function buildCopyText() {
+      return buildCopyTextFromResolver(fieldId => getCurrentValue(fieldId));
+    }
+
+    function updateCopyPreview() {
+      const $preview = document.getElementById('copy-preview-code');
+      if (!$preview) return;
+
+      const placeholders = {
+        romaji: 'ohayou',
+        hiragana: 'おはよう',
+        katakana: 'オハヨウ',
+        kanji: 'お早う',
+        vietnamese: 'chào buổi sáng',
+      };
+
+      const previewText = buildCopyTextFromResolver(fieldId => placeholders[fieldId] || '');
+      $preview.textContent = previewText || '(chưa chọn trường nào)';
+
+      const badge = document.getElementById('copy-all-badge');
+      if (badge) {
+        badge.textContent = copySettings.fields.filter(field => field.enabled).map(field => field.label).join(' · ') || 'Chưa chọn';
+      }
+    }
+
+    function getPresetCopyCards() {
+      return Object.entries(COPY_LAYOUT_PRESETS).map(([id, preset]) => ({
+        id: `preset-${id}`,
+        name: preset.name,
+        description: preset.description,
+        showLabels: !!preset.showLabels,
+        fields: normalizeCopyFields(preset.fields, ' | '),
+        preset: true,
+      }));
+    }
+
+    function getAllCopyCards() {
+      return [
+        ...getPresetCopyCards(),
+        ...copySettings.customCards.map(card => ({ ...card, preset: false })),
+      ];
+    }
+
+    function isCurrentCopyCard(card) {
+      return JSON.stringify(card.fields) === JSON.stringify(copySettings.fields)
+        && !!card.showLabels === !!copySettings.showLabels;
+    }
+
+    function renderCopyCards() {
+      const $cards = document.getElementById('copy-custom-cards');
+      if (!$cards) return;
+
+      const placeholders = {
+        romaji: 'ohayou',
+        hiragana: 'おはよう',
+        katakana: 'オハヨウ',
+        kanji: 'お早う',
+        vietnamese: 'chào buổi sáng',
+      };
+
+      $cards.innerHTML = '';
+      getAllCopyCards().forEach(card => {
+        const item = document.createElement('article');
+        item.className = 'copy-custom-card' + (isCurrentCopyCard(card) ? ' copy-custom-card--active' : '');
+        item.innerHTML = `
+          <div class="copy-custom-card__top">
+            <div>
+              <div class="copy-custom-card__name">${escapeHtml(card.name)}</div>
+              <div class="copy-custom-card__meta">${card.preset ? 'Thẻ gợi ý' : 'Thẻ custom'}</div>
+            </div>
+            ${card.preset ? '' : '<button type="button" class="copy-custom-card__delete" title="Xóa thẻ">×</button>'}
+          </div>
+          <div class="copy-custom-card__description">${escapeHtml(card.description)}</div>
+          <code class="copy-custom-card__preview">${escapeHtml(buildCopyTextWithConfig(card.fields, card.showLabels, fieldId => placeholders[fieldId] || '') || '(trống)')}</code>
+          <button type="button" class="copy-option-btn copy-option-btn--secondary copy-custom-card__apply">Dùng thẻ này</button>
+        `;
+
+        item.querySelector('.copy-custom-card__apply').addEventListener('click', () => {
+          copySettings.fields = normalizeCopyFields(card.fields, ' | ');
+          copySettings.showLabels = !!card.showLabels;
+          saveCopySettings();
+          renderCopyFields();
+          document.getElementById('copy-show-labels').checked = copySettings.showLabels;
+          showToast(`Đã áp dụng thẻ: ${card.name}`);
+        });
+
+        const deleteButton = item.querySelector('.copy-custom-card__delete');
+        if (deleteButton) {
+          deleteButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            copySettings.customCards = copySettings.customCards.filter(savedCard => savedCard.id !== card.id);
+            saveCopySettings();
+            renderCopyCards();
+            showToast('Đã xóa thẻ custom');
+          });
+        }
+
+        $cards.appendChild(item);
+      });
+    }
+
+    function saveCurrentCustomCard() {
+      const $name = document.getElementById('copy-custom-name');
+      const rawName = $name.value.trim();
+      if (!rawName) {
+        showToast('Hãy đặt tên cho thẻ custom');
+        return;
+      }
+
+      const newCard = {
+        id: `custom-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        name: rawName,
+        description: copySettings.showLabels ? 'Format có nhãn từ cấu hình hiện tại.' : 'Format tự lưu từ cấu hình hiện tại.',
+        showLabels: !!copySettings.showLabels,
+        fields: copySettings.fields.map(field => ({
+          id: field.id,
+          enabled: field.enabled,
+          separatorAfter: field.separatorAfter || '',
+        })),
+      };
+
+      const existingIndex = copySettings.customCards.findIndex(card => card.name.toLowerCase() === rawName.toLowerCase());
+      if (existingIndex >= 0) {
+        copySettings.customCards.splice(existingIndex, 1, newCard);
+      } else {
+        copySettings.customCards.unshift(newCard);
+      }
+
+      saveCopySettings();
+      renderCopyCards();
+      $name.value = '';
+      showToast('Đã lưu thẻ custom');
+    }
+
+    function renderCopyFields() {
+      const $list = document.getElementById('copy-fields-list');
+      $list.innerHTML = '';
+
+      copySettings.fields.forEach((field, index) => {
+        const li = document.createElement('li');
+        li.className = 'copy-field-item' + (field.enabled ? '' : ' copy-field-item--disabled');
+        li.draggable = true;
+        li.dataset.index = index;
+        li.innerHTML = `
+          <div class="copy-field-main">
+            <span class="copy-field-drag" aria-label="Kéo thả">⠿</span>
+            <label class="copy-field-check">
+              <input type="checkbox" class="copy-field-checkbox" data-id="${field.id}" ${field.enabled ? 'checked' : ''}>
+              <span class="copy-field-checkmark"></span>
+            </label>
+            <span class="copy-field-icon">${field.icon}</span>
+            <span class="copy-field-label">${field.label}</span>
+          </div>
+          <label class="copy-field-separator">
+            <span class="copy-field-separator__label">Phân cách sau mục này</span>
+            <input type="text" class="copy-field-separator-input" placeholder=" | " maxlength="16">
+          </label>
+        `;
+
+        const checkbox = li.querySelector('.copy-field-checkbox');
+        const separatorInput = li.querySelector('.copy-field-separator-input');
+        separatorInput.value = field.separatorAfter || '';
+        separatorInput.disabled = !field.enabled;
+        checkbox.addEventListener('click', (e) => e.stopPropagation());
+        separatorInput.addEventListener('mousedown', (e) => e.stopPropagation());
+        separatorInput.addEventListener('dragstart', (e) => e.stopPropagation());
+
+        checkbox.addEventListener('change', (e) => {
+          field.enabled = e.target.checked;
+          li.classList.toggle('copy-field-item--disabled', !field.enabled);
+          separatorInput.disabled = !field.enabled;
+          saveCopySettings();
+          updateCopyPreview();
+          renderCopyCards();
+        });
+
+        separatorInput.addEventListener('input', (e) => {
+          field.separatorAfter = e.target.value;
+          saveCopySettings();
+          updateCopyPreview();
+          renderCopyCards();
+        });
+
+        li.addEventListener('dragstart', onDragStart);
+        li.addEventListener('dragover', onDragOver);
+        li.addEventListener('drop', onDrop);
+        li.addEventListener('dragend', onDragEnd);
+        $list.appendChild(li);
+      });
+
+      updateCopyPreview();
+      renderCopyCards();
+    }
+
+    let dragSrcIndex = null;
+    function onDragStart(e) {
+      dragSrcIndex = parseInt(this.dataset.index, 10);
+      this.classList.add('copy-field-item--dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    }
+
+    function onDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      document.querySelectorAll('.copy-field-item').forEach(el => el.classList.remove('copy-field-item--dragover'));
+      this.classList.add('copy-field-item--dragover');
+    }
+
+    function onDrop(e) {
+      e.preventDefault();
+      const targetIndex = parseInt(this.dataset.index, 10);
+      if (dragSrcIndex === targetIndex) return;
+      const moved = copySettings.fields.splice(dragSrcIndex, 1)[0];
+      copySettings.fields.splice(targetIndex, 0, moved);
+      saveCopySettings();
+      renderCopyFields();
+    }
+
+    function onDragEnd() {
+      document.querySelectorAll('.copy-field-item').forEach(el => {
+        el.classList.remove('copy-field-item--dragging', 'copy-field-item--dragover');
+      });
+    }
+
+    document.getElementById('copy-settings-toggle').addEventListener('click', () => {
+      const panel = document.getElementById('copy-settings-panel');
+      panel.classList.toggle('copy-settings-panel--open');
+      if (panel.classList.contains('copy-settings-panel--open')) {
+        renderCopyFields();
+        document.getElementById('copy-show-labels').checked = copySettings.showLabels;
+      }
+    });
+
+    document.getElementById('copy-save-custom-card').addEventListener('click', () => {
+      saveCurrentCustomCard();
+    });
+
+    document.getElementById('copy-custom-name').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        saveCurrentCustomCard();
+      }
+    });
+
+    document.getElementById('copy-show-labels').addEventListener('change', (e) => {
+      copySettings.showLabels = e.target.checked;
+      saveCopySettings();
+      updateCopyPreview();
+      renderCopyCards();
+    });
+
+    document.getElementById('copy-all-btn').addEventListener('click', () => {
+      const text = buildCopyText();
+      if (!text) {
+        showToast('⚠️ Chưa có nội dung để copy!');
+        return;
+      }
+      copyToClipboard(text);
+      showToast('✅ Đã copy!');
+    });
+
+    updateCopyPreview();
+
+    // ================================================================
+    // STUDY HUB - QUIZ AND PHRASE LIBRARY
+    // ================================================================
+    function saveQuizState() {
+      localStorage.setItem('jta-quiz-state', JSON.stringify(state.quiz));
+    }
+
+    function normalizeStudyEntry(entry) {
+      const hiragana = entry.hiragana || (entry.romaji ? wanakana.toHiragana(entry.romaji) : '');
+      const katakana = entry.katakana || (hiragana ? wanakana.toKatakana(hiragana) : '');
+      const romaji = entry.romaji || (hiragana ? wanakana.toRomaji(hiragana) : '');
+      const kanji = entry.kanji || hiragana;
+      return {
+        ...entry,
+        romaji,
+        hiragana,
+        katakana,
+        kanji,
+        vietnamese: entry.vietnamese || '',
+        topic: entry.topic || 'Đã học',
+      };
+    }
+
+    function makeStudyEntryKey(entry) {
+      const normalized = normalizeStudyEntry(entry);
+      const anchor = normalized.kanji || normalized.hiragana || normalized.romaji || normalized.vietnamese;
+      if (!anchor) return '';
+      return [
+        normalized.kanji,
+        normalized.hiragana,
+        normalized.romaji,
+        normalized.vietnamese,
+      ].join('|').toLowerCase();
+    }
+
+    function getCurrentStudyEntry() {
+      if (!state.currentRomaji && !state.currentHiragana && !state.currentKanji && !state.currentVietnamese) {
+        return null;
+      }
+      return normalizeStudyEntry({
+        romaji: state.currentRomaji,
+        hiragana: state.currentHiragana,
+        katakana: state.currentKatakana,
+        kanji: state.currentKanji,
+        vietnamese: state.currentVietnamese,
+        topic: 'Đang nhập',
+      });
+    }
+
+    function getStudyPool() {
+      const pool = [];
+      const current = getCurrentStudyEntry();
+      if (current) pool.push(current);
+      state.history.forEach(entry => pool.push(normalizeStudyEntry(entry)));
+      PRACTICE_PHRASES.forEach(entry => pool.push(normalizeStudyEntry(entry)));
+
+      const seen = new Set();
+      return pool.filter(entry => {
+        const key = makeStudyEntryKey(entry);
+        if (!key || seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
+    function getQuizEligibleEntries(mode, pool = getStudyPool()) {
+      if (mode === 'vi-to-jp') {
+        return pool.filter(entry => entry.vietnamese && (entry.kanji || entry.hiragana));
+      }
+      if (mode === 'kana-to-romaji') {
+        return pool.filter(entry => entry.hiragana && entry.romaji);
+      }
+      return pool.filter(entry => (entry.kanji || entry.hiragana) && entry.vietnamese);
+    }
+
+    function shuffleArray(items) {
+      const arr = [...items];
+      for (let i = arr.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function getQuizDefinition(mode, entry) {
+      if (mode === 'vi-to-jp') {
+        return {
+          prompt: entry.vietnamese,
+          hint: entry.topic ? `Chủ đề: ${entry.topic}` : 'Chọn cách viết đúng',
+          correctValue: entry.kanji || entry.hiragana,
+          explanation: `${entry.vietnamese} = ${entry.kanji || entry.hiragana}${entry.romaji ? ` (${entry.romaji})` : ''}`,
+          optionValue: item => item.kanji || item.hiragana,
+        };
+      }
+
+      if (mode === 'kana-to-romaji') {
+        return {
+          prompt: entry.hiragana || entry.katakana,
+          hint: entry.vietnamese ? `Nghĩa: ${entry.vietnamese}` : `Kanji: ${entry.kanji || '—'}`,
+          correctValue: entry.romaji,
+          explanation: `${entry.hiragana || entry.katakana} → ${entry.romaji}${entry.vietnamese ? ` = ${entry.vietnamese}` : ''}`,
+          optionValue: item => item.romaji,
+        };
+      }
+
+      return {
+        prompt: entry.kanji || entry.hiragana,
+        hint: [entry.hiragana, entry.romaji].filter(Boolean).join(' • '),
+        correctValue: entry.vietnamese,
+        explanation: `${entry.kanji || entry.hiragana} = ${entry.vietnamese}`,
+        optionValue: item => item.vietnamese,
+      };
+    }
+
+    function buildQuizQuestion(mode = state.quiz.mode) {
+      const eligible = shuffleArray(getQuizEligibleEntries(mode));
+
+      for (const correctEntry of eligible) {
+        const definition = getQuizDefinition(mode, correctEntry);
+        if (!definition.correctValue) continue;
+
+        const usedValues = new Set([definition.correctValue]);
+        const options = [{ label: definition.correctValue, correct: true }];
+
+        shuffleArray(eligible.filter(entry => entry !== correctEntry)).forEach(entry => {
+          if (options.length >= 4) return;
+          const optionValue = definition.optionValue(entry);
+          if (!optionValue || usedValues.has(optionValue)) return;
+          usedValues.add(optionValue);
+          options.push({ label: optionValue, correct: false });
+        });
+
+        if (options.length === 4) {
+          return {
+            mode,
+            promptLabel: QUIZ_MODE_META[mode].promptLabel,
+            prompt: definition.prompt,
+            hint: definition.hint,
+            explanation: definition.explanation,
+            correctValue: definition.correctValue,
+            options: shuffleArray(options),
+            entry: correctEntry,
+            answered: false,
+          };
+        }
+      }
+
+      return null;
+    }
+
+    function renderQuizMetrics() {
+      $quizScore.textContent = state.quiz.score;
+      $quizAnswered.textContent = state.quiz.answered;
+      $quizStreak.textContent = state.quiz.streak;
+      document.querySelectorAll('.quiz-mode-btn').forEach(button => {
+        button.classList.toggle('quiz-mode-btn--active', button.dataset.mode === state.quiz.mode);
+      });
+    }
+
+    function renderQuizEmpty(message) {
+      state.currentQuiz = null;
+      $quizEmpty.hidden = false;
+      $quizEmpty.textContent = message;
+      $quizQuestion.hidden = true;
+      $quizOptions.innerHTML = '';
+      $quizResult.innerHTML = '';
+      renderQuizMetrics();
+    }
+
+    function renderQuizQuestion(question) {
+      state.currentQuiz = question;
+      $quizEmpty.hidden = true;
+      $quizQuestion.hidden = false;
+      $quizQuestionLabel.textContent = QUIZ_MODE_META[question.mode].label;
+      $quizPrompt.textContent = question.prompt;
+      $quizHint.textContent = question.hint || '';
+      $quizResult.innerHTML = '';
+      $quizOptions.innerHTML = '';
+
+      question.options.forEach(option => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'quiz-option';
+        button.textContent = option.label;
+        button.dataset.value = option.label;
+        button.dataset.correct = option.correct ? 'true' : 'false';
+        button.addEventListener('click', () => answerQuizQuestion(option.label));
+        $quizOptions.appendChild(button);
+      });
+
+      renderQuizMetrics();
+    }
+
+    function answerQuizQuestion(selectedValue) {
+      const question = state.currentQuiz;
+      if (!question || question.answered) return;
+
+      question.answered = true;
+      state.quiz.answered += 1;
+
+      const isCorrect = selectedValue === question.correctValue;
+      if (isCorrect) {
+        state.quiz.score += 10;
+        state.quiz.streak += 1;
+      } else {
+        state.quiz.streak = 0;
+      }
+
+      saveQuizState();
+
+      Array.from($quizOptions.children).forEach(button => {
+        const buttonIsCorrect = button.dataset.correct === 'true';
+        const buttonIsSelected = button.dataset.value === selectedValue;
+        button.disabled = true;
+        button.classList.add('quiz-option--locked');
+        if (buttonIsCorrect) button.classList.add('quiz-option--correct');
+        if (buttonIsSelected && !buttonIsCorrect) button.classList.add('quiz-option--wrong');
+      });
+
+      $quizResult.innerHTML = `
+        <div class="quiz-result__status ${isCorrect ? 'quiz-result__status--correct' : 'quiz-result__status--wrong'}">
+          ${isCorrect ? 'Chính xác!' : 'Chưa đúng'}
+        </div>
+        <div class="quiz-result__text">${escapeHtml(question.explanation)}</div>
+        <button type="button" class="study-action-btn study-action-btn--small" id="quiz-load-entry-btn">Ôn lại mục này</button>
+      `;
+
+      document.getElementById('quiz-load-entry-btn').addEventListener('click', () => {
+        applyStudyEntry(question.entry, {
+          addToHistory: true,
+          toastMessage: 'Đã nạp mục quiz vào màn hình để bạn ôn tiếp',
+        });
+      });
+
+      renderQuizMetrics();
+    }
+
+    function generateQuizQuestion(options = {}) {
+      const question = buildQuizQuestion(state.quiz.mode);
+      if (!question) {
+        renderQuizEmpty('Cần ít nhất 4 mục phù hợp để tạo quiz. Hãy lưu thêm từ hoặc chọn vài câu mẫu để luyện.');
+        if (!options.silent) showToast('Cần thêm dữ liệu để tạo quiz');
+        return;
+      }
+      renderQuizQuestion(question);
+    }
+
+    function speakJapanese(text) {
+      if (!text) return;
+      if (!('speechSynthesis' in window)) {
+        showToast('Trình duyệt chưa hỗ trợ phát âm');
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ja-JP';
+      const voices = window.speechSynthesis.getVoices();
+      const voice = voices.find(item => item.lang && item.lang.toLowerCase().startsWith('ja'));
+      if (voice) utterance.voice = voice;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function applyStudyEntry(entry, options = {}) {
+      const normalized = normalizeStudyEntry(entry);
+
+      state.currentRomaji = normalized.romaji;
+      state.currentHiragana = normalized.hiragana;
+      state.currentKatakana = normalized.katakana;
+      state.currentKanji = normalized.kanji;
+      state.currentVietnamese = normalized.vietnamese;
+
+      updatePanel($romaji, normalized.romaji || 'Chờ nhập liệu...', normalized.romaji ? 'panel-content--romaji' : 'panel-content--empty');
+      updatePanel($hiragana, normalized.hiragana || 'Chờ nhập liệu...', normalized.hiragana ? 'panel-content--hiragana' : 'panel-content--empty');
+      updatePanel($katakana, normalized.katakana || 'Chờ nhập liệu...', normalized.katakana ? 'panel-content--katakana' : 'panel-content--empty');
+      updatePanel($kanji, normalized.kanji || 'Nhấn Enter để chuyển đổi Kanji...', normalized.kanji ? 'panel-content--kanji' : 'panel-content--empty');
+
+      if (normalized.vietnamese) {
+        $vietnamese.textContent = normalized.vietnamese;
+        $vietnamese.className = 'composed-content';
+      } else {
+        $vietnamese.textContent = 'Không tìm thấy bản dịch';
+        $vietnamese.className = 'composed-content composed-content--empty';
+      }
+
+      $input.value = normalized.romaji || '';
+      $kanjiSuggestions.style.display = 'none';
+      updateCopyPreview();
+
+      if (options.addToHistory !== false) {
+        addToHistory({
+          ...normalized,
+          timestamp: Date.now(),
+        });
+      } else {
+        renderStudyStats();
+      }
+
+      $input.focus();
+      showToast(options.toastMessage || 'Đã nạp câu mẫu để luyện');
+    }
+
+    function populatePhraseTopics() {
+      const topics = [...new Set(PRACTICE_PHRASES.map(item => item.topic))].sort((a, b) => a.localeCompare(b, 'vi'));
+      topics.forEach(topic => {
+        const option = document.createElement('option');
+        option.value = topic;
+        option.textContent = topic;
+        $phraseTopicFilter.appendChild(option);
+      });
+    }
+
+    function renderPhraseList() {
+      const selectedTopic = $phraseTopicFilter.value || 'all';
+      const items = PRACTICE_PHRASES.filter(item => selectedTopic === 'all' || item.topic === selectedTopic);
+
+      if (!items.length) {
+        $phraseList.innerHTML = '<div class="quiz-empty">Chưa có câu mẫu ở chủ đề này.</div>';
+        return;
+      }
+
+      $phraseList.innerHTML = '';
+      items.forEach(item => {
+        const card = document.createElement('article');
+        card.className = 'phrase-item';
+        card.innerHTML = `
+          <div class="phrase-item__top">
+            <span class="phrase-item__topic">${escapeHtml(item.topic)}</span>
+            <span class="phrase-item__jp">${escapeHtml(item.kanji || item.hiragana)}</span>
+          </div>
+          <div class="phrase-item__kana">${escapeHtml(item.hiragana)}</div>
+          <div class="phrase-item__romaji">${escapeHtml(item.romaji)}</div>
+          <div class="phrase-item__vi">${escapeHtml(item.vietnamese)}</div>
+          <div class="phrase-item__note">${escapeHtml(item.note)}</div>
+          <div class="phrase-item__actions">
+            <button type="button" class="study-action-btn">Luyện câu này</button>
+            <button type="button" class="study-action-btn study-action-btn--ghost">Nghe Nhật</button>
+          </div>
+        `;
+
+        const [loadButton, speakButton] = card.querySelectorAll('button');
+        loadButton.addEventListener('click', () => {
+          applyStudyEntry(item, {
+            addToHistory: true,
+            toastMessage: 'Đã nạp câu mẫu vào màn hình',
+          });
+        });
+        speakButton.addEventListener('click', () => {
+          speakJapanese(item.kanji || item.hiragana);
+        });
+
+        $phraseList.appendChild(card);
+      });
+    }
+
+    function renderStudyStats() {
+      const pool = getStudyPool();
+      $studyTotalCount.textContent = pool.length;
+      $studyHistoryCount.textContent = state.history.length;
+      $studyMeaningCount.textContent = pool.filter(entry => entry.vietnamese).length;
+      $studyReadyCount.textContent = getQuizEligibleEntries(state.quiz.mode, pool).length;
+      renderQuizMetrics();
+    }
+
+    document.querySelectorAll('.quiz-mode-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        state.quiz.mode = button.dataset.mode;
+        saveQuizState();
+        renderStudyStats();
+        generateQuizQuestion({ silent: true });
+      });
+    });
+
+    document.getElementById('quiz-next-btn').addEventListener('click', () => {
+      generateQuizQuestion();
+    });
+
+    $phraseTopicFilter.addEventListener('change', () => {
+      renderPhraseList();
+    });
+
+    // ================================================================
+    // UTILITIES
+    // ================================================================
+    function updatePanel(el, text, className) {
+      el.textContent = text;
+      el.className = `panel-content ${className}`;
+    }
+
+    function resetPanels() {
+      state.currentRomaji = '';
+      state.currentHiragana = '';
+      state.currentKatakana = '';
+      state.currentKanji = '';
+      state.currentVietnamese = '';
+
+      $romaji.textContent = 'Chờ nhập liệu...';
+      $romaji.className = 'panel-content panel-content--empty';
+
+      $hiragana.textContent = 'Chờ nhập liệu...';
+      $hiragana.className = 'panel-content panel-content--empty';
+
+      $katakana.textContent = 'Chờ nhập liệu...';
+      $katakana.className = 'panel-content panel-content--empty';
+
+      $kanji.textContent = 'Nhấn Enter để chuyển đổi Kanji...';
+      $kanji.className = 'panel-content panel-content--empty';
+      $kanjiSuggestions.style.display = 'none';
+
+      $vietnamese.textContent = 'Nhấn Enter để dịch sang tiếng Việt...';
+      $vietnamese.className = 'composed-content composed-content--empty';
+
+      updateCopyPreview();
+      renderStudyStats();
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).catch(() => {
+        // Fallback
+        const el = document.createElement('textarea');
+        el.value = text;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+      });
+    }
+
+    function showToast(message) {
+      $toast.textContent = message;
+      $toast.classList.add('toast--visible');
+      setTimeout(() => $toast.classList.remove('toast--visible'), 2000);
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str || '';
+      return div.innerHTML;
+    }
+
+    // ================================================================
+    // INIT
+    // ================================================================
+    renderHistory();
+    updateComposed();
+    populatePhraseTopics();
+    renderPhraseList();
+    renderStudyStats();
+    generateQuizQuestion({ silent: true });
+    $input.focus();
+
+    console.log('🎌 Japanese Typing Assistant loaded!');
+    console.log('📝 Powered by WanaKana.js + Google APIs');
+  </script>
+
+</body>
+</html>
