@@ -754,6 +754,7 @@
     const $historyEmpty = document.getElementById('history-empty');
     const $toast = document.getElementById('toast');
     const $themeToggle = document.getElementById('theme-toggle');
+    const $copyAllBadge = document.getElementById('copy-all-badge');
     const $layoutModeHint = document.getElementById('layout-mode-hint');
     const $focusList = document.getElementById('focus-list');
     const $focusEmpty = document.getElementById('focus-empty');
@@ -1977,15 +1978,29 @@ const COPY_FIELDS_DEFAULT = [
 
     function applyLayoutMode(mode) {
       const nextMode = mode === 'full' ? 'full' : 'focus';
+      const isFocusMode = nextMode === 'focus';
       state.layout.mode = nextMode;
       document.documentElement.dataset.layoutMode = nextMode;
-      if ($panelRomaji) $panelRomaji.hidden = nextMode === 'focus';
-      if ($panelKatakana) $panelKatakana.hidden = nextMode === 'focus';
+      if ($panelRomaji) {
+        $panelRomaji.hidden = isFocusMode;
+        $panelRomaji.style.display = isFocusMode ? 'none' : '';
+        $panelRomaji.setAttribute('aria-hidden', isFocusMode ? 'true' : 'false');
+      }
+      if ($panelKatakana) {
+        $panelKatakana.hidden = isFocusMode;
+        $panelKatakana.style.display = isFocusMode ? 'none' : '';
+        $panelKatakana.setAttribute('aria-hidden', isFocusMode ? 'true' : 'false');
+      }
+      if ($copyAllBadge) {
+        $copyAllBadge.hidden = isFocusMode;
+        $copyAllBadge.style.display = isFocusMode ? 'none' : '';
+      }
       layoutModeButtons.forEach(button => {
         button.classList.toggle('view-mode-btn--active', button.dataset.layoutMode === nextMode);
+        button.setAttribute('aria-pressed', button.dataset.layoutMode === nextMode ? 'true' : 'false');
       });
       if ($layoutModeHint) {
-        $layoutModeHint.textContent = nextMode === 'focus'
+        $layoutModeHint.textContent = isFocusMode
           ? 'Ẩn bớt các khối phụ để dễ tập trung vào mẫu đang học.'
           : 'Hiện lại coach, tiến trình và toàn bộ thông tin chi tiết.';
       }

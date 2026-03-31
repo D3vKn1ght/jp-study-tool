@@ -836,8 +836,10 @@ html[data-layout-mode='focus'] .output-grid {
   margin-bottom: 0;
 }
 
-html[data-layout-mode='focus'] .output-panel--secondary {
-  display: none;
+html[data-layout-mode='focus'] .output-panel--secondary,
+html[data-layout-mode='focus'] #panel-romaji,
+html[data-layout-mode='focus'] #panel-katakana {
+  display: none !important;
 }
 
 html[data-layout-mode='focus'] .output-panel--kanji {
@@ -854,8 +856,9 @@ html[data-layout-mode='focus'] .copy-all-bar {
   justify-content: flex-start;
 }
 
-html[data-layout-mode='focus'] .copy-all-btn__badge {
-  display: none;
+html[data-layout-mode='focus'] .copy-all-btn__badge,
+html[data-layout-mode='focus'] #copy-all-badge {
+  display: none !important;
 }
 
 /* ================================================================
